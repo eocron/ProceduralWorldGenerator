@@ -1,4 +1,5 @@
 ﻿using ProceduralWorldGenerator.OperationTypes;
+using ProceduralWorldGenerator.OperationTypes.WorleyNoise;
 
 namespace ProceduralWorldGenerator.Operations
 {
@@ -6,8 +7,8 @@ namespace ProceduralWorldGenerator.Operations
     public class WorleyNoiseOperation : NoiseOperation
     {
         [OperationTypeInfo(IsInput = true)]
-        public WorleyDistanceOperationType Distance { get; set; }
+        public WorleyDistanceOperationType Distance { get; set; } = new WorleyDistanceOperationType();
         [OperationTypeInfo(IsInput = true)]
-        public WorleyCombinationOperationType Combination { get; set; }
+        public WorleyCombinationOperationType Combination { get; set; } = new WorleyCombinationOperationType();
     }
 }

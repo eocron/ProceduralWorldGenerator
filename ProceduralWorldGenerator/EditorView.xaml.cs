@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Nodify;
 using ProceduralWorldGenerator.Operations;
 using ProceduralWorldGenerator.ViewModels;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator
 {
@@ -20,7 +21,7 @@ namespace ProceduralWorldGenerator
 
         private void OpenOperationsMenu(object sender, MouseButtonEventArgs e)
         {
-            if (!e.Handled && e.OriginalSource is NodifyEditor editor && !editor.IsPanning && editor.DataContext is CalculatorViewModel calculator)
+            if (!e.Handled && e.OriginalSource is NodifyEditor editor && !editor.IsPanning && editor.DataContext is GeneratorViewModel calculator)
             {
                 e.Handled = true;
                 calculator.OperationsMenu.OpenAt(editor.MouseLocation);
@@ -32,7 +33,7 @@ namespace ProceduralWorldGenerator
             ItemContainer? itemContainer = sender as ItemContainer;
             NodifyEditor? editor = sender as NodifyEditor ?? itemContainer?.Editor;
 
-            if (!e.Handled && editor?.DataContext is CalculatorViewModel calculator)
+            if (!e.Handled && editor?.DataContext is GeneratorViewModel calculator)
             {
                 calculator.OperationsMenu.Close();
             }
@@ -40,7 +41,7 @@ namespace ProceduralWorldGenerator
 
         private void OnDropNode(object sender, DragEventArgs e)
         {
-            if(e.Source is NodifyEditor editor && editor.DataContext is CalculatorViewModel calculator
+            if(e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
                 && e.Data.GetData(typeof(OperationInfoViewModel)) is OperationInfoViewModel operation)
             {
                 OperationViewModel op = OperationFactory.GetOperation(operation);

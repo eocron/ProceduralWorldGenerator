@@ -1,13 +1,7 @@
 ﻿namespace ProceduralWorldGenerator.OperationTypes
 {
-    public class FloatOperationType : IOperationType
+    [OperationTypeInfo(DisplayName = "float")]
+    public class FloatOperationType : OperationTypeBase
     {
-        
-    }
-
-    [OperationTypeInfo(DisplayName = "v")]
-    public class VectorOperationType : IOperationType
-    {
-        
     }
 }

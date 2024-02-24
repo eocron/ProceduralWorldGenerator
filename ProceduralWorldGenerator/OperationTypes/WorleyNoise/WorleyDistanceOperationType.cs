@@ -1,6 +1,7 @@
-﻿namespace ProceduralWorldGenerator.OperationTypes
+﻿namespace ProceduralWorldGenerator.OperationTypes.WorleyNoise
 {
-    public class WorleyDistanceOperationType : IOperationType
+    [OperationTypeInfo(DisplayName = "distance")]
+    public class WorleyDistanceOperationType : OperationTypeBase
     {
         
     }

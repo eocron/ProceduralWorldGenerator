@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
-    public class CalculatorViewModel : ObservableObject
+    public class GeneratorViewModel : ObservableObject
     {
-        public CalculatorViewModel()
+        public GeneratorViewModel()
         {
             CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
                 _ => CreateConnection(PendingConnection.Source, PendingConnection.Target),
@@ -22,6 +24,7 @@ namespace ProceduralWorldGenerator.ViewModels
                 c.Output.IsConnected = true;
 
                 c.Output.ValueObservers.Add(c.Input);
+                c.Input.SetTitleFrom(c.Output);
             })
             .WhenRemoved(c =>
             {
@@ -39,16 +42,12 @@ namespace ProceduralWorldGenerator.ViewModels
                 }
 
                 c.Output.ValueObservers.Remove(c.Input);
+                c.Input.RestoreTitle();
             });
 
             Operations.WhenAdded(x =>
             {
                 x.Input.WhenRemoved(RemoveConnection);
-
-                if (x is CalculatorInputOperationViewModel ci)
-                {
-                    ci.Output.WhenRemoved(RemoveConnection);
-                }
 
                 void RemoveConnection(ConnectorViewModel i)
                 {
@@ -119,7 +118,7 @@ namespace ProceduralWorldGenerator.ViewModels
                 return false;//input to input connection
             }
 
-            if (source.OperationType != target.OperationType)
+            if (!target.OperationType.IsAssignableFrom(source.OperationType))
             {
                 return false;//input and output of different types
             }

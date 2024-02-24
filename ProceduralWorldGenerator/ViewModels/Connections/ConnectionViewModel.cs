@@ -1,6 +1,6 @@
 ﻿using Nodify.Shared;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.ViewModels.Connections
 {
     public class ConnectionViewModel : ObservableObject
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.Operations;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
@@ -46,24 +47,13 @@ namespace ProceduralWorldGenerator.ViewModels
 
         public NodifyObservableCollection<OperationInfoViewModel> AvailableOperations { get; }
         public INodifyCommand CreateOperationCommand { get; }
-        private readonly CalculatorViewModel _calculator;
+        private readonly GeneratorViewModel _calculator;
 
-        public OperationsMenuViewModel(CalculatorViewModel calculator)
+        public OperationsMenuViewModel(GeneratorViewModel calculator)
         {
             _calculator = calculator;
-            List<OperationInfoViewModel> operations = new List<OperationInfoViewModel>
-            {
-                new OperationInfoViewModel
-                {
-                    Type = OperationType.Graph,
-                    Title = "Operation Graph",
-                },
-                new OperationInfoViewModel
-                {
-                    Type = OperationType.Calculator,
-                    Title = "Calculator"
-                }
-            };
+            List<OperationInfoViewModel> operations = new List<OperationInfoViewModel>();
+            
             operations.AddRange(OperationFactory.GetOperationsInfo());
 
             AvailableOperations = new NodifyObservableCollection<OperationInfoViewModel>(operations);
@@ -74,9 +64,14 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             OperationViewModel op = OperationFactory.GetOperation(operationInfo);
             op.Location = Location;
-
             _calculator.Operations.Add(op);
+            
+            TryHandlePendingConnection(op);
+            Close();
+        }
 
+        private void TryHandlePendingConnection(OperationViewModel op)
+        {
             var pending = _calculator.PendingConnection;
             if (pending.IsVisible)
             {
@@ -86,7 +81,6 @@ namespace ProceduralWorldGenerator.ViewModels
                     _calculator.CreateConnection(pending.Source, connector);
                 }
             }
-            Close();
         }
     }
 }

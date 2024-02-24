@@ -2,6 +2,6 @@
 {
     public interface IOperationType
     {
-        
+        bool IsAssignableFrom(IOperationType operationType);
     }
 }

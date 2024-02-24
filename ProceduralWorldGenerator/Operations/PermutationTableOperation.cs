@@ -6,6 +6,6 @@ namespace ProceduralWorldGenerator.Operations
     public class PermutationTableOperation : IOperation
     {
         [OperationTypeInfo(IsOutput = true)]
-        public PermutationTableOperationType Permutation { get; set; }
+        public PermutationTableOperationType Permutation { get; set; } = new PermutationTableOperationType();
     }
 }

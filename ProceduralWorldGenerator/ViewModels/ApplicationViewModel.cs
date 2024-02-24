@@ -38,7 +38,7 @@ namespace ProceduralWorldGenerator.ViewModels
             });
         }
 
-        private void OnOpenInnerCalculator(EditorViewModel parentEditor, CalculatorViewModel calculator)
+        private void OnOpenInnerCalculator(EditorViewModel parentEditor, GeneratorViewModel calculator)
         {
             var editor = Editors.FirstOrDefault(e => e.Calculator == calculator);
             if (editor != null)

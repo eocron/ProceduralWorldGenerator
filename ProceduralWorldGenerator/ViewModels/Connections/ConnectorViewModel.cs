@@ -1,16 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.OperationTypes;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.ViewModels.Connections
 {
     public class ConnectorViewModel : ObservableObject
     {
+        private string? _variableTitle;
+        public string? VariableTitle
+        {
+            get => _variableTitle;
+            set
+            {
+                SetProperty(ref _variableTitle, value);
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
         private string? _title;
         public string? Title
         {
-            get => _title;
+            get => _variableTitle ?? _title;
             set => SetProperty(ref _title, value);
         }
 
@@ -43,6 +55,16 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         public List<ConnectorViewModel> ValueObservers { get; } = new List<ConnectorViewModel>();
-        public Type OperationType { get; set; }
+        public IOperationType OperationType { get; set; }
+
+        public void SetTitleFrom(ConnectorViewModel output)
+        {
+            VariableTitle = output.Title;
+        }
+
+        public void RestoreTitle()
+        {
+            VariableTitle = null;
+        }
     }
 }

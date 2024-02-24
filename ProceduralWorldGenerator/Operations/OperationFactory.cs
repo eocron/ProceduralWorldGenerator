@@ -6,6 +6,8 @@ using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.OperationTypes;
 using ProceduralWorldGenerator.ViewModels;
+using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.Operations
 {
@@ -38,19 +40,20 @@ namespace ProceduralWorldGenerator.Operations
                     {
                         prop = x,
                         info = x.GetCustomAttribute<OperationTypeInfoAttribute>(),
-                        typeInfo = x.PropertyType.GetCustomAttribute<OperationTypeInfoAttribute>()
+                        typeInfo = x.PropertyType.GetCustomAttribute<OperationTypeInfoAttribute>(),
+                        opType = (IOperationType)x.GetMethod.Invoke(op.Operation, null)
                     })
                     .Where(x=> x.prop.CanRead && x.prop.CanWrite)
                     .OrderBy(x=> x.info?.Order ?? x.typeInfo?.Order ?? 0)
                     .ToList();
                 foreach (var prop in allProps.Where(x=> x.info.IsInput))
                 {
-                    op.Input.Add(Convert(prop.prop, prop.info, prop.typeInfo));
+                    op.Input.Add(Convert(prop.prop, prop.info, prop.typeInfo, prop.opType));
                 }
                 
                 foreach (var prop in allProps.Where(x=> x.info.IsOutput))
                 {
-                    op.Output.Add(Convert(prop.prop, prop.info, prop.typeInfo));
+                    op.Output.Add(Convert(prop.prop, prop.info, prop.typeInfo, prop.opType));
                 }
 
                 result.Add(op);
@@ -59,12 +62,13 @@ namespace ProceduralWorldGenerator.Operations
             return result;
         }
 
-        private static OperationTypeInfoViewModel Convert(PropertyInfo propertyInfo, OperationTypeInfoAttribute info, OperationTypeInfoAttribute typeInfo)
+        private static OperationTypeInfoViewModel Convert(PropertyInfo propertyInfo, OperationTypeInfoAttribute info,
+            OperationTypeInfoAttribute typeInfo, IOperationType opType)
         {
             return new OperationTypeInfoViewModel()
             {
-                Title = info?.DisplayName ?? typeInfo?.DisplayName ?? propertyInfo.Name,
-                Type = propertyInfo.PropertyType
+                Title = info?.DisplayName ?? typeInfo?.DisplayName ?? opType.ToString(),
+                OperationType = opType
             };
         }
 
@@ -73,29 +77,22 @@ namespace ProceduralWorldGenerator.Operations
             var input = info.Input.Select(i => new ConnectorViewModel
             {
                 Title = i.Title,
-                OperationType = i.Type
+                OperationType = i.OperationType
             });
             
             var output = info.Output.Select(i => new ConnectorViewModel
             {
                 Title = i.Title,
-                OperationType = i.Type
+                OperationType = i.OperationType
             });
 
             switch (info.Type)
             {
-                case OperationType.Calculator:
-                    return new CalculatorOperationViewModel
-                    {
-                        Title = info.Title,
-                        Operation = info.Operation,
-                    };
-
                 case OperationType.Expando:
                     var o = new ExpandoOperationViewModel
                     {
-                        MaxInput = info.MaxInput,
-                        MinInput = info.MinInput,
+                        MaxInput = 100,
+                        MinInput = 0,
                         Title = info.Title,
                         Operation = info.Operation
                     };
@@ -107,13 +104,6 @@ namespace ProceduralWorldGenerator.Operations
                     return new OperationGroupViewModel
                     {
                         Title = info.Title,
-                    };
-
-                case OperationType.Graph:
-                    return new OperationGraphViewModel
-                    {
-                        Title = info.Title,
-                        DesiredSize = new Size(420, 250)
                     };
 
                 default:

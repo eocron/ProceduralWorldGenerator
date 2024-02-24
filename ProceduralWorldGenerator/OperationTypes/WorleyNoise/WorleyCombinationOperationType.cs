@@ -1,6 +1,7 @@
-﻿namespace ProceduralWorldGenerator.OperationTypes
+﻿namespace ProceduralWorldGenerator.OperationTypes.WorleyNoise
 {
-    public class WorleyCombinationOperationType : IOperationType
+    [OperationTypeInfo(DisplayName = "combination")]
+    public class WorleyCombinationOperationType : OperationTypeBase
     {
         
     }

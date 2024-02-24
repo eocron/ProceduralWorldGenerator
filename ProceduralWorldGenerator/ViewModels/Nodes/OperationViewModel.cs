@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.Operations;
+using ProceduralWorldGenerator.ViewModels.Connections;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
     public class OperationViewModel : ObservableObject
     {

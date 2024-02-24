@@ -5,14 +5,14 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class EditorViewModel : ObservableObject
     {
-        public event Action<EditorViewModel, CalculatorViewModel>? OnOpenInnerCalculator;
+        public event Action<EditorViewModel, GeneratorViewModel>? OnOpenInnerCalculator;
 
         public EditorViewModel? Parent { get; set; }
 
         public EditorViewModel()
         {
-            Calculator = new CalculatorViewModel();
-            OpenCalculatorCommand = new DelegateCommand<CalculatorViewModel>(calculator =>
+            Calculator = new GeneratorViewModel();
+            OpenCalculatorCommand = new DelegateCommand<GeneratorViewModel>(calculator =>
             {
                 OnOpenInnerCalculator?.Invoke(this, calculator);
             });
@@ -22,8 +22,8 @@ namespace ProceduralWorldGenerator.ViewModels
 
         public Guid Id { get; } = Guid.NewGuid();
 
-        private CalculatorViewModel _calculator = default!;
-        public CalculatorViewModel Calculator 
+        private GeneratorViewModel _calculator = default!;
+        public GeneratorViewModel Calculator 
         {
             get => _calculator;
             set => SetProperty(ref _calculator, value);
