@@ -4,114 +4,86 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.OperationTypes;
 using ProceduralWorldGenerator.ViewModels;
 
 namespace ProceduralWorldGenerator.Operations
 {
     public static class OperationFactory
     {
-        public static List<OperationInfoViewModel> GetOperationsInfo(Type container)
+        public static List<OperationInfoViewModel> GetOperationsInfo()
         {
             List<OperationInfoViewModel> result = new List<OperationInfoViewModel>();
 
-            foreach (var method in container.GetMethods())
+            foreach (var candidate in Assembly.GetAssembly(typeof(OperationFactory)).GetTypes()
+                         .Where(x => x.IsAssignableTo(typeof(IOperation)) && !x.IsAbstract)
+                         .Select(x=> new
+                         {
+                             type = x,
+                             info = x.GetCustomAttribute<OperationInfoAttribute>()
+                         }))
             {
-                if (method.IsStatic)
+                OperationInfoViewModel op = new OperationInfoViewModel
                 {
-                    OperationInfoViewModel op = new OperationInfoViewModel
+                    Title = candidate.info.DisplayName ?? candidate.type.Name
+                };
+
+                op.Type = OperationType.Normal;
+                op.Operation = (IOperation)Activator.CreateInstance(candidate.type);
+                op.IsRuntimeInput = candidate.info.IsRuntimeInput;
+                var allProps = candidate
+                    .type
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(x => new
                     {
-                        Title = method.Name
-                    };
-
-                    var attr = method.GetCustomAttribute<OperationAttribute>();
-                    var para = method.GetParameters();
-
-                    bool generateInputNames = true;
-
-                    op.Type = OperationType.Normal;
-
-                    if (para.Length == 2)
-                    {
-                        var delType = typeof(Func<double, double, double>);
-                        var del = (Func<double, double, double>)Delegate.CreateDelegate(delType, method);
-
-                        op.Operation = new BinaryOperation(del);
-                    }
-                    else if (para.Length == 1)
-                    {
-                        if (para[0].ParameterType.IsArray)
-                        {
-                            op.Type = OperationType.Expando;
-
-                            var delType = typeof(Func<double[], double>);
-                            var del = (Func<double[], double>)Delegate.CreateDelegate(delType, method);
-
-                            op.Operation = new ParamsOperation(del);
-                            op.MaxInput = int.MaxValue;
-                        }
-                        else
-                        {
-                            var delType = typeof(Func<double, double>);
-                            var del = (Func<double, double>)Delegate.CreateDelegate(delType, method);
-
-                            op.Operation = new UnaryOperation(del);
-                        }
-                    }
-                    else if (para.Length == 0)
-                    {
-                        var delType = typeof(Func<double>);
-                        var del = (Func<double>)Delegate.CreateDelegate(delType, method);
-
-                        op.Operation = new ValueOperation(del);
-                    }
-
-                    if (attr != null)
-                    {
-                        op.MinInput = attr.MinInput;
-                        op.MaxInput = attr.MaxInput;
-                        generateInputNames = attr.GenerateInputNames;
-                    }
-                    else
-                    {
-                        op.MinInput = (uint)para.Length;
-                        op.MaxInput = (uint)para.Length;
-                    }
-
-                    foreach (var param in para)
-                    {
-                        op.Input.Add(generateInputNames ? param.Name : null);
-                    }
-
-                    for (int i = op.Input.Count; i < op.MinInput; i++)
-                    {
-                        op.Input.Add(null);
-                    }
-
-                    result.Add(op);
+                        prop = x,
+                        info = x.GetCustomAttribute<OperationTypeInfoAttribute>(),
+                        typeInfo = x.PropertyType.GetCustomAttribute<OperationTypeInfoAttribute>()
+                    })
+                    .Where(x=> x.prop.CanRead && x.prop.CanWrite)
+                    .OrderBy(x=> x.info?.Order ?? x.typeInfo?.Order ?? 0)
+                    .ToList();
+                foreach (var prop in allProps.Where(x=> x.info.IsInput))
+                {
+                    op.Input.Add(Convert(prop.prop, prop.info, prop.typeInfo));
                 }
+                
+                foreach (var prop in allProps.Where(x=> x.info.IsOutput))
+                {
+                    op.Output.Add(Convert(prop.prop, prop.info, prop.typeInfo));
+                }
+
+                result.Add(op);
             }
 
             return result;
+        }
+
+        private static OperationTypeInfoViewModel Convert(PropertyInfo propertyInfo, OperationTypeInfoAttribute info, OperationTypeInfoAttribute typeInfo)
+        {
+            return new OperationTypeInfoViewModel()
+            {
+                Title = info?.DisplayName ?? typeInfo?.DisplayName ?? propertyInfo.Name,
+                Type = propertyInfo.PropertyType
+            };
         }
 
         public static OperationViewModel GetOperation(OperationInfoViewModel info)
         {
             var input = info.Input.Select(i => new ConnectorViewModel
             {
-                Title = i
+                Title = i.Title,
+                OperationType = i.Type
+            });
+            
+            var output = info.Output.Select(i => new ConnectorViewModel
+            {
+                Title = i.Title,
+                OperationType = i.Type
             });
 
             switch (info.Type)
             {
-                case OperationType.Expression:
-                    return new ExpressionOperationViewModel
-                    {
-                        Title = info.Title,
-                        Output = new ConnectorViewModel(),
-                        Operation = info.Operation,
-                        Expression = "1 + sin {a} + cos {b}"
-                    };
-
                 case OperationType.Calculator:
                     return new CalculatorOperationViewModel
                     {
@@ -125,10 +97,9 @@ namespace ProceduralWorldGenerator.Operations
                         MaxInput = info.MaxInput,
                         MinInput = info.MinInput,
                         Title = info.Title,
-                        Output = new ConnectorViewModel(),
                         Operation = info.Operation
                     };
-
+                    o.Output.AddRange(output);
                     o.Input.AddRange(input);
                     return o;
 
@@ -150,10 +121,11 @@ namespace ProceduralWorldGenerator.Operations
                     var op = new OperationViewModel
                     {
                         Title = info.Title,
-                        Output = new ConnectorViewModel(),
-                        Operation = info.Operation
+                        Operation = info.Operation,
+                        IsRuntimeInput = info.IsRuntimeInput,
                     };
 
+                    op.Output.AddRange(output);
                     op.Input.AddRange(input);
                     return op;
                 }

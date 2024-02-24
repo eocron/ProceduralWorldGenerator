@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.Operations;
@@ -22,14 +21,15 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 x.PropertyChanged -= OnInputValueChanged;
             });
+            Output.WhenAdded(x =>
+            {
+                x.Operation = this;
+                x.IsInput = false;
+            });
         }
 
         private void OnInputValueChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ConnectorViewModel.Value))
-            {
-                OnInputValueChanged();
-            }
         }
 
         private Point _location;
@@ -62,6 +62,13 @@ namespace ProceduralWorldGenerator.ViewModels
 
         public bool IsReadOnly { get; set; }
 
+        private bool _isRuntimeInput;
+        
+        public bool IsRuntimeInput         {
+            get => _isRuntimeInput;
+            set => SetProperty(ref _isRuntimeInput, value);
+        }
+
         private IOperation? _operation;
         public IOperation? Operation
         {
@@ -71,28 +78,17 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new NodifyObservableCollection<ConnectorViewModel>();
-
-        private ConnectorViewModel? _output;
-        public ConnectorViewModel? Output
-        {
-            get => _output;
-            set
-            {
-                if (SetProperty(ref _output, value) && _output != null)
-                {
-                    _output.Operation = this;
-                }
-            }
-        }
+        
+        public NodifyObservableCollection<ConnectorViewModel> Output { get; } = new NodifyObservableCollection<ConnectorViewModel>();
 
         protected virtual void OnInputValueChanged()
         {
-            if (Output != null && Operation != null)
+            if (Operation != null)
             {
                 try
                 {
-                    var input = Input.Select(i => i.Value).ToArray();
-                    Output.Value = Operation?.Execute(input) ?? 0;
+                    //var input = Input.Select(i => i.Value).ToArray();
+                    //Output.Value = Operation?.Execute(input) ?? 0;
                 }
                 catch(Exception ex)
                 {

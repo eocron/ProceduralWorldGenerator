@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ProceduralWorldGenerator.Operations;
 
 namespace ProceduralWorldGenerator.ViewModels
@@ -7,7 +8,6 @@ namespace ProceduralWorldGenerator.ViewModels
     {
         Normal,
         Expando,
-        Expression,
         Calculator,
         Group,
         Graph
@@ -18,8 +18,16 @@ namespace ProceduralWorldGenerator.ViewModels
         public string? Title { get; set; }
         public OperationType Type { get; set; }
         public IOperation? Operation { get; set; }
-        public List<string?> Input { get; } = new List<string?>();
+        public List<OperationTypeInfoViewModel> Input { get; } = new List<OperationTypeInfoViewModel>();
+        public List<OperationTypeInfoViewModel> Output { get; } = new List<OperationTypeInfoViewModel>();
         public uint MinInput { get; set; }
         public uint MaxInput { get; set; }
+        public bool IsRuntimeInput { get; set; }
+    }
+
+    public class OperationTypeInfoViewModel
+    {
+        public string Title { get; set; }
+        public Type Type { get; set; }
     }
 }

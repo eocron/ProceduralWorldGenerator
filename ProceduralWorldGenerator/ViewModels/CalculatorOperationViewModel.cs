@@ -27,9 +27,9 @@ namespace ProceduralWorldGenerator.ViewModels
             InnerCalculator.Operations.Add(InnerInput);
             InnerCalculator.Operations.Add(InnerOutput);
 
-            Output = new ConnectorViewModel();
+            Output.Add(new ConnectorViewModel());
 
-            InnerOutput.Input[0].ValueObservers.Add(Output);
+            InnerOutput.Input[0].ValueObservers.Add(Output[0]);
 
             InnerInput.Output.ForEach(x => Input.Add(new ConnectorViewModel
             {
@@ -46,10 +46,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
         protected override void OnInputValueChanged()
         {
-            for (var i = 0; i < Input.Count; i++)
-            {
-                InnerInput.Output[i].Value = Input[i].Value;
-            }
+            
         }
     }
 }

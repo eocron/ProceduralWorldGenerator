@@ -62,14 +62,9 @@ namespace ProceduralWorldGenerator.ViewModels
                 {
                     Type = OperationType.Calculator,
                     Title = "Calculator"
-                },
-                new OperationInfoViewModel
-                {
-                    Type = OperationType.Expression,
-                    Title = "Custom",
                 }
             };
-            operations.AddRange(OperationFactory.GetOperationsInfo(typeof(OperationsContainer)));
+            operations.AddRange(OperationFactory.GetOperationsInfo());
 
             AvailableOperations = new NodifyObservableCollection<OperationInfoViewModel>(operations);
             CreateOperationCommand = new DelegateCommand<OperationInfoViewModel>(CreateOperation);
@@ -85,7 +80,7 @@ namespace ProceduralWorldGenerator.ViewModels
             var pending = _calculator.PendingConnection;
             if (pending.IsVisible)
             {
-                var connector = pending.Source.IsInput ? op.Output : op.Input.FirstOrDefault();
+                var connector = pending.Source.IsInput ? op.Output.FirstOrDefault() : op.Input.FirstOrDefault();
                 if (connector != null && _calculator.CanCreateConnection(pending.Source, connector))
                 {
                     _calculator.CreateConnection(pending.Source, connector);

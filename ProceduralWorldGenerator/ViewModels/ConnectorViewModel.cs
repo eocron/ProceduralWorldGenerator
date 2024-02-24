@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Nodify.Shared;
 
@@ -11,14 +12,6 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             get => _title;
             set => SetProperty(ref _title, value);
-        }
-
-        private double _value;
-        public double Value
-        {
-            get => _value;
-            set => SetProperty(ref _value, value)
-                .Then(() => ValueObservers.ForEach(o => o.Value = value));
         }
 
         private bool _isConnected;
@@ -50,5 +43,6 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         public List<ConnectorViewModel> ValueObservers { get; } = new List<ConnectorViewModel>();
+        public Type OperationType { get; set; }
     }
 }

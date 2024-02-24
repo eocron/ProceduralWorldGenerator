@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <PackageReference Include="Nodify" Version="5.1.0" />
-	  <PackageReference Include="StringMath" Version="4.1.2" />
     </ItemGroup>
 
     <ItemGroup>

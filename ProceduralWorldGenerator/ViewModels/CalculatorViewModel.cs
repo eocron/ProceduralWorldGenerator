@@ -21,8 +21,6 @@ namespace ProceduralWorldGenerator.ViewModels
                 c.Input.IsConnected = true;
                 c.Output.IsConnected = true;
 
-                c.Input.Value = c.Output.Value;
-
                 c.Output.ValueObservers.Add(c.Input);
             })
             .WhenRemoved(c =>
@@ -65,9 +63,9 @@ namespace ProceduralWorldGenerator.ViewModels
                     DisconnectConnector(input);
                 }
 
-                if (x.Output != null)
+                foreach (var output in x.Output)
                 {
-                    DisconnectConnector(x.Output);
+                    DisconnectConnector(output);
                 }
             });
 
@@ -105,7 +103,28 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         internal bool CanCreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
-            => target == null || (source != target && source.Operation != target.Operation && source.IsInput != target.IsInput);
+        {
+            if (target == null)
+            {
+                return true;//prompt for new operation
+            }
+
+            if (source == target || source.Operation == target.Operation)
+            {
+                return false;//same operation
+            }
+
+            if (source.IsInput == target.IsInput)
+            {
+                return false;//input to input connection
+            }
+
+            if (source.OperationType != target.OperationType)
+            {
+                return false;//input and output of different types
+            }
+            return true;
+        }
 
         internal void CreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
         {

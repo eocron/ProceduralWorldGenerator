@@ -135,8 +135,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Title}"
                                                Margin="0 0 5 0" />
-                                    <TextBox Text="{Binding Value}"
-                                             Visibility="{Binding IsConnected, Converter={converters1:BooleanToVisibilityConverter Negate=True}}" />
+                                    <!--<TextBox Text="{Binding Value}"
+                                             Visibility="{Binding IsConnected, Converter={converters1:BooleanToVisibilityConverter Negate=True}}" />-->
                                 </StackPanel>
                             </DataTemplate>
                         </Setter.Value>
@@ -154,7 +154,7 @@
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type viewModels:ConnectorViewModel}">
-                                <TextBox Text="{Binding Value}"
+                                <TextBox Text="{Binding Title}"
                                          IsEnabled="False" />
                             </DataTemplate>
                         </Setter.Value>
@@ -164,14 +164,14 @@
                 <DataTemplate DataType="{x:Type viewModels:OperationViewModel}">
                     <nodify:Node Content="{Binding Title}"
                                  Input="{Binding Input}"
-                                 Output="{Binding Output, Converter={StaticResource ItemToListConverter}}" />
+                                 Output="{Binding Output}"/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewModels:ExpandoOperationViewModel}">
                     <nodify:Node Header="{Binding Title}"
                                  Content="{Binding}"
                                  Input="{Binding Input}"
-                                 Output="{Binding Output, Converter={StaticResource ItemToListConverter}}">
+                                 Output="{Binding Output}">
                         <nodify:Node.ContentTemplate>
                             <DataTemplate DataType="{x:Type viewModels:ExpandoOperationViewModel}">
                                 <StackPanel>
@@ -187,24 +187,10 @@
                     </nodify:Node>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewModels:ExpressionOperationViewModel}">
-                    <nodify:Node Content="{Binding}"
-                                 Input="{Binding Input}"
-                                 Output="{Binding Output, Converter={StaticResource ItemToListConverter}}">
-                        <nodify:Node.ContentTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ExpressionOperationViewModel}">
-                                <TextBox Text="{Binding Expression}"
-                                         MinWidth="100"
-                                         Margin="5 0 0 0" />
-                            </DataTemplate>
-                        </nodify:Node.ContentTemplate>
-                    </nodify:Node>
-                </DataTemplate>
-
                 <DataTemplate DataType="{x:Type viewModels:CalculatorOperationViewModel}">
                     <nodify:Node Header="{Binding Title}"
                                  Input="{Binding Input}"
-                                 Output="{Binding Output, Converter={StaticResource ItemToListConverter}}"
+                                 Output="{Binding Output}"
                                  ToolTip="Double click to expand">
                         <nodify:Node.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick"
@@ -228,7 +214,7 @@
                                 <Setter.Value>
                                     <DataTemplate DataType="{x:Type viewModels:ConnectorViewModel}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox Text="{Binding Value}"
+                                            <TextBox Text="{Binding Title}"
                                                      IsEnabled="False" />
                                             <TextBlock Text="{Binding Title}"
                                                        Margin="5 0 0 0" />
