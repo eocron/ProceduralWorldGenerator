@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralWorldGenerator.Contract", "ProceduralWorldGenerator.Contract\ProceduralWorldGenerator.Contract.csproj", "{61FEB019-0243-4878-87C0-C3ECB028AD66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralWorldGenerator", "ProceduralWorldGenerator\ProceduralWorldGenerator.csproj", "{73A93DAE-36C5-49EB-9EEC-0A0865330745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.Shared", "Nodify.Shared\Nodify.Shared.csproj", "{00F7D5F4-9A50-47BB-87AD-C70D039D1CC6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61FEB019-0243-4878-87C0-C3ECB028AD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61FEB019-0243-4878-87C0-C3ECB028AD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61FEB019-0243-4878-87C0-C3ECB028AD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61FEB019-0243-4878-87C0-C3ECB028AD66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A93DAE-36C5-49EB-9EEC-0A0865330745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A93DAE-36C5-49EB-9EEC-0A0865330745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A93DAE-36C5-49EB-9EEC-0A0865330745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A93DAE-36C5-49EB-9EEC-0A0865330745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00F7D5F4-9A50-47BB-87AD-C70D039D1CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00F7D5F4-9A50-47BB-87AD-C70D039D1CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00F7D5F4-9A50-47BB-87AD-C70D039D1CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00F7D5F4-9A50-47BB-87AD-C70D039D1CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
