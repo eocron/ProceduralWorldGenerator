@@ -121,12 +121,18 @@
                        BasedOn="{StaticResource {x:Type nodify:NodeInput}}">
                     <Setter Property="Header"
                             Value="{Binding}" />
+                    <Setter Property="IsConnected"
+                            Value="{Binding IsConnected}" />
+                    <Setter Property="Anchor"
+                            Value="{Binding Anchor, Mode=OneWayToSource}" />
+                    <Setter Property="ToolTip"
+                            Value="{Binding Value}" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type connections:ConnectorViewModel}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Title}"
-                                               Margin="0 0 5 0"/>
+                                               Margin="0 0 5 0" />
                                     <!--<TextBox Text="{Binding Value}"
                                              Visibility="{Binding IsConnected, Converter={converters1:BooleanToVisibilityConverter Negate=True}}" />-->
                                 </StackPanel>
@@ -139,10 +145,14 @@
                        BasedOn="{StaticResource {x:Type nodify:NodeOutput}}">
                     <Setter Property="Header"
                             Value="{Binding}" />
+                    <Setter Property="IsConnected"
+                            Value="{Binding IsConnected}" />
+                    <Setter Property="Anchor"
+                            Value="{Binding Anchor, Mode=OneWayToSource}" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type connections:ConnectorViewModel}">
-                                <TextBlock Text="{Binding Title}" />
+                                <TextBlock Text="{Binding Title}"/>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
