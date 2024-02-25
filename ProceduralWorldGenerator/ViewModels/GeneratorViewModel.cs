@@ -4,7 +4,7 @@ using Nodify.Shared;
 using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
-using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

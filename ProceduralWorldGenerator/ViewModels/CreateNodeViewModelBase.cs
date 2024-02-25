@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

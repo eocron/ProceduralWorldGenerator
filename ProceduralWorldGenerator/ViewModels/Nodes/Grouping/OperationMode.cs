@@ -1,4 +1,4 @@
-﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
+﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.Grouping
 {
     public enum OperationMode
     {

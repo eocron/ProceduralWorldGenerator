@@ -3,7 +3,7 @@ using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Connections;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
+namespace ProceduralWorldGenerator.ViewModels.Nodes.Grouping
 {
     public class OperationViewModel : ObservableObject
     {

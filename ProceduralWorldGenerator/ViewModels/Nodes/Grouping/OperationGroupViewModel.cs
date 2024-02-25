@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
+namespace ProceduralWorldGenerator.ViewModels.Nodes.Grouping
 {
     public class OperationGroupViewModel : OperationViewModel
     {

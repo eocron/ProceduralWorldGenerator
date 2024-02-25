@@ -9,7 +9,7 @@
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
              xmlns:connections="clr-namespace:ProceduralWorldGenerator.ViewModels.Connections"
              xmlns:nodes="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes"
-             xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Control"
+             xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Grouping"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">

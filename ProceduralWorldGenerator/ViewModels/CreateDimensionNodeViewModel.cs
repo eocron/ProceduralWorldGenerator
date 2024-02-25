@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

@@ -5,7 +5,7 @@ using System.Reflection;
 using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
-using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels
@@ -17,6 +17,7 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             Bind<PermutationTableNodeViewModel>();
             Bind<VectorNodeViewModel>();
+            Bind<ChunkNodeViewModel>();
             Bind<WorleyNoiseNodeViewModel>();
             Bind<ValueNoiseNodeViewModel>();
             Bind<SimplexNoiseNodeViewModel>();

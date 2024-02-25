@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
