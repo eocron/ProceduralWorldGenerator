@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Parameters
 {
-    public abstract class ParameterViewModelBase : ObservableObject
+    public class ParameterViewModelBase : ObservableObject
     {
         private string _title = "<none>";
         private bool _isInput;
@@ -25,9 +25,16 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Parameters
             get => _order;
             set => SetProperty(ref _order, value);
         }
+
+        public virtual bool CanConnect(ParameterViewModelBase other)
+        {
+            if (other.GetType() != GetType())
+                return false;
+            return true;
+        }
     }
     
-    public abstract class ParameterViewModelBase<TValue> : ParameterViewModelBase
+    public class ParameterViewModelBase<TValue> : ParameterViewModelBase
     {
         private TValue _value;
         public TValue Value

@@ -33,5 +33,14 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Parameters
             get => _dimension;
             set => SetProperty(ref _dimension, value);
         }
+
+        public override bool CanConnect(ParameterViewModelBase other)
+        {
+            var otherVector = other as VectorParameterViewModel;
+            if (otherVector == null)
+                return false;
+            
+            return Dimension == otherVector.Dimension;
+        }
     }
 }

@@ -43,11 +43,9 @@ namespace ProceduralWorldGenerator
             if(e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
                 && e.Data.GetData(typeof(NodeViewModelBase)) is NodeViewModelBase operation)
             {
-                var location = editor.GetLocationInsideEditor(e);
-                calculator.CreateDimensionOperationMenu.OperationViewModelProvider =
-                    () => NodePreviewProvider.CreateNodeViewModel(operation);
-                calculator.CreateDimensionOperationMenu.OpenAt(location);
 
+                var location = editor.GetLocationInsideEditor(e);
+                calculator.CreateNode(location, operation);
                 e.Handled = true;
             }
         }

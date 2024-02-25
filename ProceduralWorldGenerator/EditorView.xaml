@@ -226,7 +226,7 @@
                                            Location="{Binding Location}">
                     <proceduralWorldGenerator:OperationsMenuView />
                 </nodify:DecoratorContainer>
-                <nodify:DecoratorContainer DataContext="{Binding CreateDimensionOperationMenu}"
+                <nodify:DecoratorContainer DataContext="{Binding CreateDimensionNodeMenu}"
                                            Location="{Binding Location}">
                     <proceduralWorldGenerator:CreateDimensionOperationView />
                 </nodify:DecoratorContainer>

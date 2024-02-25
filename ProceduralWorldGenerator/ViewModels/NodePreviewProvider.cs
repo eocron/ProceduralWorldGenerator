@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Control;
@@ -41,9 +42,11 @@ namespace ProceduralWorldGenerator.ViewModels
 
         private static OperationViewModel InternalCreateNodeViewModel(NodeViewModelBase preview)
         {
+            var clone = ObjectHelper.DeepCopy(preview);
             var type = preview.GetType();
             
             var op = new OperationViewModel();
+            op.NodeModel = clone;
             op.Title = preview.Title;
             var allProps = type
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -51,7 +54,7 @@ namespace ProceduralWorldGenerator.ViewModels
                 .Select(x => new
                 {
                     prop = x,
-                    value = (ParameterViewModelBase)x.GetMethod.Invoke(preview, null)
+                    value = (ParameterViewModelBase)x.GetMethod.Invoke(clone, null)
                 })
                 .OrderBy(x => x.value.Order)
                 .ToList();
@@ -74,6 +77,7 @@ namespace ProceduralWorldGenerator.ViewModels
             return new ConnectorViewModel()
             {
                 Title = model.Title ?? propertyInfo.Name,
+                ParameterViewModel = model,
             };
         }
     }

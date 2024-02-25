@@ -52,13 +52,19 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
         }
 
         private bool _isSelected;
+        private NodeViewModelBase _nodeModel;
+
         public bool IsSelected
         {
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
         }
 
-        public bool IsReadOnly { get; set; }
+        public NodeViewModelBase NodeModel
+        {
+            get => _nodeModel;
+            set => SetProperty(ref _nodeModel, value);
+        }
 
         public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new NodifyObservableCollection<ConnectorViewModel>();
         

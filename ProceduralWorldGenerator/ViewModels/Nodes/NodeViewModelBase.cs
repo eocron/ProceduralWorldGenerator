@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public abstract class NodeViewModelBase : ObservableObject
+    public class NodeViewModelBase : ObservableObject
     {
         private string _title;
 

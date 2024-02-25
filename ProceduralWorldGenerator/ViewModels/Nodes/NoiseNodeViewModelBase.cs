@@ -1,8 +1,10 @@
-﻿using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+﻿using System.Collections.Generic;
+using ProceduralWorldGenerator.Validation;
+using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public abstract class NoiseNodeViewModelBase : NodeViewModelBase
+    public class NoiseNodeViewModelBase : NodeViewModelBase, IDimensionSetter
     {
         private PermutationTableParameterViewModel _permutation = new PermutationTableParameterViewModel()
         {
@@ -43,5 +45,16 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _output;
             set => SetProperty(ref _output, value);
         }
+
+        public void SetDimension(int dimension)
+        {
+            Input.Dimension = dimension;
+            IsDirty = true;
+            OnPropertyChanged(nameof(Input));
+        }
+
+        public int MinDimension => Input.MinDimension;
+        public int MaxDimension => Input.MaxDimension;
+        public IReadOnlySet<int> AllowedDimensions => Input.AllowedDimensions;
     }
 }

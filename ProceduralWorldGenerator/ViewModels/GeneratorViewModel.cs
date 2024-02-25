@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Control;
 
 namespace ProceduralWorldGenerator.ViewModels
@@ -22,8 +24,6 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 c.Input.IsConnected = true;
                 c.Output.IsConnected = true;
-
-                c.Output.ValueObservers.Add(c.Input);
                 c.Input.SetTitleFrom(c.Output);
             })
             .WhenRemoved(c =>
@@ -41,7 +41,6 @@ namespace ProceduralWorldGenerator.ViewModels
                     c.Output.IsConnected = false;
                 }
 
-                c.Output.ValueObservers.Remove(c.Input);
                 c.Input.RestoreTitle();
             });
 
@@ -69,7 +68,8 @@ namespace ProceduralWorldGenerator.ViewModels
             });
 
             OperationsMenu = new OperationsMenuViewModel(this);
-            CreateDimensionOperationMenu = new CreateDimensionNodeViewModel(this);
+            CreateDimensionNodeMenu = new CreateDimensionNodeViewModel(this);
+            CreateDefaultNodeMenu = new CreateDefaultNodeViewModel(this);
         }
 
         private NodifyObservableCollection<OperationViewModel> _operations = new NodifyObservableCollection<OperationViewModel>();
@@ -89,7 +89,8 @@ namespace ProceduralWorldGenerator.ViewModels
         public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
         public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
         public OperationsMenuViewModel OperationsMenu { get; set; }
-        public CreateDimensionNodeViewModel CreateDimensionOperationMenu { get; set; }
+        public CreateDimensionNodeViewModel CreateDimensionNodeMenu { get; set; }
+        public CreateDefaultNodeViewModel CreateDefaultNodeMenu { get; set; }
         public INodifyCommand StartConnectionCommand { get; }
         public INodifyCommand CreateConnectionCommand { get; }
         public INodifyCommand DisconnectConnectorCommand { get; }
@@ -119,6 +120,11 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 return false;//input to input connection
             }
+
+            if (!source.CanConnect(target))
+            {
+                return false;
+            }
             
             return true;
         }
@@ -145,6 +151,26 @@ namespace ProceduralWorldGenerator.ViewModels
                 Input = input,
                 Output = output,
             });
+        }
+
+        internal void CreateNode(Point location, NodeViewModelBase previewNode)
+        {
+            if (previewNode is IDimensionSetter dimensionSetter)
+            {
+                CreateDimensionNodeMenu.MinDimension = dimensionSetter.MinDimension;
+                CreateDimensionNodeMenu.MaxDimension = dimensionSetter.MaxDimension;
+                CreateDimensionNodeMenu.AllowedDimensions = dimensionSetter.AllowedDimensions;
+
+                CreateDimensionNodeMenu.OperationViewModelProvider =
+                    () => NodePreviewProvider.CreateNodeViewModel(previewNode);
+                CreateDimensionNodeMenu.OpenAt(location);
+            }
+            else
+            {
+                CreateDefaultNodeMenu.OperationViewModelProvider =
+                    () => NodePreviewProvider.CreateNodeViewModel(previewNode);
+                CreateDefaultNodeMenu.OpenAt(location);
+            }
         }
 
         private void OnOperationsMenuClosed()

@@ -7,11 +7,10 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class CreateDimensionNodeViewModel : CreateNodeViewModelBase, IDimensionValidationInfo
     {
-        private readonly Func<CreateDimensionNodeViewModel, OperationViewModel> _onCreate;
         private int _minDimension = 1;
         private int _maxDimension = int.MaxValue;
         private IReadOnlySet<int> _availableDimensions;
-        private int _dimension = 1;
+        private int? _dimension = null;
         private string _textBox = "1";
         private string _description = "Select dimension";
 
@@ -33,7 +32,7 @@ namespace ProceduralWorldGenerator.ViewModels
             set => SetProperty(ref _availableDimensions, value);
         }
 
-        public int Dimension
+        public int? Dimension
         {
             get => _dimension;
             set => SetProperty(ref _dimension, value);
@@ -42,7 +41,18 @@ namespace ProceduralWorldGenerator.ViewModels
         public string TextBox
         {
             get => _textBox;
-            set => SetProperty(ref _textBox, value);
+            set
+            {
+                SetProperty(ref _textBox, value);
+                if (ValidationHelper.IsDimensionTextAllowed(value, this))
+                {
+                    Dimension = int.Parse(value);
+                }
+                else
+                {
+                    Dimension = null;
+                }
+            }
         }
 
         public string Description
@@ -59,7 +69,14 @@ namespace ProceduralWorldGenerator.ViewModels
 
         protected override OperationViewModel Create()
         {
-            return OperationViewModelProvider();
+            var model = OperationViewModelProvider();
+            ((IDimensionSetter)model.NodeModel).SetDimension(Dimension.Value);
+            return model;
+        }
+
+        protected override bool CanCreate()
+        {
+            return Dimension != null && ValidationHelper.IsDimensionAllowed(Dimension.Value, this) && base.CanCreate();
         }
     }
 }

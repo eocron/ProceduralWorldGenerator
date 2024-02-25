@@ -2,6 +2,7 @@
 using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Nodes.Control;
+using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
@@ -47,17 +48,28 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
         }
 
         private OperationViewModel _operation = default!;
+        private ParameterViewModelBase _parameterViewModel;
+
         public OperationViewModel Operation
         {
             get => _operation;
             set => SetProperty(ref _operation, value);
         }
 
-        public List<ConnectorViewModel> ValueObservers { get; } = new List<ConnectorViewModel>();
+        public ParameterViewModelBase ParameterViewModel
+        {
+            get => _parameterViewModel;
+            set => SetProperty(ref _parameterViewModel, value);
+        }
 
         public void SetTitleFrom(ConnectorViewModel output)
         {
             VariableTitle = output.Title;
+        }
+
+        public bool CanConnect(ConnectorViewModel other)
+        {
+            return ParameterViewModel.CanConnect(other.ParameterViewModel);
         }
 
         public void RestoreTitle()
