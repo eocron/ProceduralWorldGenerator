@@ -85,7 +85,7 @@ namespace Nodify.Shared
 
         protected virtual void NotifyOnItemAdded(T item)
         {
-            for (int i = 0; i < _added.Count; i++)
+            for (var i = 0; i < _added.Count; i++)
             {
                 _added[i](item);
             }
@@ -93,7 +93,7 @@ namespace Nodify.Shared
 
         protected virtual void NotifyOnItemRemoved(T item)
         {
-            for (int i = 0; i < _removed.Count; i++)
+            for (var i = 0; i < _removed.Count; i++)
             {
                 _removed[i](item);
             }
@@ -101,7 +101,7 @@ namespace Nodify.Shared
 
         protected virtual void NotifyOnItemsCleared(IList<T> items)
         {
-            for (int i = 0; i < _cleared.Count; i++)
+            for (var i = 0; i < _cleared.Count; i++)
             {
                 _cleared[i](items);
             }
@@ -122,7 +122,7 @@ namespace Nodify.Shared
             }
             else
             {
-                for (int i = 0; i < items.Count; i++)
+                for (var i = 0; i < items.Count; i++)
                 {
                     NotifyOnItemRemoved(items[i]);
                 }
@@ -156,7 +156,7 @@ namespace Nodify.Shared
 
         protected override void SetItem(int index, T item)
         {
-            T prev = base[index];
+            var prev = base[index];
             base.SetItem(index, item);
             OnPropertyChanged(IndexerPropertyChanged);
             OnCollectionChanged(NotifyCollectionChangedAction.Replace, prev, item, index);
@@ -166,7 +166,7 @@ namespace Nodify.Shared
 
         public void Move(int oldIndex, int newIndex)
         {
-            T prev = base[oldIndex];
+            var prev = base[oldIndex];
             base.RemoveItem(oldIndex);
             base.InsertItem(newIndex, prev);
             OnPropertyChanged(IndexerPropertyChanged);

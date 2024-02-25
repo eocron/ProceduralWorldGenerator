@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Nodify;
-using ProceduralWorldGenerator.Operations;
 using ProceduralWorldGenerator.ViewModels;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 
@@ -30,23 +29,24 @@ namespace ProceduralWorldGenerator
 
         private void CloseOperationsMenu(object sender, RoutedEventArgs e)
         {
-            ItemContainer? itemContainer = sender as ItemContainer;
-            NodifyEditor? editor = sender as NodifyEditor ?? itemContainer?.Editor;
+            var itemContainer = sender as ItemContainer;
+            var editor = sender as NodifyEditor ?? itemContainer?.Editor;
 
             if (!e.Handled && editor?.DataContext is GeneratorViewModel calculator)
             {
                 calculator.OperationsMenu.Close();
             }
         }
-
+        
         private void OnDropNode(object sender, DragEventArgs e)
         {
             if(e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
-                && e.Data.GetData(typeof(OperationInfoViewModel)) is OperationInfoViewModel operation)
+                && e.Data.GetData(typeof(NodeViewModelBase)) is NodeViewModelBase operation)
             {
-                OperationViewModel op = OperationFactory.GetOperation(operation);
-                op.Location = editor.GetLocationInsideEditor(e);
-                calculator.Operations.Add(op);
+                var location = editor.GetLocationInsideEditor(e);
+                calculator.CreateDimensionOperationMenu.OperationViewModelProvider =
+                    () => NodePreviewProvider.CreateNodeViewModel(operation);
+                calculator.CreateDimensionOperationMenu.OpenAt(location);
 
                 e.Handled = true;
             }
@@ -54,9 +54,9 @@ namespace ProceduralWorldGenerator
 
         private void OnNodeDrag(object sender, MouseEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed && ((FrameworkElement)sender).DataContext is OperationInfoViewModel operation)
+            if(e.LeftButton == MouseButtonState.Pressed && ((FrameworkElement)sender).DataContext is NodeViewModelBase operation)
             { 
-                var data = new DataObject(typeof(OperationInfoViewModel), operation);
+                var data = new DataObject(typeof(NodeViewModelBase), operation);
                 DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
             }
         }

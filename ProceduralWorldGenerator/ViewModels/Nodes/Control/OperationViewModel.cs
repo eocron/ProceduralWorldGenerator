@@ -1,12 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.ComponentModel;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.Operations;
 using ProceduralWorldGenerator.ViewModels.Connections;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes
+namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
 {
     public class OperationViewModel : ObservableObject
     {
@@ -63,39 +60,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public bool IsReadOnly { get; set; }
 
-        private bool _isRuntimeInput;
-        
-        public bool IsRuntimeInput         {
-            get => _isRuntimeInput;
-            set => SetProperty(ref _isRuntimeInput, value);
-        }
-
-        private IOperation? _operation;
-        public IOperation? Operation
-        {
-            get => _operation;
-            set => SetProperty(ref _operation, value)
-                .Then(OnInputValueChanged);
-        }
-
         public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new NodifyObservableCollection<ConnectorViewModel>();
         
         public NodifyObservableCollection<ConnectorViewModel> Output { get; } = new NodifyObservableCollection<ConnectorViewModel>();
-
-        protected virtual void OnInputValueChanged()
-        {
-            if (Operation != null)
-            {
-                try
-                {
-                    //var input = Input.Select(i => i.Value).ToArray();
-                    //Output.Value = Operation?.Execute(input) ?? 0;
-                }
-                catch(Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                }
-            }
-        }
     }
 }

@@ -64,7 +64,7 @@ namespace Nodify.Shared
             var resources = FindExistingResources(preload);
             if (resources.Count == 0)
             {
-                for (int i = 0; i < preload.Count; i++)
+                for (var i = 0; i < preload.Count; i++)
                 {
                     try
                     {

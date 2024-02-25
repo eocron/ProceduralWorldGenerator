@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.OperationTypes;
-using ProceduralWorldGenerator.ViewModels.Nodes;
+using ProceduralWorldGenerator.ViewModels.Nodes.Control;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
@@ -55,7 +54,6 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
         }
 
         public List<ConnectorViewModel> ValueObservers { get; } = new List<ConnectorViewModel>();
-        public IOperationType OperationType { get; set; }
 
         public void SetTitleFrom(ConnectorViewModel output)
         {

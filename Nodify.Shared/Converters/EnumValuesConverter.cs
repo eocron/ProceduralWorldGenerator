@@ -27,8 +27,8 @@ namespace Nodify.Shared.Converters
                 var values = Enum.GetValues(type);
                 var names = Enum.GetNames(type);
 
-                EnumValue[] result = new EnumValue[values.Length];
-                for (int i = 0; i < values.Length; i++)
+                var result = new EnumValue[values.Length];
+                for (var i = 0; i < values.Length; i++)
                 {
                     result[i] = new EnumValue(names[i], values.GetValue(i));
                 }

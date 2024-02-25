@@ -2,7 +2,7 @@
 using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Connections;
-using ProceduralWorldGenerator.ViewModels.Nodes;
+using ProceduralWorldGenerator.ViewModels.Nodes.Control;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
@@ -69,6 +69,7 @@ namespace ProceduralWorldGenerator.ViewModels
             });
 
             OperationsMenu = new OperationsMenuViewModel(this);
+            CreateDimensionOperationMenu = new CreateDimensionNodeViewModel(this);
         }
 
         private NodifyObservableCollection<OperationViewModel> _operations = new NodifyObservableCollection<OperationViewModel>();
@@ -88,12 +89,13 @@ namespace ProceduralWorldGenerator.ViewModels
         public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
         public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
         public OperationsMenuViewModel OperationsMenu { get; set; }
-
+        public CreateDimensionNodeViewModel CreateDimensionOperationMenu { get; set; }
         public INodifyCommand StartConnectionCommand { get; }
         public INodifyCommand CreateConnectionCommand { get; }
         public INodifyCommand DisconnectConnectorCommand { get; }
         public INodifyCommand DeleteSelectionCommand { get; }
         public INodifyCommand GroupSelectionCommand { get; }
+
 
         private void DisconnectConnector(ConnectorViewModel connector)
         {
@@ -117,11 +119,7 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 return false;//input to input connection
             }
-
-            if (!target.OperationType.IsAssignableFrom(source.OperationType))
-            {
-                return false;//input and output of different types
-            }
+            
             return true;
         }
 
@@ -145,7 +143,7 @@ namespace ProceduralWorldGenerator.ViewModels
             Connections.Add(new ConnectionViewModel
             {
                 Input = input,
-                Output = output
+                Output = output,
             });
         }
 

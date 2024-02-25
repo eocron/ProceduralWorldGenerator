@@ -11,7 +11,7 @@ namespace Nodify.Shared.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (double.TryParse(parameter?.ToString(), out double alpha))
+            if (double.TryParse(parameter?.ToString(), out var alpha))
             {
                 return new SolidColorBrush(Color.FromRgb((byte)_rand.Next(256), (byte)_rand.Next(256), (byte)_rand.Next(256)))
                 {

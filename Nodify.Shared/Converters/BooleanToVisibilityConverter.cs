@@ -13,7 +13,7 @@ namespace Nodify.Shared.Converters
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string? stringValue = value?.ToString();
+            var stringValue = value?.ToString();
             if (bool.TryParse(stringValue, out var b))
             {
                 return (Negate ? !b : b) ? Visibility.Visible : FalseVisibility;
@@ -23,7 +23,7 @@ namespace Nodify.Shared.Converters
                 return (Negate ? !(d > 0) : (d > 0)) ? Visibility.Visible : FalseVisibility;
             }
 
-            bool result = value != null;
+            var result = value != null;
             return (Negate ? !result : result) ? Visibility.Visible : FalseVisibility;
         }
 

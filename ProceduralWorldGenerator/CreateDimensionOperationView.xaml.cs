@@ -2,9 +2,9 @@
 
 namespace ProceduralWorldGenerator
 {
-    public partial class CreateVariableView : UserControl
+    public partial class CreateDimensionOperationView : UserControl
     {
-        public CreateVariableView()
+        public CreateDimensionOperationView()
         {
             InitializeComponent();
         }

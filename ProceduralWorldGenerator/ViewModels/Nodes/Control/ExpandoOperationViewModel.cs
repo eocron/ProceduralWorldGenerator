@@ -1,7 +1,7 @@
 ﻿using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Connections;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes
+namespace ProceduralWorldGenerator.ViewModels.Nodes.Control
 {
     public class ExpandoOperationViewModel : OperationViewModel
     {

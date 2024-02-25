@@ -33,7 +33,7 @@ namespace Nodify.Shared
         {
             if (collection is IList<T> list)
             {
-                for (int i = 0; i < list.Count; i++)
+                for (var i = 0; i < list.Count; i++)
                 {
                     action(list[i]);
                 }
