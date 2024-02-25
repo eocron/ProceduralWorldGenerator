@@ -71,6 +71,7 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             var model = OperationViewModelProvider();
             ((IDimensionSetter)model.NodeModel).SetDimension(Dimension.Value);
+            model.Title = model.Title + " " + Dimension.Value + "D";
             return model;
         }
 
