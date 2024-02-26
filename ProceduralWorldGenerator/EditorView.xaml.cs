@@ -40,12 +40,14 @@ namespace ProceduralWorldGenerator
         
         private void OnDropNode(object sender, DragEventArgs e)
         {
-            if(e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
-                && e.Data.GetData(typeof(NodeViewModelBase)) is NodeViewModelBase operation)
+            if (e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
+                                                && e.Data.GetData(typeof(NodeViewModelBase)) is NodeViewModelBase
+                                                    operation)
             {
-
                 var location = editor.GetLocationInsideEditor(e);
-                calculator.CreateNode(location, operation);
+                calculator.PendingCreateNodeMenu.Location = location;
+                calculator.PendingCreateNodeMenu.NodeViewModel = operation;
+                calculator.CreateNodeCommand.Execute(null);
                 e.Handled = true;
             }
         }

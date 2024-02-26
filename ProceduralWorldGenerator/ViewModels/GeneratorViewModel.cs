@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.CreateNodes;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
@@ -10,6 +12,34 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class GeneratorViewModel : ObservableObject
     {
+        public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
+        public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
+        public OperationsMenuViewModel OperationsMenu { get; set; }
+        public Dictionary<Type, CreateNodeViewModelBase> CreateNodeMenus { get; set; }
+
+        public PendingCreateNodeViewModel PendingCreateNodeMenu { get; set; }
+        public CreateNodeViewModelBase CreateNodeMenu { get; set; }
+        public INodifyCommand StartConnectionCommand { get; }
+        public INodifyCommand CreateConnectionCommand { get; }
+        public INodifyCommand DisconnectConnectorCommand { get; }
+        public INodifyCommand DeleteSelectionCommand { get; }
+        public INodifyCommand GroupSelectionCommand { get; }
+        public INodifyCommand CreateNodeCommand { get; set; }
+        
+        private NodifyObservableCollection<OperationViewModel> _operations = new NodifyObservableCollection<OperationViewModel>();
+        public NodifyObservableCollection<OperationViewModel> Operations
+        {
+            get => _operations;
+            set => SetProperty(ref _operations, value);
+        }
+
+        private NodifyObservableCollection<OperationViewModel> _selectedOperations = new NodifyObservableCollection<OperationViewModel>();
+        public NodifyObservableCollection<OperationViewModel> SelectedOperations
+        {
+            get => _selectedOperations;
+            set => SetProperty(ref _selectedOperations, value);
+        }
+        
         public GeneratorViewModel()
         {
             CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
@@ -19,6 +49,8 @@ namespace ProceduralWorldGenerator.ViewModels
             DisconnectConnectorCommand = new DelegateCommand<ConnectorViewModel>(DisconnectConnector);
             DeleteSelectionCommand = new DelegateCommand(DeleteSelection);
             GroupSelectionCommand = new DelegateCommand(GroupSelectedOperations, () => SelectedOperations.Count > 0);
+            CreateNodeCommand = new DelegateCommand(() =>
+                CreateNode(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.NodeViewModel));
 
             Connections.WhenAdded(c =>
             {
@@ -68,34 +100,25 @@ namespace ProceduralWorldGenerator.ViewModels
             });
 
             OperationsMenu = new OperationsMenuViewModel(this);
-            CreateDimensionNodeMenu = new CreateDimensionNodeViewModel(this);
-            CreateDefaultNodeMenu = new CreateDefaultNodeViewModel(this);
+            PendingCreateNodeMenu = new PendingCreateNodeViewModel();
+            CreateNodeMenus = new Dictionary<Type, CreateNodeViewModelBase>()
+            {
+                {typeof(PermutationTableNodeViewModel), new CreatePermutationTableNodeViewModel(this)},
+                {typeof(VectorNodeViewModel), new CreateVectorNodeViewModel(this)},
+                {typeof(ChunkNodeViewModel), new CreateChunkNodeViewModel(this)},
+                {typeof(WorleyNoiseNodeViewModel), new CreateWorleyNoiseNodeViewModel(this)},
+                {typeof(SimplexNoiseNodeViewModel), new CreateSimplexNoiseNodeViewModel(this)},
+                {typeof(ValueNoiseNodeViewModel), new CreateValueNoiseNodeViewModel(this)}
+            };
+            CreateNodeMenu = CreateNodeMenus.First().Value;
         }
-
-        private NodifyObservableCollection<OperationViewModel> _operations = new NodifyObservableCollection<OperationViewModel>();
-        public NodifyObservableCollection<OperationViewModel> Operations
+        
+        private void CreateNode(Point location, NodeViewModelBase obj)
         {
-            get => _operations;
-            set => SetProperty(ref _operations, value);
+            CreateNodeMenu = CreateNodeMenus[obj.GetType()];
+            CreateNodeMenu.SetModel(obj);
+            CreateNodeMenu.OpenAt(location);
         }
-
-        private NodifyObservableCollection<OperationViewModel> _selectedOperations = new NodifyObservableCollection<OperationViewModel>();
-        public NodifyObservableCollection<OperationViewModel> SelectedOperations
-        {
-            get => _selectedOperations;
-            set => SetProperty(ref _selectedOperations, value);
-        }
-
-        public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
-        public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
-        public OperationsMenuViewModel OperationsMenu { get; set; }
-        public CreateDimensionNodeViewModel CreateDimensionNodeMenu { get; set; }
-        public CreateDefaultNodeViewModel CreateDefaultNodeMenu { get; set; }
-        public INodifyCommand StartConnectionCommand { get; }
-        public INodifyCommand CreateConnectionCommand { get; }
-        public INodifyCommand DisconnectConnectorCommand { get; }
-        public INodifyCommand DeleteSelectionCommand { get; }
-        public INodifyCommand GroupSelectionCommand { get; }
 
 
         private void DisconnectConnector(ConnectorViewModel connector)
@@ -151,26 +174,6 @@ namespace ProceduralWorldGenerator.ViewModels
                 Input = input,
                 Output = output,
             });
-        }
-
-        internal void CreateNode(Point location, NodeViewModelBase previewNode)
-        {
-            if (previewNode is IDimensionSetter dimensionSetter)
-            {
-                CreateDimensionNodeMenu.MinDimension = dimensionSetter.MinDimension;
-                CreateDimensionNodeMenu.MaxDimension = dimensionSetter.MaxDimension;
-                CreateDimensionNodeMenu.AllowedDimensions = dimensionSetter.AllowedDimensions;
-
-                CreateDimensionNodeMenu.OperationViewModelProvider =
-                    () => NodePreviewProvider.CreateNodeViewModel(previewNode);
-                CreateDimensionNodeMenu.OpenAt(location);
-            }
-            else
-            {
-                CreateDefaultNodeMenu.OperationViewModelProvider =
-                    () => NodePreviewProvider.CreateNodeViewModel(previewNode);
-                CreateDefaultNodeMenu.OpenAt(location);
-            }
         }
 
         private void OnOperationsMenuClosed()

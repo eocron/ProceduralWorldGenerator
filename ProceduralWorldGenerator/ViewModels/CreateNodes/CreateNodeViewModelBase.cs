@@ -7,11 +7,10 @@ using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-    public abstract class CreateNodeViewModelBase<TNodeViewModel> : ObservableObject
-        where TNodeViewModel : NodeViewModelBase
+
+    public abstract class CreateNodeViewModelBase : ObservableObject
     {
         private bool _isVisible;
-
         public bool IsVisible
         {
             get => _isVisible;
@@ -19,17 +18,10 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         }
 
         private Point _location;
-
         public Point Location
         {
             get => _location;
             set => SetProperty(ref _location, value);
-        }
-
-        public TNodeViewModel NodeViewModel
-        {
-            get => _nodeViewModel;
-            set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
         }
 
         public INodifyCommand CreateOperation { get; }
@@ -48,7 +40,6 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         }
 
         protected readonly GeneratorViewModel Calculator;
-        private TNodeViewModel _nodeViewModel;
 
         protected CreateNodeViewModelBase(GeneratorViewModel calculator)
         {
@@ -57,12 +48,33 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
             CancelOperation = new RequeryCommand(Close);
         }
 
-        protected virtual bool CanCreate()
+        protected abstract bool CanCreate();
+
+        protected abstract void OnCreateOperation();
+
+        public abstract void SetModel(NodeViewModelBase model);
+    }
+    
+    public abstract class CreateNodeViewModelBase<TNodeViewModel> : CreateNodeViewModelBase
+        where TNodeViewModel : NodeViewModelBase
+    {
+        private TNodeViewModel _nodeViewModel;
+        public TNodeViewModel NodeViewModel
+        {
+            get => _nodeViewModel;
+            set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
+        }
+        
+        protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
+        {
+        }
+
+        protected override bool CanCreate()
         {
             return true;
         }
 
-        protected void OnCreateOperation()
+        protected override void OnCreateOperation()
         {
             var op = NodePreviewProvider.CreateNodeViewModel(NodeViewModel, ConfigureNodeViewModel);
             op.Location = Location;
@@ -74,6 +86,11 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         protected virtual void ConfigureNodeViewModel(TNodeViewModel model)
         {
 
+        }
+
+        public override void SetModel(NodeViewModelBase model)
+        {
+            NodeViewModel = (TNodeViewModel)model;
         }
 
         private void TryHandlePendingConnection(OperationViewModel op)

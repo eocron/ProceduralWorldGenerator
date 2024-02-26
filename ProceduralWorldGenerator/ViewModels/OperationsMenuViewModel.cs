@@ -60,7 +60,9 @@ namespace ProceduralWorldGenerator.ViewModels
 
         private void CreateOperation(NodeViewModelBase operationInfo)
         {
-            _calculator.CreateNode(Location, operationInfo);
+            _calculator.PendingCreateNodeMenu.NodeViewModel = operationInfo;
+            _calculator.PendingCreateNodeMenu.Location = Location;
+            _calculator.CreateNodeCommand.Execute(null);
             Close();
         }
     }
