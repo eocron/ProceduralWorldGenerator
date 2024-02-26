@@ -10,6 +10,9 @@
              xmlns:connections="clr-namespace:ProceduralWorldGenerator.ViewModels.Connections"
              xmlns:nodes="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes"
              xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Grouping"
+             xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
+             xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -87,6 +90,30 @@
                                       CompletedCommand="{Binding DataContext.CreateConnectionCommand, RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}" />
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type createNodes1:CreateChunkNodeViewModel}">
+            <createNodes:CreateChunkNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type createNodes1:CreatePermutationTableNodeViewModel}">
+            <createNodes:CreatePermutationTableNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type createNodes1:CreateSimplexNoiseNodeViewModel}">
+            <createNodes:CreateSimplexNoiseNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type createNodes1:CreateWorleyNoiseNodeViewModel}">
+            <createNodes:CreateWorleyNoiseNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type createNodes1:CreateValueNoiseNodeViewModel}">
+            <createNodes:CreateValueNoiseNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type createNodes1:CreateVectorNodeViewModel}">
+            <createNodes:CreateVectorNodeView />
+        </DataTemplate>
+        
         <Style x:Key="ItemContainerStyle"
                TargetType="{x:Type nodify:ItemContainer}"
                BasedOn="{StaticResource {x:Type nodify:ItemContainer}}">
@@ -226,7 +253,11 @@
                                            Location="{Binding Location}">
                     <proceduralWorldGenerator:OperationsMenuView />
                 </nodify:DecoratorContainer>
+                <nodify:DecoratorContainer  Content="{Binding CreateNodeMenu}"
+                                            Location="{Binding CreateNodeMenu.Location}"
+                                            Visibility="{Binding CreateNodeMenu.IsVisible, Converter={converters:BooleanToVisibilityConverter}}"/>
             </CompositeCollection>
+
         </nodify:NodifyEditor>
 
         <Grid Background="{StaticResource LargeGridLinesDrawingBrush}"

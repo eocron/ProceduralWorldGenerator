@@ -6,6 +6,7 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
     {
         public CreateWorleyNoiseNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
+            Description = "New Worley noise";
         }
     }
 }

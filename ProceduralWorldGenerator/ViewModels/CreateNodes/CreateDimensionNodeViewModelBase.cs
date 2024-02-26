@@ -55,12 +55,6 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
             }
         }
 
-        public string Description
-        {
-            get => _description;
-            set => SetProperty(ref _description, value);
-        }
-
         public CreateDimensionNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
         {
         }

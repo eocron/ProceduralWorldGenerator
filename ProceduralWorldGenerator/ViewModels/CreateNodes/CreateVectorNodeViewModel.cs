@@ -2,10 +2,11 @@
 
 namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-    public class CreateVectorNodeViewModel : CreateDimensionNodeViewModelBase<VectorNodeViewModel>
+    public class CreateVectorNodeViewModel : CreateNodeViewModelBase<VectorNodeViewModel>
     {
         public CreateVectorNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
+            Description = "New vector";
         }
     }
 }

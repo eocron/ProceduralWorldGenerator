@@ -27,6 +27,16 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 
+        public Visibility Visibility
+        {
+            get => IsVisible ? Visibility.Visible : Visibility.Hidden;
+            set
+            {
+                IsVisible = value == Visibility.Visible;
+                OnPropertyChanged(nameof(Visibility));
+            }
+        }
+
         public virtual void OpenAt(Point targetLocation)
         {
             Close();
@@ -40,6 +50,7 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         }
 
         protected readonly GeneratorViewModel Calculator;
+        private Visibility _visibility;
 
         protected CreateNodeViewModelBase(GeneratorViewModel calculator)
         {
@@ -59,10 +70,19 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         where TNodeViewModel : NodeViewModelBase
     {
         private TNodeViewModel _nodeViewModel;
+        private string _description;
+
         public TNodeViewModel NodeViewModel
         {
             get => _nodeViewModel;
             set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
+        }
+        
+        
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
         }
         
         protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)

@@ -6,6 +6,7 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
     {
         public CreateChunkNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
+            Description = "New chunk";
         }
     }
 }

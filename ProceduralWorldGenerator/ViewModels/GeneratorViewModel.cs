@@ -18,7 +18,13 @@ namespace ProceduralWorldGenerator.ViewModels
         public Dictionary<Type, CreateNodeViewModelBase> CreateNodeMenus { get; set; }
 
         public PendingCreateNodeViewModel PendingCreateNodeMenu { get; set; }
-        public CreateNodeViewModelBase CreateNodeMenu { get; set; }
+
+        public CreateNodeViewModelBase CreateNodeMenu
+        {
+            get => _createNodeMenu;
+            set => SetProperty(ref _createNodeMenu, value);
+        }
+
         public INodifyCommand StartConnectionCommand { get; }
         public INodifyCommand CreateConnectionCommand { get; }
         public INodifyCommand DisconnectConnectorCommand { get; }
@@ -34,6 +40,8 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         private NodifyObservableCollection<OperationViewModel> _selectedOperations = new NodifyObservableCollection<OperationViewModel>();
+        private CreateNodeViewModelBase _createNodeMenu;
+
         public NodifyObservableCollection<OperationViewModel> SelectedOperations
         {
             get => _selectedOperations;
@@ -115,8 +123,9 @@ namespace ProceduralWorldGenerator.ViewModels
         
         private void CreateNode(Point location, NodeViewModelBase obj)
         {
-            CreateNodeMenu = CreateNodeMenus[obj.GetType()];
-            CreateNodeMenu.SetModel(obj);
+            var tmp = CreateNodeMenus[obj.GetType()];
+            tmp.SetModel(obj);
+            CreateNodeMenu = tmp;
             CreateNodeMenu.OpenAt(location);
         }
 
