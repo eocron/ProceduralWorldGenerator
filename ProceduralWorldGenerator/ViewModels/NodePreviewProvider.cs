@@ -12,7 +12,7 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public static class NodePreviewProvider
     {
-        private static Dictionary<NodeViewModelBase, Func<OperationViewModel>> _list = new Dictionary<NodeViewModelBase, Func<OperationViewModel>>();
+        private static readonly List<NodeViewModelBase> List = new();
         static NodePreviewProvider()
         {
             Bind<PermutationTableNodeViewModel>();
@@ -28,11 +28,12 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             var instance = Activator.CreateInstance<T>();
             configurePreview?.Invoke(instance);
+            List.Add(instance);
         }
 
         public static IEnumerable<NodeViewModelBase> GetPreviews()
         {
-            return _list.Keys;
+            return List;
         }
 
         public static OperationViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
