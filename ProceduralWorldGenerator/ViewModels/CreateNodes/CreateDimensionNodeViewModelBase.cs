@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-    public class CreateDimensionNodeViewModel : CreateNodeViewModelBase, IDimensionValidationInfo
+    public abstract class CreateDimensionNodeViewModelBase<TNodeViewModel> : CreateNodeViewModelBase<TNodeViewModel>, IDimensionValidationInfo
+        where TNodeViewModel : NodeViewModelBase, IDimensionSetter
     {
         private int _minDimension = 1;
         private int _maxDimension = int.MaxValue;
@@ -60,19 +60,16 @@ namespace ProceduralWorldGenerator.ViewModels
             get => _description;
             set => SetProperty(ref _description, value);
         }
-        
-        public Func<OperationViewModel> OperationViewModelProvider { get; set; }
 
-        public CreateDimensionNodeViewModel(GeneratorViewModel calculator) : base(calculator)
+        public CreateDimensionNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
         {
         }
 
-        protected override OperationViewModel Create()
+        protected override void ConfigureNodeViewModel(TNodeViewModel model)
         {
-            var model = OperationViewModelProvider();
-            ((IDimensionSetter)model.NodeModel).SetDimension(Dimension.Value);
+            base.ConfigureNodeViewModel(model);
+            model.SetDimension(Dimension.Value);
             model.Title = model.Title + " " + Dimension.Value + "D";
-            return model;
         }
 
         protected override bool CanCreate()

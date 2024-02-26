@@ -1,13 +1,17 @@
 ﻿using System.Linq;
 using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.Helpers;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-    public abstract class CreateNodeViewModelBase : ObservableObject
+    public abstract class CreateNodeViewModelBase<TNodeViewModel> : ObservableObject
+        where TNodeViewModel : NodeViewModelBase
     {
         private bool _isVisible;
+
         public bool IsVisible
         {
             get => _isVisible;
@@ -15,12 +19,19 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         private Point _location;
+
         public Point Location
         {
             get => _location;
             set => SetProperty(ref _location, value);
         }
-        
+
+        public TNodeViewModel NodeViewModel
+        {
+            get => _nodeViewModel;
+            set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
+        }
+
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 
@@ -35,8 +46,9 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             IsVisible = false;
         }
-        
+
         protected readonly GeneratorViewModel Calculator;
+        private TNodeViewModel _nodeViewModel;
 
         protected CreateNodeViewModelBase(GeneratorViewModel calculator)
         {
@@ -49,18 +61,21 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             return true;
         }
-        
-        protected virtual void OnCreateOperation()
+
+        protected void OnCreateOperation()
         {
-            var op = Create();
+            var op = NodePreviewProvider.CreateNodeViewModel(NodeViewModel, ConfigureNodeViewModel);
             op.Location = Location;
             Calculator.Operations.Add(op);
             TryHandlePendingConnection(op);
             Close();
         }
 
-        protected abstract OperationViewModel Create();
-        
+        protected virtual void ConfigureNodeViewModel(TNodeViewModel model)
+        {
+
+        }
+
         private void TryHandlePendingConnection(OperationViewModel op)
         {
             var pending = Calculator.PendingConnection;

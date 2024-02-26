@@ -28,7 +28,6 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             var instance = Activator.CreateInstance<T>();
             configurePreview?.Invoke(instance);
-            _list.Add(instance, () => InternalCreateNodeViewModel(instance));
         }
 
         public static IEnumerable<NodeViewModelBase> GetPreviews()
@@ -36,19 +35,22 @@ namespace ProceduralWorldGenerator.ViewModels
             return _list.Keys;
         }
 
-        public static OperationViewModel CreateNodeViewModel(NodeViewModelBase preview)
+        public static OperationViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
+            where T : NodeViewModelBase
         {
-            return _list[preview]();
+            return InternalCreateNodeViewModel(preview, configure);
         }
 
-        private static OperationViewModel InternalCreateNodeViewModel(NodeViewModelBase preview)
+        private static OperationViewModel InternalCreateNodeViewModel<T>(T preview, Action<T> configure)
+        where T : NodeViewModelBase
         {
             var clone = ObjectHelper.DeepCopy(preview);
+            configure(clone);
             var type = preview.GetType();
             
             var op = new OperationViewModel();
             op.NodeModel = clone;
-            op.Title = preview.Title;
+            op.Title = clone.Title;
             var allProps = type
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
