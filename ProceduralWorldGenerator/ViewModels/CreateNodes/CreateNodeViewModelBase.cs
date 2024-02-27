@@ -7,7 +7,6 @@ using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 
 namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-
     public abstract class CreateNodeViewModelBase : ObservableObject
     {
         private bool _isVisible;
@@ -54,12 +53,9 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         protected CreateNodeViewModelBase(GeneratorViewModel calculator)
         {
             Calculator = calculator;
-            CreateOperation = new RequeryCommand(OnCreateOperation, CanCreate);
+            CreateOperation = new RequeryCommand(OnCreateOperation);
             CancelOperation = new RequeryCommand(Close);
         }
-
-        protected abstract bool CanCreate();
-
         protected abstract void OnCreateOperation();
 
         public abstract void SetModel(NodeViewModelBase model);
@@ -79,14 +75,9 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         {
         }
 
-        protected override bool CanCreate()
-        {
-            return true;
-        }
-
         protected override void OnCreateOperation()
         {
-            var op = NodePreviewProvider.CreateNodeViewModel(NodeViewModel, ConfigureNodeViewModel);
+            var op = NodeCollectionViewModel.CreateNodeViewModel(NodeViewModel, ConfigureNodeViewModel);
             op.Location = Location;
             Calculator.Operations.Add(op);
             TryHandlePendingConnection(op);

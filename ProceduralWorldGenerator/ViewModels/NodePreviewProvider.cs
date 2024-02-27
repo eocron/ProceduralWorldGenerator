@@ -4,36 +4,48 @@ using System.Linq;
 using System.Reflection;
 using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.CreateNodes;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+using ProceduralWorldGenerator.Views.CreateNodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
-    public static class NodePreviewProvider
+    public class NodeCollectionViewModel
     {
-        private static readonly List<NodeViewModelBase> List = new();
-        static NodePreviewProvider()
+        private readonly Dictionary<Type, CreateNodeViewModelBase> _createNodeViewModels;
+        private readonly List<NodeViewModelBase> _list;
+        private readonly GeneratorViewModel _generatorModel;
+
+        public GeneratorViewModel GeneratorModel => _generatorModel;
+        public IReadOnlyDictionary<Type, CreateNodeViewModelBase> CreateNodeViewModels => _createNodeViewModels;
+        public IReadOnlyList<NodeViewModelBase> List => _list;
+
+        public NodeCollectionViewModel(GeneratorViewModel model)
         {
-            Bind<PermutationTableNodeViewModel>();
-            Bind<VectorNodeViewModel>();
-            Bind<ChunkNodeViewModel>();
-            Bind<WorleyNoiseNodeViewModel>();
-            Bind<ValueNoiseNodeViewModel>();
-            Bind<SimplexNoiseNodeViewModel>();
+            _generatorModel = model;
+            _createNodeViewModels = new Dictionary<Type, CreateNodeViewModelBase>();
+            _list = new List<NodeViewModelBase>();
+
+            Bind<PermutationTableNodeViewModel, CreatePermutationTableNodeViewModel>();
+            Bind<VectorNodeViewModel, CreateVectorNodeViewModel>();
+            Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>();
+            Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>();
+            Bind<ValueNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>();
+            Bind<SimplexNoiseNodeViewModel, CreateValueNoiseNodeViewModel>();
+            Bind<SplineNodeViewModel, CreateSplineNodeViewModel>();
         }
 
-        private static void Bind<T>(Action<T> configurePreview = null)
-            where T : NodeViewModelBase
+        private void Bind<TModel, TCreateModel>(Action<TModel> configurePreview = null)
+            where TModel : NodeViewModelBase
+            where TCreateModel : CreateNodeViewModelBase
         {
-            var instance = Activator.CreateInstance<T>();
+            var instance = Activator.CreateInstance<TModel>();
             configurePreview?.Invoke(instance);
-            List.Add(instance);
-        }
-
-        public static IEnumerable<NodeViewModelBase> GetPreviews()
-        {
-            return List;
+            _list.Add(instance);
+            _createNodeViewModels.Add(instance.GetType(),
+                (TCreateModel)Activator.CreateInstance(typeof(TCreateModel), new object[] { GeneratorModel }));
         }
 
         public static OperationViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
@@ -43,7 +55,7 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         private static OperationViewModel InternalCreateNodeViewModel<T>(T preview, Action<T> configure)
-        where T : NodeViewModelBase
+            where T : NodeViewModelBase
         {
             var clone = ObjectHelper.DeepCopy(preview);
             configure(clone);

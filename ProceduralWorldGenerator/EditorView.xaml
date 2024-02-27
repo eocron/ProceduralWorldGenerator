@@ -114,6 +114,10 @@
             <createNodes:CreateVectorNodeView />
         </DataTemplate>
         
+        <DataTemplate DataType="{x:Type createNodes1:CreateSplineNodeViewModel}">
+            <createNodes:CreateSplineNodeView />
+        </DataTemplate>
+        
         <Style x:Key="ItemContainerStyle"
                TargetType="{x:Type nodify:ItemContainer}"
                BasedOn="{StaticResource {x:Type nodify:ItemContainer}}">

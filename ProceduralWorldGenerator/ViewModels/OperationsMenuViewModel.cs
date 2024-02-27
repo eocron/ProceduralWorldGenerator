@@ -52,7 +52,7 @@ namespace ProceduralWorldGenerator.ViewModels
             _calculator = calculator;
             var operations = new List<NodeViewModelBase>();
             
-            operations.AddRange(NodePreviewProvider.GetPreviews());
+            operations.AddRange(calculator.NodeCollectionModel.List);
 
             AvailableOperations = new NodifyObservableCollection<NodeViewModelBase>(operations);
             CreateOperationCommand = new DelegateCommand<NodeViewModelBase>(CreateOperation);

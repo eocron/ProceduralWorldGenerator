@@ -9,10 +9,5 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         public CreateDimensionNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
         {
         }
-
-        protected override bool CanCreate()
-        {
-            return ValidationHelper.IsDimensionAllowed(NodeViewModel.Dimension, NodeViewModel) && base.CanCreate();
-        }
     }
 }

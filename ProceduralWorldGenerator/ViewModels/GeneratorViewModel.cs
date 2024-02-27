@@ -15,7 +15,6 @@ namespace ProceduralWorldGenerator.ViewModels
         public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new();
         public PendingConnectionViewModel PendingConnection { get; set; } = new();
         public OperationsMenuViewModel OperationsMenu { get; set; }
-        public Dictionary<Type, CreateNodeViewModelBase> CreateNodeMenus { get; set; }
 
         public PendingCreateNodeViewModel PendingCreateNodeMenu { get; set; }
 
@@ -47,7 +46,9 @@ namespace ProceduralWorldGenerator.ViewModels
             get => _selectedOperations;
             set => SetProperty(ref _selectedOperations, value);
         }
-        
+
+        public NodeCollectionViewModel NodeCollectionModel { get; set; }
+
         public GeneratorViewModel()
         {
             CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
@@ -107,23 +108,15 @@ namespace ProceduralWorldGenerator.ViewModels
                 }
             });
 
+            NodeCollectionModel = new NodeCollectionViewModel(this);
             OperationsMenu = new OperationsMenuViewModel(this);
             PendingCreateNodeMenu = new PendingCreateNodeViewModel();
-            CreateNodeMenus = new Dictionary<Type, CreateNodeViewModelBase>()
-            {
-                {typeof(PermutationTableNodeViewModel), new CreatePermutationTableNodeViewModel(this)},
-                {typeof(VectorNodeViewModel), new CreateVectorNodeViewModel(this)},
-                {typeof(ChunkNodeViewModel), new CreateChunkNodeViewModel(this)},
-                {typeof(WorleyNoiseNodeViewModel), new CreateWorleyNoiseNodeViewModel(this)},
-                {typeof(SimplexNoiseNodeViewModel), new CreateSimplexNoiseNodeViewModel(this)},
-                {typeof(ValueNoiseNodeViewModel), new CreateValueNoiseNodeViewModel(this)}
-            };
-            CreateNodeMenu = CreateNodeMenus.First().Value;
+            CreateNodeMenu = NodeCollectionModel.CreateNodeViewModels.First().Value;
         }
         
         private void CreateNode(Point location, NodeViewModelBase obj)
         {
-            var tmp = CreateNodeMenus[obj.GetType()];
+            var tmp = NodeCollectionModel.CreateNodeViewModels[obj.GetType()];
             tmp.SetModel(obj);
             CreateNodeMenu = tmp;
             CreateNodeMenu.OpenAt(location);
