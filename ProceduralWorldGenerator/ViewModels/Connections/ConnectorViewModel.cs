@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;

@@ -4,7 +4,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
     public class PermutationTableNodeViewModel : NodeViewModelBase
     {
-        private PermutationTableParameterViewModel _permutation = new PermutationTableParameterViewModel()
+        private PermutationTableParameterViewModel _permutation = new()
         {
             Title = "rnd"
         };

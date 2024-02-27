@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using ProceduralWorldGenerator.Validation;
+﻿using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public class NoiseNodeViewModelBase : NodeViewModelBase, IDimensionSetter
+    public class NoiseNodeViewModelBase : NodeViewModelBase, IDimensionModel
     {
-        private PermutationTableParameterViewModel _permutation = new PermutationTableParameterViewModel()
+        private PermutationTableParameterViewModel _permutation = new()
         {
             Title = "rnd",
             IsInput = true
         };
 
-        private VectorParameterViewModel _input = new VectorParameterViewModel()
+        private VectorParameterViewModel _input = new()
         {
             Title = "v",
             MinDimension = 1, 
@@ -20,7 +19,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             IsInput = true
         };
 
-        private VectorParameterViewModel _output = new VectorParameterViewModel()
+        private VectorParameterViewModel _output = new()
         {
             Title = "v",
             MinDimension = 1, 
@@ -45,16 +44,17 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _output;
             set => SetProperty(ref _output, value);
         }
-
-        public void SetDimension(int dimension)
-        {
-            Input.Dimension = dimension;
-            IsDirty = true;
-            OnPropertyChanged(nameof(Input));
-        }
-
+        
         public int MinDimension => Input.MinDimension;
         public int MaxDimension => Input.MaxDimension;
-        public IReadOnlySet<int> AllowedDimensions => Input.AllowedDimensions;
+
+        public int Dimension
+        {
+            get => Input.Dimension;
+            set
+            {
+                SetNestedProperty(nameof(Input), Input.Dimension, value, () => Input.Dimension = value);
+            }
+        }
     }
 }

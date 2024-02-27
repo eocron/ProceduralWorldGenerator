@@ -7,7 +7,7 @@ namespace Nodify.Shared.Converters
 {
     public class RandomBrushConverter : IValueConverter
     {
-        private readonly Random _rand = new Random();
+        private readonly Random _rand = new();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -66,8 +66,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Grouping
             set => SetProperty(ref _nodeModel, value);
         }
 
-        public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new NodifyObservableCollection<ConnectorViewModel>();
+        public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new();
         
-        public NodifyObservableCollection<ConnectorViewModel> Output { get; } = new NodifyObservableCollection<ConnectorViewModel>();
+        public NodifyObservableCollection<ConnectorViewModel> Output { get; } = new();
     }
 }

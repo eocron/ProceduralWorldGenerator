@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using ProceduralWorldGenerator.Validation;
+﻿using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public class ChunkNodeViewModel : NodeViewModelBase, IDimensionSetter
+    public class ChunkNodeViewModel : NodeViewModelBase, IDimensionModel
     {
-        private VectorParameterViewModel _offset = new VectorParameterViewModel()
+        private VectorParameterViewModel _offset = new()
         {
             Title = "v",
             IsInput = true
         };
 
-        private VectorParameterViewModel _size = new VectorParameterViewModel()
+        private VectorParameterViewModel _size = new()
         {
             MinDimension = 1,
             MaxDimension = 100,
@@ -20,7 +19,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             Title = "size"
         };
 
-        private VectorParameterViewModel _position = new VectorParameterViewModel()
+        private VectorParameterViewModel _position = new()
         {
             Title = "v"
         };
@@ -45,21 +44,21 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public int MinDimension => Size.MinDimension;
         public int MaxDimension => Size.MaxDimension;
-        public IReadOnlySet<int> AllowedDimensions => Size.AllowedDimensions;
+
+        public int Dimension
+        {
+            get => Size.Dimension;
+            set
+            {
+                SetNestedProperty(nameof(Position), Position.Dimension, value, () => Position.Dimension = value);
+                SetNestedProperty(nameof(Size), Size.Dimension, value, () => Size.Dimension = value);
+                SetNestedProperty(nameof(Offset), Offset.Dimension, value, () => Offset.Dimension = value);
+            }
+        }
 
         public ChunkNodeViewModel()
         {
             Title = "chunk";
-        }
-        public void SetDimension(int dimension)
-        {
-            Size.Dimension = dimension;
-            Position.Dimension = dimension;
-            Offset.Dimension = dimension;
-            IsDirty = true;
-            OnPropertyChanged(nameof(Size));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(Offset));
         }
     }
 }

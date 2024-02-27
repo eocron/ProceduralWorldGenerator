@@ -4,7 +4,7 @@ namespace ProceduralWorldGenerator.Helpers
 {
     public static class ObjectHelper
     {
-        private static readonly JsonSerializerSettings DeepClone = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings DeepClone = new()
         {
             TypeNameHandling = TypeNameHandling.All
         };

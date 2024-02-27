@@ -1,17 +1,16 @@
-﻿using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+﻿using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
     public class WorleyNoiseNodeViewModel : NoiseNodeViewModelBase
     {
-        private WorleyCombinationParameterViewModel _distance = new WorleyCombinationParameterViewModel()
+        private WorleyCombinationParameterViewModel _distance = new()
         {
             Title = "combination",
             IsInput = true
         };
 
-        private WorleyDistanceParameterViewModel _combination = new WorleyDistanceParameterViewModel()
+        private WorleyDistanceParameterViewModel _combination = new()
         {
             Title = "distance",
             IsInput = true

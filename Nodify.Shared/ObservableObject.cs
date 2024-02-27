@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Nodify.Shared
@@ -32,6 +33,16 @@ namespace Nodify.Shared
             }
 
             return false;
+        }
+
+        protected void SetNestedProperty<T>(string propertyName, T oldValue, T newValue, Action setter)
+        {
+            if (!Equals(oldValue, newValue))
+            {
+                setter();
+                IsDirty = true;
+                OnPropertyChanged(propertyName);
+            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] in string? propertyName = default)

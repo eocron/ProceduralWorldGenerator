@@ -12,8 +12,8 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class GeneratorViewModel : ObservableObject
     {
-        public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
-        public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
+        public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new();
+        public PendingConnectionViewModel PendingConnection { get; set; } = new();
         public OperationsMenuViewModel OperationsMenu { get; set; }
         public Dictionary<Type, CreateNodeViewModelBase> CreateNodeMenus { get; set; }
 
@@ -32,14 +32,14 @@ namespace ProceduralWorldGenerator.ViewModels
         public INodifyCommand GroupSelectionCommand { get; }
         public INodifyCommand CreateNodeCommand { get; set; }
         
-        private NodifyObservableCollection<OperationViewModel> _operations = new NodifyObservableCollection<OperationViewModel>();
+        private NodifyObservableCollection<OperationViewModel> _operations = new();
         public NodifyObservableCollection<OperationViewModel> Operations
         {
             get => _operations;
             set => SetProperty(ref _operations, value);
         }
 
-        private NodifyObservableCollection<OperationViewModel> _selectedOperations = new NodifyObservableCollection<OperationViewModel>();
+        private NodifyObservableCollection<OperationViewModel> _selectedOperations = new();
         private CreateNodeViewModelBase _createNodeMenu;
 
         public NodifyObservableCollection<OperationViewModel> SelectedOperations

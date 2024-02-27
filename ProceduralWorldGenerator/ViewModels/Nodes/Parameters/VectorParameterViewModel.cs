@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using ProceduralWorldGenerator.Validation;
+﻿using ProceduralWorldGenerator.Validation;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Parameters
 {
-    public class VectorParameterViewModel : ParameterViewModelBase<float[]>, IDimensionValidationInfo
+    public class VectorParameterViewModel : ParameterViewModelBase<float[]>, IDimensionModel
     {
         private int _minDimension = 1;
         private int _maxDimension = int.MaxValue;
-        private IReadOnlySet<int> _availableDimensions;
         private int _dimension;
 
         public int MinDimension
@@ -20,12 +18,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Parameters
         {
             get => _maxDimension;
             set => SetProperty(ref _maxDimension, value);
-        }
-
-        public IReadOnlySet<int> AllowedDimensions
-        {
-            get => _availableDimensions;
-            set => SetProperty(ref _availableDimensions, value);
         }
 
         public int Dimension

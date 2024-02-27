@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 {
-    public class CreateVectorNodeViewModel : CreateNodeViewModelBase<VectorNodeViewModel>
+    public class CreateVectorNodeViewModel : CreateDimensionNodeViewModelBase<VectorNodeViewModel>
     {
         public CreateVectorNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {

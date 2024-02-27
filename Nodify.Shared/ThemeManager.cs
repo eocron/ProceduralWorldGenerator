@@ -10,12 +10,12 @@ namespace Nodify.Shared
     {
         private static readonly string? _assemblyName = Assembly.GetEntryAssembly()?.GetName().Name;
 
-        private static readonly Dictionary<string, List<Uri>> _themesUris = new Dictionary<string, List<Uri>>();
-        private static readonly Dictionary<string, List<ResourceDictionary>> _themesResources = new Dictionary<string, List<ResourceDictionary>>();
+        private static readonly Dictionary<string, List<Uri>> _themesUris = new();
+        private static readonly Dictionary<string, List<ResourceDictionary>> _themesResources = new();
 
         public static string? ActiveTheme { get; private set; }
 
-        private static readonly List<string> _availableThemes = new List<string>();
+        private static readonly List<string> _availableThemes = new();
         public static IReadOnlyCollection<string> AvailableThemes => _availableThemes;
 
         public static ICommand SetNextThemeCommand { get; }
@@ -49,8 +49,8 @@ namespace Nodify.Shared
             {
                 preload = new List<Uri>(3)
                 {
-                    new Uri($"pack://application:,,,/Nodify;component/Themes/{themeName}.xaml"),
-                    new Uri($"pack://application:,,,/Nodify.Shared;component/Themes/{themeName}.xaml")
+                    new($"pack://application:,,,/Nodify;component/Themes/{themeName}.xaml"),
+                    new($"pack://application:,,,/Nodify.Shared;component/Themes/{themeName}.xaml")
                 };
 
                 if (_assemblyName != null)

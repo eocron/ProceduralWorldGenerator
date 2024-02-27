@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
@@ -14,9 +15,16 @@
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
 
-    <Border Visibility="{Binding IsVisible, Converter={converters:BooleanToVisibilityConverter}}">
-        <Grid>
-            <TextBlock Text="{Binding Description}"></TextBlock>
-        </Grid>
+    <Border Style="{StaticResource BorderStyle}">
+        <StackPanel>
+            <TextBlock Text="{Binding Description}"/>
+            <xctk:IntegerUpDown 
+                Height="20" 
+                Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
+                Maximum="{Binding NodeViewModel.MaxDimension}"
+                Minimum="{Binding NodeViewModel.MinDimension}"
+                Increment="1"/>
+            <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
+        </StackPanel>
     </Border>
 </UserControl>

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using ProceduralWorldGenerator.Validation;
+﻿using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public class VectorNodeViewModel : NodeViewModelBase, IDimensionSetter
+    public class VectorNodeViewModel : NodeViewModelBase, IDimensionModel
     {
-        private VectorParameterViewModel _value = new VectorParameterViewModel()
+        private VectorParameterViewModel _value = new()
         {
             Title = "v"
         };
@@ -22,15 +21,16 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             Title = "vector";
         }
 
-        public void SetDimension(int dimension)
-        {
-            Value.Dimension = dimension;
-            IsDirty = true;
-            OnPropertyChanged(nameof(Value));
-        }
-
         public int MinDimension => Value.MinDimension;
         public int MaxDimension => Value.MaxDimension;
-        public IReadOnlySet<int> AllowedDimensions => Value.AllowedDimensions;
+
+        public int Dimension
+        {
+            get => Value.Dimension;
+            set
+            {
+                SetNestedProperty(nameof(Value), Value.Dimension, value, () => Value.Dimension = value);
+            }
+        }
     }
 }

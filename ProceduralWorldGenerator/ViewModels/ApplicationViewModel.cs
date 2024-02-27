@@ -7,7 +7,7 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class ApplicationViewModel : ObservableObject
     {
-        public NodifyObservableCollection<EditorViewModel> Editors { get; } = new NodifyObservableCollection<EditorViewModel>();
+        public NodifyObservableCollection<EditorViewModel> Editors { get; } = new();
 
         public ApplicationViewModel()
         {
