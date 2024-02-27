@@ -17,7 +17,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public PermutationTableNodeViewModel()
         {
-            Title = "Permutation table";
+            VariableName = "Permutation table";
         }
     }
 }

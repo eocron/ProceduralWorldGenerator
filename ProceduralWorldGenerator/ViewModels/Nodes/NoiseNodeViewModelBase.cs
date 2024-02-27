@@ -56,5 +56,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
                 SetNestedProperty(nameof(Input), Input.Dimension, value, () => Input.Dimension = value);
             }
         }
+
+        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
     }
 }

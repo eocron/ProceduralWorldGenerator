@@ -18,7 +18,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public VectorNodeViewModel()
         {
-            Title = "vector";
+            VariableName = "vector";
         }
 
         public int MinDimension => Value.MinDimension;
@@ -32,5 +32,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
                 SetNestedProperty(nameof(Value), Value.Dimension, value, () => Value.Dimension = value);
             }
         }
+        
+        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
     }
 }

@@ -4,7 +4,7 @@
     {
         public ValueNoiseNodeViewModel()
         {
-            Title = "Value noise";
+            VariableName = "Value noise";
         }
     }
 }

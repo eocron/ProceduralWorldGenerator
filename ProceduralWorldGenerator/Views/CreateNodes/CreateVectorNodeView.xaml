@@ -6,6 +6,7 @@
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:validation="clr-namespace:ProceduralWorldGenerator.Validation"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
@@ -18,6 +19,7 @@
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
+            <TextBox Text="{Binding NodeViewModel.VariableName}" validation:Masking.Mask="^[a-z][a-z0-9_]*$" ></TextBox>
             <xctk:IntegerUpDown 
                 Height="20" 
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"

@@ -58,7 +58,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public ChunkNodeViewModel()
         {
-            Title = "chunk";
+            VariableName = "chunk";
         }
     }
 }

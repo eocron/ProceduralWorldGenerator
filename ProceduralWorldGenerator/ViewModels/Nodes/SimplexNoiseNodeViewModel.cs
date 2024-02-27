@@ -4,7 +4,7 @@
     {
         public SimplexNoiseNodeViewModel()
         {
-            Title = "Simplex noise";
+            VariableName = "Simplex noise";
         }
     }
 }

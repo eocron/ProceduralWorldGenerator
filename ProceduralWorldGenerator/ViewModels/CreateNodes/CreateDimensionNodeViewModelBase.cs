@@ -10,12 +10,6 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         {
         }
 
-        protected override void ConfigureNodeViewModel(TNodeViewModel model)
-        {
-            base.ConfigureNodeViewModel(model);
-            model.Title = model.Title + " " + NodeViewModel.Dimension + "D";
-        }
-
         protected override bool CanCreate()
         {
             return ValidationHelper.IsDimensionAllowed(NodeViewModel.Dimension, NodeViewModel) && base.CanCreate();

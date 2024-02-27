@@ -30,7 +30,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         public WorleyNoiseNodeViewModel()
         {
-            Title = "Worley noise";
+            VariableName = "Worley noise";
         }
     }
 }
