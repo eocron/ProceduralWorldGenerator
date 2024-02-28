@@ -91,7 +91,7 @@ namespace Debug
             plot.Series.Add(RightClampSeries);
 
             Plot = plot;
-            SelectedDataPoint = new SelectedDataPointViewModel(SplineSeries, this);
+            SelectedDataPoint = new SelectedDataPointViewModel(SplineSeries);
             SelectedDataPoint.PropertyChanged += OnPropertyChanged;
             ZoomToBest();
             RecalculateClamp();

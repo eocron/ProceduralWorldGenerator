@@ -10,7 +10,6 @@ namespace Debug
     public class SelectedDataPointViewModel : ObservableObject
     {
         private readonly LineSeries _series;
-        private readonly SplineEditorViewModel _model;
         private int _selectedDataPointIndex;
         private bool _isDragging;
         private float _initiationDistance;
@@ -53,10 +52,9 @@ namespace Debug
             set => SetProperty(ref _initiationDistance, value);
         }
 
-        public SelectedDataPointViewModel(LineSeries series, SplineEditorViewModel model)
+        public SelectedDataPointViewModel(LineSeries series)
         {
             _series = series;
-            _model = model;
             _series.PlotModel.MouseDown += OnMouseDown;
             _series.PlotModel.MouseMove += OnMouseMove;
             _series.PlotModel.MouseUp += OnMouseUp;
