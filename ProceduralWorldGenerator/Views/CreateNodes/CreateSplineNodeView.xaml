@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
+             xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d"
              MinWidth="250"
-             d:DesignHeight="400"
-             d:DesignWidth="250"
+             d:DesignHeight="*"
+             d:DesignWidth="*"
              d:DataContext="{d:DesignInstance createNodes:CreateSplineNodeViewModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
@@ -16,6 +17,7 @@
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
+            <oxy:PlotView Model="{Binding NodeViewModel.OxyplotViewModel}" />
             <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
         </StackPanel>
     </Border>
