@@ -8,7 +8,6 @@ using ProceduralWorldGenerator.ViewModels.CreateNodes;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
 using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
-using ProceduralWorldGenerator.Views.CreateNodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

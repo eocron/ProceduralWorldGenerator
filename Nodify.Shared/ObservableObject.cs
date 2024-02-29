@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Nodify.Shared
 {
-    public class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : DependencyObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -20,6 +21,11 @@ namespace Nodify.Shared
                     OnPropertyChanged();
                 }
             }
+        }
+
+        protected void RisePropertyChanged(object sender, string propertyName)
+        {
+            PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(propertyName));
         }
 
         public bool SetProperty<T>(ref T reference, T value, [CallerMemberName] in string propertyName = default!)

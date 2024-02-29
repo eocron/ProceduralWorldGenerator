@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
         xmlns:proceduralWorldGenerator="clr-namespace:ProceduralWorldGenerator"
-        xmlns:shared1="clr-namespace:Nodify.Shared;assembly=Nodify.Shared"
+        xmlns:shared="clr-namespace:Nodify.Shared;assembly=Nodify.Shared"
         xmlns:controls="clr-namespace:Nodify.Shared.Controls;assembly=Nodify.Shared"
         xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
         Background="{DynamicResource NodifyEditor.BackgroundBrush}"
@@ -21,7 +20,7 @@
     <Window.InputBindings>
         <KeyBinding Key="T"
                     Modifiers="Ctrl"
-                    Command="{Binding Source={x:Static shared1:ThemeManager.SetNextThemeCommand}}" />
+                    Command="{Binding Source={x:Static shared:ThemeManager.SetNextThemeCommand}}" />
         <KeyBinding Key="N"
                     Modifiers="Ctrl"
                     Command="{Binding AddEditorCommand}" />
@@ -32,7 +31,7 @@
     </Window.InputBindings>
     
     <Window.Resources>
-        <shared1:BindingProxy x:Key="Proxy" 
+        <shared:BindingProxy x:Key="Proxy" 
                              DataContext="{Binding}"/>
         
         <DataTemplate DataType="{x:Type viewModels:EditorViewModel}">

@@ -2,73 +2,89 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Media;
 using Nodify.Shared;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using OxyPlot.Wpf;
+using ProceduralWorldGenerator.Views;
 
-namespace Debug
+namespace ProceduralWorldGenerator.ViewModels.Splines
 {
-    public enum SplineEditorClamp
-    {
-        LastValue,
-        PingPong,
-        Loop
-    }
     public class SplineEditorViewModel : ObservableObject
     {
+        private readonly PlotMouseController _selectedDataPoint;
+        private readonly LinearAxis _splineInputAxis;
+        private readonly LinearAxis _splineOutputAxis;
+        private readonly LineSeries _splineSeries;
+        private readonly LineSeries _rightClampSeries;
+        private readonly LineSeries _leftClampSeries;
+        
         private SplineEditorClamp _leftClamp;
         private SplineEditorClamp _rightClamp;
         private int _repeatClampCount;
+        private PlotViewModel _plot;
 
-        public string Title
+        public Brush LineColor
         {
-            get => Plot.Title;
+            get => _splineSeries.Color.ToBrush();
             set
             {
-                SetNestedProperty(nameof(Plot), Plot.Title, value, () => Plot.Title = value);
-                Plot.InvalidatePlot(false);
+                Plot.ChangeValue(v =>
+                {
+                    var oxyColor = value.ToOxyColor();
+                    _splineSeries.Color = oxyColor;
+                    _leftClampSeries.Color = oxyColor;
+                    _rightClampSeries.Color = oxyColor;
+                    OnPropertyChanged(nameof(Plot));
+                    RisePropertyChanged(v, nameof(v.Series));
+                });
             }
         }
 
-        public PlotModel Plot { get; }
-        public SelectedDataPointViewModel SelectedDataPoint { get; }
+        public PlotViewModel Plot
+        {
+            get
+            {
+                return _plot;
+            }
+            set => _plot = value;
+        }
 
         public SplineEditorClamp LeftClamp
         {
             get => _leftClamp;
             set => SetProperty(ref _leftClamp, value);
         }
-
         public SplineEditorClamp RightClamp
         {
             get => _rightClamp;
             set => SetProperty(ref _rightClamp, value);
         }
-
         public int RepeatClampCount
         {
             get => _repeatClampCount;
             set => SetProperty(ref _repeatClampCount, value);
         }
-
+        
         public SplineEditorViewModel()
         {
             LeftClamp = SplineEditorClamp.PingPong;
             RightClamp = SplineEditorClamp.PingPong;
             RepeatClampCount = 10;
-            PropertyChanged += OnPropertyChanged;
+            PropertyChanged += OnMouseControllerPropertyChanged;
             
-            var plot = new PlotModel { Title = "Spline" };
-            SplineSeries = new LineSeries {  MarkerType = MarkerType.Circle, Color = OxyColors.LightBlue};
-            SplineInputAxis = new LinearAxis
+            var plot = new PlotModel { Title = null };
+            _splineSeries = new LineSeries {  MarkerType = MarkerType.Circle};
+            _splineInputAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
                 MajorGridlineStyle = LineStyle.Solid,
                 MajorGridlineColor = OxyColors.LightGray,
             };
 
-            SplineOutputAxis = new LinearAxis
+            _splineOutputAxis = new LinearAxis
             {
                 Position = AxisPosition.Left,
                 MajorGridlineStyle = LineStyle.Solid,
@@ -76,66 +92,59 @@ namespace Debug
             };
 
 
-            SplineSeries.Points.Add(new DataPoint(0, 0));
-            SplineSeries.Points.Add(new DataPoint(1, 1));
-            SplineSeries.LabelFormatString = "x {0:F2}\ny {1:F2}";
+            _splineSeries.Points.Add(new DataPoint(0, 0));
+            _splineSeries.Points.Add(new DataPoint(1, 1));
+            _splineSeries.LabelFormatString = "x {0:F2}\ny {1:F2}";
 
             
-            LeftClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = SplineSeries.Color, StrokeThickness = 2};
-            RightClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = SplineSeries.Color, StrokeThickness = 2};
+            _leftClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2};
+            _rightClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2};
             
-            plot.Axes.Add(SplineInputAxis);
-            plot.Axes.Add(SplineOutputAxis);
-            plot.Series.Add(SplineSeries);
-            plot.Series.Add(LeftClampSeries);
-            plot.Series.Add(RightClampSeries);
+            plot.Axes.Add(_splineInputAxis);
+            plot.Axes.Add(_splineOutputAxis);
+            plot.Series.Add(_splineSeries);
+            plot.Series.Add(_leftClampSeries);
+            plot.Series.Add(_rightClampSeries);
 
-            Plot = plot;
-            SelectedDataPoint = new SelectedDataPointViewModel(SplineSeries);
-            SelectedDataPoint.PropertyChanged += OnPropertyChanged;
+            Plot = new PlotViewModel() { Value = plot };
+            _selectedDataPoint = new PlotMouseController(_splineSeries);
+            _selectedDataPoint.PropertyChanged += OnMouseControllerPropertyChanged;
             ZoomToBest();
-            RecalculateClamp();
+            Redraw();
         }
 
-        public LinearAxis SplineInputAxis { get; set; }
-
-        public LinearAxis SplineOutputAxis { get; set; }
-
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnMouseControllerPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(LeftClamp) || e.PropertyName == nameof(RightClamp) ||
-                e.PropertyName == nameof(RepeatClampCount) || e.PropertyName == nameof(SelectedDataPointViewModel.CurrentDataPoint))
+            Redraw();
+        }
+
+
+        private void ZoomToBest()
+        {
+            Plot.ChangeValue(_ =>
             {
-                RecalculateClamp();
-            }
+                var maxY = _splineSeries.Points.Max(x => x.Y);
+                var maxX = _splineSeries.Points.Max(x => x.X);
+                var minY = _splineSeries.Points.Min(x => x.Y);
+                var minX = _splineSeries.Points.Min(x => x.X);
+
+                var diffX = Math.Max(1, maxX - minX);
+                var diffY = Math.Max(1, minY - maxY);
+                var factor = 0.5d;
+                _splineInputAxis.Zoom(minX - diffX * factor, maxX + diffX * factor);
+                _splineOutputAxis.Zoom(minY - diffY * factor, maxY + diffY * factor);
+            });
         }
 
-        public LineSeries SplineSeries { get; set; }
-        public LineSeries RightClampSeries { get; set; }
-        public LineSeries LeftClampSeries { get; set; }
-
-        public void ZoomToBest()
+        private void Redraw()
         {
-            var maxY = SplineSeries.Points.Max(x => x.Y);
-            var maxX = SplineSeries.Points.Max(x => x.X);
-            var minY = SplineSeries.Points.Min(x => x.Y);
-            var minX = SplineSeries.Points.Min(x => x.X);
-
-            var diffX = Math.Max(1, maxX - minX);
-            var diffY = Math.Max(1, minY - maxY);
-            var factor = 0.5d;
-            SplineInputAxis.Zoom(minX - diffX * factor, maxX + diffX * factor);
-            SplineOutputAxis.Zoom(minY - diffY * factor, maxY + diffY * factor);
-            Plot.InvalidatePlot(true);
-        }
-
-        public void RecalculateClamp()
-        {
-            LeftClampSeries.Points.Clear();
-            LeftClampSeries.Points.AddRange(CalculateClampPoints(SplineSeries.Points, LeftClamp, true, RepeatClampCount));
-            RightClampSeries.Points.Clear();
-            RightClampSeries.Points.AddRange(CalculateClampPoints(SplineSeries.Points, RightClamp, false, RepeatClampCount));
-            Plot.InvalidatePlot(true);
+            Plot.ChangeValue(_ =>
+            {
+                _leftClampSeries.Points.Clear();
+                _leftClampSeries.Points.AddRange(CalculateClampPoints(_splineSeries.Points, LeftClamp, true, RepeatClampCount));
+                _rightClampSeries.Points.Clear();
+                _rightClampSeries.Points.AddRange(CalculateClampPoints(_splineSeries.Points, RightClamp, false, RepeatClampCount));
+            });
         }
 
         private static IEnumerable<DataPoint> CalculateClampPoints(List<DataPoint> points, SplineEditorClamp clamp, bool negate, int repeatCount)

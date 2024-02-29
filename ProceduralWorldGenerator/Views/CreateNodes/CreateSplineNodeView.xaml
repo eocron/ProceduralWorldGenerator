@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
-             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:views="clr-namespace:ProceduralWorldGenerator.Views"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
@@ -17,7 +17,13 @@
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
-            <oxy:PlotView Model="{Binding NodeViewModel.OxyplotViewModel}" />
+            <Grid>
+                <views:SplineEditorView DataContext="{Binding Spline, Mode=OneWay}">
+                    <views:SplineEditorView.Width>1000</views:SplineEditorView.Width>
+                    <views:SplineEditorView.Height>1000</views:SplineEditorView.Height>
+                </views:SplineEditorView>
+            </Grid>
+
             <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
         </StackPanel>
     </Border>

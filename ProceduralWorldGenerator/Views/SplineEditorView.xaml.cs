@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Debug
+namespace ProceduralWorldGenerator.Views
 {
     public partial class SplineEditorView : UserControl
     {
