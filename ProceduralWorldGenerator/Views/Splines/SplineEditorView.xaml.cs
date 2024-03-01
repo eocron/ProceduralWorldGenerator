@@ -62,7 +62,11 @@ namespace ProceduralWorldGenerator.Views.Splines
             ChangeValue(v =>
             {
                 _splineSeries.Points.Clear();
-                _splineSeries.Points.AddRange(DataPoints.Select(x => new DataPoint(x.X, x.Y)));
+                if (DataPoints != null)
+                {
+                    _splineSeries.Points.AddRange(DataPoints.Select(x => new DataPoint(x.X, x.Y)));
+                }
+
                 ZoomToBest();
                 RecalculateClamp();
             });
