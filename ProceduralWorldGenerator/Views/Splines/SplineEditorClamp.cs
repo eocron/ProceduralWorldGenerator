@@ -1,4 +1,4 @@
-﻿namespace ProceduralWorldGenerator.ViewModels.Splines
+﻿namespace ProceduralWorldGenerator.Views.Splines
 {
     public enum SplineEditorClamp
     {

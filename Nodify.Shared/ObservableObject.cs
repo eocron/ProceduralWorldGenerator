@@ -23,11 +23,6 @@ namespace Nodify.Shared
             }
         }
 
-        protected void RisePropertyChanged(object sender, string propertyName)
-        {
-            PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(propertyName));
-        }
-
         public bool SetProperty<T>(ref T reference, T value, [CallerMemberName] in string propertyName = default!)
         {
             if (!Equals(reference, value))

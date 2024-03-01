@@ -5,7 +5,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-namespace ProceduralWorldGenerator.ViewModels.Splines
+namespace ProceduralWorldGenerator.Views.Splines
 {
     public class PlotMouseController : ObservableObject
     {

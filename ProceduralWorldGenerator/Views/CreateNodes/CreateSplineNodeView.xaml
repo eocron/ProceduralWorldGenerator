@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:views="clr-namespace:ProceduralWorldGenerator.Views"
+             xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
@@ -18,10 +19,17 @@
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
             <Grid>
-                <views:SplineEditorView DataContext="{Binding Spline, Mode=OneWay}">
-                    <views:SplineEditorView.Width>1000</views:SplineEditorView.Width>
-                    <views:SplineEditorView.Height>1000</views:SplineEditorView.Height>
-                </views:SplineEditorView>
+                <splines:SplineEditorView
+                    Width="1000" 
+                    Height="1000" 
+                    LineBrush="{DynamicResource CircuitConnection.StrokeBrush}" 
+                    GridBrush="{DynamicResource GridLinesBrush}"
+                    DataPoints="{Binding Spline.DataPoints}"
+                    RepeatClampCount="10"
+                    RightClamp="{Binding Spline.RightClamp}"
+                    LeftClamp="{Binding Spline.LeftClamp}"
+                    TextForeground="{DynamicResource ForegroundBrush}">
+                </splines:SplineEditorView>
             </Grid>
 
             <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
