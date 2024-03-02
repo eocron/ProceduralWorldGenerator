@@ -21,13 +21,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _location, value);
         }
         
-                
-        public string Description
-        {
-            get => _description;
-            set => SetProperty(ref _description, value);
-        }
-
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 
@@ -43,12 +36,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             IsVisible = false;
         }
 
-        protected readonly GeneratorViewModel Calculator;
-        private string _description;
-
-        protected CreateNodeViewModelBase(GeneratorViewModel calculator)
+        protected CreateNodeViewModelBase()
         {
-            Calculator = calculator;
             CreateOperation = new RequeryCommand(OnCreateOperation);
             CancelOperation = new RequeryCommand(Close);
         }
@@ -64,6 +53,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
     public abstract class CreateNodeViewModelBase<TNodeViewModel> : CreateNodeViewModelBase
         where TNodeViewModel : NodeViewModelBase
     {
+        protected readonly GeneratorViewModel Calculator;
         private TNodeViewModel _nodeViewModel;
         public TNodeViewModel NodeViewModel
         {
@@ -71,8 +61,9 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             private set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
         }
         
-        protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
+        protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base()
         {
+            Calculator = calculator;
         }
 
         protected override void OnCreateOperation()

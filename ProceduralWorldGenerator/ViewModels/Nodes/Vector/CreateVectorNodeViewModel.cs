@@ -6,7 +6,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
     {
         public CreateVectorNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
-            Description = "New vector";
         }
     }
 }

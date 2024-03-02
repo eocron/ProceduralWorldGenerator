@@ -6,7 +6,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
     {
         public CreateSplineNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
-            Description = "Spline";
         }
     }
 }

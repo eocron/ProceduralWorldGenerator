@@ -6,7 +6,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.ValueNoise
     {
         public CreateValueNoiseNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
-            Description = "New Value noise";
         }
     }
 }

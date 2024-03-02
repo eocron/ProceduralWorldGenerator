@@ -6,7 +6,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise
     {
         public CreateSimplexNoiseNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {
-            Description = "New Simplex noise";
         }
     }
 }
