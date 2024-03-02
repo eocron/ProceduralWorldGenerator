@@ -126,7 +126,7 @@ namespace ProceduralWorldGenerator.ViewModels
         
         private void OnCreateOperation(CreateMenuViewModelBase menu)
         {
-            var op = NodeCollectionViewModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.Model);
+            var op = NodeCollectionModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.Model);
             op.Location = menu.Location;
             this.Operations.Add(op);
             TryHandlePendingConnection(op);
@@ -221,7 +221,6 @@ namespace ProceduralWorldGenerator.ViewModels
 
             Operations.Add(new OperationGroupViewModel
             {
-                Title = "Operations",
                 Location = bounding.Location,
                 GroupSize = new Size(bounding.Width, bounding.Height)
             });

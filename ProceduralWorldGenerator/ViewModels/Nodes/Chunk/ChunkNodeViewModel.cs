@@ -7,20 +7,15 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
     {
         private VectorParameterViewModel _offset = new()
         {
-            Title = "v",
             IsInput = true
         };
 
         private VectorParameterViewModel _size = new()
         {
             IsInput = true,
-            Title = "size"
         };
 
-        private VectorParameterViewModel _position = new()
-        {
-            Title = "v"
-        };
+        private VectorParameterViewModel _position = new();
 
         public VectorParameterViewModel Size
         {

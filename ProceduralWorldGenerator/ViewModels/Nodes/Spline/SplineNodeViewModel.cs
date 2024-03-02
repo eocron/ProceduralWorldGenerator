@@ -8,12 +8,10 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
         {
             Dimension = 1,
             IsInput = true,
-            Title = "v"
         };
         private VectorParameterViewModel _output = new VectorParameterViewModel()
         {
             Dimension = 1,
-            Title = "v"
         };
 
         private SplineEditorViewModel _spline = new SplineEditorViewModel();

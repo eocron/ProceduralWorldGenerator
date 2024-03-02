@@ -9,7 +9,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
     {
         private VectorParameterViewModel _value = new()
         {
-            Title = "v"
+            Dimension = 1,
         };
 
         private bool _isConstant;
@@ -18,11 +18,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
         {
             get => _value;
             set => SetProperty(ref _value, value);
-        }
-
-        public VectorNodeViewModel()
-        {
-            VariableName = "vector";
         }
 
         public int Dimension

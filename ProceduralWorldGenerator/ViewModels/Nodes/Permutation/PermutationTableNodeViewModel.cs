@@ -2,10 +2,7 @@
 {
     public class PermutationTableNodeViewModel : NodeViewModelBase
     {
-        private PermutationTableParameterViewModel _permutation = new()
-        {
-            Title = "rnd"
-        };
+        private PermutationTableParameterViewModel _permutation = new();
 
         public PermutationTableParameterViewModel Permutation
         {

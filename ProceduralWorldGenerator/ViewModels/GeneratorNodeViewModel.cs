@@ -35,12 +35,7 @@ namespace ProceduralWorldGenerator.ViewModels
             set => SetProperty(ref _size, value);
         }
 
-        private string? _title;
-        public string? Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
+        public string? Title => _nodeModel.Title;
 
         private bool _isSelected;
         private NodeViewModelBase _nodeModel;

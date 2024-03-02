@@ -8,19 +8,16 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
     {
         private PermutationTableParameterViewModel _permutation = new()
         {
-            Title = "rnd",
             IsInput = true
         };
 
         private VectorParameterViewModel _input = new()
         {
-            Title = "v",
             IsInput = true
         };
 
         private VectorParameterViewModel _output = new()
         {
-            Title = "v",
             Dimension = 1
         };
 
