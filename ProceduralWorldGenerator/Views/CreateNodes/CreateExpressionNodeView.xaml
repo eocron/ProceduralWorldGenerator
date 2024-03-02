@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="ProceduralWorldGenerator.Views.CreateNodes.CreateExpressionNodeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:validators="clr-namespace:Nodify.Shared.Validators;assembly=Nodify.Shared"
+             xmlns:expression="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Expression"
+             mc:Ignorable="d"
+             MinWidth="250"
+             d:DesignHeight="400"
+             d:DesignWidth="250"
+             d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
+    </UserControl.Resources>
+
+    <local:CreateMenuView Title="Create value noise" 
+                                 OkButtonCommand="{Binding CreateOperation}" 
+                                 CancelButtonCommand="{Binding CancelOperation}"
+                                 DataContext="{Binding}"
+                                 d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
+        <local:CreateMenuView.Content>
+            <StackPanel>
+                <xctk:IntegerUpDown
+                    Value="{Binding NodeViewModel.InputDimension}"
+                    Maximum="100"
+                    Minimum="1"
+                    Increment="1"/>
+                <xctk:IntegerUpDown
+                    Value="{Binding NodeViewModel.OutputDimension}"
+                    Maximum="100"
+                    Minimum="1"
+                    Increment="1"/>
+                <ItemsControl ItemsSource="{Binding NodeViewModel.TransformExpressions, Mode=OneWay}"
+                         Style="{StaticResource ThirdPartyStyle}"
+                         HorizontalContentAlignment="Stretch"
+                         Margin="2 0 2 0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="f(x)="/>
+                                <TextBox>
+                                    <TextBox.Text>
+                                        <Binding Path="Item" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validators:ExpressionValidator/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </local:CreateMenuView.Content>
+    </local:CreateMenuView>
+</UserControl>

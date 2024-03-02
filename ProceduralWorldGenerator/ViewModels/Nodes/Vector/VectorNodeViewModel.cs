@@ -25,21 +25,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
             get => Value.Dimension;
             set
             {
-                var diff = Values.Count - value;
-                if (diff > 0)
-                {
-                    for (int i = 0; i < diff; i++)
-                    {
-                        Values.RemoveAt(Values.Count-1);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < -diff; i++)
-                    {
-                        Values.Add(0);
-                    }
-                }
+                Values.Resize(value, 0);
                 SetNestedProperty(nameof(Value), Value.Dimension, value, () => Value.Dimension = value);
             }
         }

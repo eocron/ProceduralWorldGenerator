@@ -18,6 +18,7 @@
              xmlns:vector="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Vector"
              xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
              xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common"
+             xmlns:expression="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Expression"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -117,6 +118,10 @@
         
         <DataTemplate DataType="{x:Type vector:CreateVectorNodeViewModel}">
             <createNodes:CreateVectorNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type expression:CreateExpressionNodeViewModel}">
+            <createNodes:CreateExpressionNodeView />
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type spline:CreateSplineNodeViewModel}">

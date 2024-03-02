@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.ValueNoise
 {
-    public class CreateValueNoiseNodeViewModel : CreateDimensionNodeViewModelBase<ValueNoiseNodeViewModel>
+    public class CreateValueNoiseNodeViewModel : CreateNodeMenuViewModelBase<ValueNoiseNodeViewModel>
     {
     }
 }

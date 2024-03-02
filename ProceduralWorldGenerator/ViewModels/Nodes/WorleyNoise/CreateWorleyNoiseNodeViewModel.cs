@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
 {
-    public class CreateWorleyNoiseNodeViewModel : CreateDimensionNodeViewModelBase<WorleyNoiseNodeViewModel>
+    public class CreateWorleyNoiseNodeViewModel : CreateNodeMenuViewModelBase<WorleyNoiseNodeViewModel>
     {
     }
 }

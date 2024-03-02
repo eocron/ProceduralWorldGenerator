@@ -7,6 +7,7 @@ using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Chunk;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+using ProceduralWorldGenerator.ViewModels.Nodes.Expression;
 using ProceduralWorldGenerator.ViewModels.Nodes.Permutation;
 using ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise;
 using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
@@ -94,6 +95,16 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Output.Title = "out";
                     x.Input.Title = "in";
                     x.Spline.DataPoints.AddRange(SplineNodeViewModelHelper.GetLinearDataPoints());
+                });
+            Bind<ExpressionNodeViewModel, CreateExpressionNodeViewModel>(
+                "Expression", 
+                "Function which can map N-dimensional vector to another M-dimensional vector using math expressions.",
+                x =>
+                {
+                    x.VariableName = "Expression";
+                    x.InputDimension = 1;
+                    x.OutputDimension = 1;
+                    x.TransformExpressions[0].Item = "x1";
                 });
         }
         

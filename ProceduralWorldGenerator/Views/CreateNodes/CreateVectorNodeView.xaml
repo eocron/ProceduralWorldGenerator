@@ -27,7 +27,7 @@
                 <CheckBox Content="Is constant" IsChecked="{Binding NodeViewModel.IsConstant}"
                           />
                 <xctk:IntegerUpDown
-                    Value="{Binding NodeViewModel.Dimension, Mode=OneWayToSource}"
+                    Value="{Binding NodeViewModel.Dimension}"
                     Maximum="100"
                     Minimum="1"
                     Increment="1"/>
@@ -42,21 +42,21 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <ListBox ItemsSource="{Binding NodeViewModel.Values, Mode=OneWay}"  
+                <ItemsControl ItemsSource="{Binding NodeViewModel.Values, Mode=OneWay}"  
                          IsEnabled="{Binding NodeViewModel.IsConstant, Mode=OneWay}" 
                          Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}, Mode=OneWay}"
                          Style="{StaticResource ThirdPartyStyle}"
                          HorizontalContentAlignment="Stretch"
                          Margin="2 0 2 0">
-                    <ListBox.ItemTemplate>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <xctk:SingleUpDown
                                 Value="{Binding Mode=OneWayToSource, Path=Item, UpdateSourceTrigger=PropertyChanged}"
                                 DefaultValue="0"
                                 Increment="1"/>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </createNodes1:CreateMenuView.Content>
     </createNodes1:CreateMenuView>

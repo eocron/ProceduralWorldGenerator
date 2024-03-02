@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
 {
-    public class CreateChunkNodeViewModel: CreateDimensionNodeViewModelBase<ChunkNodeViewModel>
+    public class CreateChunkNodeViewModel: CreateNodeMenuViewModelBase<ChunkNodeViewModel>
     {
     }
 }

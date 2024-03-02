@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise
 {
-    public class CreateSimplexNoiseNodeViewModel : CreateDimensionNodeViewModelBase<SimplexNoiseNodeViewModel>
+    public class CreateSimplexNoiseNodeViewModel : CreateNodeMenuViewModelBase<SimplexNoiseNodeViewModel>
     {
     }
 }
