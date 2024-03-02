@@ -24,17 +24,4 @@ namespace Nodify.Shared.Validators
             return new ValidationResult(true, null);
         }
     }
-    
-    public class  ExpressionValidator : ValidationRule
-    {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            var str = value as string;
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                return new ValidationResult(false, "Empty expression");
-            }
-            return new ValidationResult(true, null);
-        }
-    }
 }
