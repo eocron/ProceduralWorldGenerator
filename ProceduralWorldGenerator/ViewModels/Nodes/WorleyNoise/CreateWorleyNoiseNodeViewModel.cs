@@ -4,8 +4,5 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
 {
     public class CreateWorleyNoiseNodeViewModel : CreateDimensionNodeViewModelBase<WorleyNoiseNodeViewModel>
     {
-        public CreateWorleyNoiseNodeViewModel(GeneratorViewModel calculator) : base(calculator)
-        {
-        }
     }
 }

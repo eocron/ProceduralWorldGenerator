@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Chunk;
@@ -18,63 +17,49 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class NodeCollectionViewModel
     {
-        private readonly Dictionary<Type, CreateMenuViewModelBase> _createNodeViewModels;
-        private readonly List<NodeViewModelBase> _list;
-        private readonly GeneratorViewModel _generatorModel;
+        private readonly Dictionary<Type, CreateMenuViewModelBase> _createNodeViewModels = new();
+        private readonly List<GeneratorPreviewNodeViewModel> _previews = new();
 
-        public GeneratorViewModel GeneratorModel => _generatorModel;
-        public IReadOnlyDictionary<Type, CreateMenuViewModelBase> CreateNodeViewModels => _createNodeViewModels;
-        public IReadOnlyList<NodeViewModelBase> List => _list;
-
-        public NodeCollectionViewModel(GeneratorViewModel model)
+        public NodeCollectionViewModel()
         {
-            _generatorModel = model;
-            _createNodeViewModels = new Dictionary<Type, CreateMenuViewModelBase>();
-            _list = new List<NodeViewModelBase>();
-
-            Bind<PermutationTableNodeViewModel, CreatePermutationTableNodeViewModel>();
-            Bind<VectorNodeViewModel, CreateVectorNodeViewModel>();
-            Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>();
-            Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>();
-            Bind<ValueNoiseNodeViewModel, CreateValueNoiseNodeViewModel>();
-            Bind<SimplexNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>();
-            Bind<SplineNodeViewModel, CreateSplineNodeViewModel>();
+            Bind<PermutationTableNodeViewModel, CreatePermutationTableNodeViewModel>("Permutation table", "Variable responsible for 'randomness' of noises. Noises use this as random seed.");
+            Bind<VectorNodeViewModel, CreateVectorNodeViewModel>("Vector", "N-dimensional vector of float numbers.");
+            Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>("Chunk", "N-dimensional rectangle. Returns N-dimensional vector from its output starting from offset up to specified size.");
+            Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>("Worley noise", "1/2/3-dimensional Worley noise. Receives vector and outputs noise as 1-dimensional vector.");
+            Bind<ValueNoiseNodeViewModel, CreateValueNoiseNodeViewModel>("Value noise", "1/2/3-dimensional Value noise. Receives vector and outputs noise as 1-dimensional vector.");
+            Bind<SimplexNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>("Simplex noise", "1/2/3-dimensional Simplex noise. Receives vector and outputs noise as 1-dimensional vector.");
+            Bind<SplineNodeViewModel, CreateSplineNodeViewModel>("Spline", "Function which can map 1-dimensional vector to another 1-dimensional vector.");
+        }
+        
+        public IEnumerable<GeneratorPreviewNodeViewModel> GetNodePreviews()
+        {
+            return _previews;
         }
 
-        private void Bind<TModel, TCreateModel>(Action<TModel> configurePreview = null)
-            where TModel : NodeViewModelBase
-            where TCreateModel : CreateMenuViewModelBase
+        public IEnumerable<CreateMenuViewModelBase> GetCreateMenus()
         {
-            var instance = Activator.CreateInstance<TModel>();
-            configurePreview?.Invoke(instance);
-            _list.Add(instance);
-            _createNodeViewModels.Add(instance.GetType(),
-                (TCreateModel)Activator.CreateInstance(typeof(TCreateModel), new object[] { GeneratorModel }));
+            return _createNodeViewModels.Values;
         }
 
-        public static GeneratorNodeViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
-            where T : NodeViewModelBase
+        public CreateMenuViewModelBase GetCreateMenuViewModel(Type type)
         {
-            return InternalCreateNodeViewModel(preview, configure);
+            return _createNodeViewModels[type];
         }
-
-        private static GeneratorNodeViewModel InternalCreateNodeViewModel<T>(T preview, Action<T> configure)
-            where T : NodeViewModelBase
+        
+        public static GeneratorNodeViewModel CreateGeneratorNodeViewModel(NodeViewModelBase template)
         {
-            var clone = ObjectHelper.DeepCopy(preview);
-            configure(clone);
-            var type = preview.GetType();
+            var type = template.GetType();
             
             var op = new GeneratorNodeViewModel();
-            op.NodeModel = clone;
-            op.Title = clone.Title;
+            op.NodeModel = template;
+            op.Title = template.Title;
             var allProps = type
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
                 .Select(x => new
                 {
                     prop = x,
-                    value = (ParameterViewModelBase)x.GetMethod.Invoke(clone, null)
+                    value = (ParameterViewModelBase)x.GetMethod.Invoke(template, null)
                 })
                 .OrderBy(x => x.value.Order)
                 .ToList();
@@ -92,6 +77,14 @@ namespace ProceduralWorldGenerator.ViewModels
             return op;
         }
 
+        private void Bind<TModel, TCreateModel>(string title, string description)
+            where TModel : NodeViewModelBase, new()
+            where TCreateModel : CreateMenuViewModelBase<TModel>, new()
+        {
+            _createNodeViewModels.Add(typeof(TModel), new TCreateModel());
+            _previews.Add(GeneratorPreviewNodeViewModel.Create<TModel>(title, description));
+        }
+
         private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase model)
         {
             return new NodeConnectorViewModel()
@@ -99,6 +92,11 @@ namespace ProceduralWorldGenerator.ViewModels
                 Title = model.Title ?? propertyInfo.Name,
                 ParameterViewModel = model,
             };
+        }
+
+        public NodeViewModelBase CreateTemplateNodeViewModel(Type nodeType)
+        {
+            return (NodeViewModelBase)Activator.CreateInstance(nodeType);
         }
     }
 }

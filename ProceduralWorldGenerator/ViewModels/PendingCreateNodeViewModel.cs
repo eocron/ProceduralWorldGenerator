@@ -1,13 +1,12 @@
 ﻿using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
     public class PendingCreateNodeViewModel : ObservableObject
     {
         private Point _location;
-        private NodeViewModelBase _nodeViewModel;
+        private GeneratorPreviewNodeViewModel _preview;
 
         public Point Location
         {
@@ -15,10 +14,10 @@ namespace ProceduralWorldGenerator.ViewModels
             set => SetProperty(ref _location, value);
         }
 
-        public NodeViewModelBase NodeViewModel
+        public GeneratorPreviewNodeViewModel Preview
         {
-            get => _nodeViewModel;
-            set => SetProperty(ref _nodeViewModel, value);
+            get => _preview;
+            set => SetProperty(ref _preview, value);
         }
     }
 }

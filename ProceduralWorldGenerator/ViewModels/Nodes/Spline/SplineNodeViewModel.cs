@@ -35,10 +35,5 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
             get => _spline;
             set => SetProperty(ref _spline, value);
         }
-
-        public SplineNodeViewModel()
-        {
-            VariableName = "Spline";
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Nodify.Shared;
 
 namespace ProceduralWorldGenerator.Views.CreateNodes
 {

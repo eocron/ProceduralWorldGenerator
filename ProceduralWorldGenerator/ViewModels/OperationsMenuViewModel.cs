@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
@@ -43,24 +42,24 @@ namespace ProceduralWorldGenerator.ViewModels
             IsVisible = false;
         }
 
-        public NodifyObservableCollection<NodeViewModelBase> AvailableOperations { get; }
+        public NodifyObservableCollection<GeneratorPreviewNodeViewModel> AvailableOperations { get; }
         public INodifyCommand CreateOperationCommand { get; }
         private readonly GeneratorViewModel _calculator;
 
-        public OperationsMenuViewModel(GeneratorViewModel calculator)
+        public OperationsMenuViewModel(GeneratorViewModel calculator, NodeCollectionViewModel collectionViewModel)
         {
             _calculator = calculator;
-            var operations = new List<NodeViewModelBase>();
+            var operations = new List<GeneratorPreviewNodeViewModel>();
             
-            operations.AddRange(calculator.NodeCollectionModel.List);
+            operations.AddRange(collectionViewModel.GetNodePreviews());
 
-            AvailableOperations = new NodifyObservableCollection<NodeViewModelBase>(operations);
-            CreateOperationCommand = new DelegateCommand<NodeViewModelBase>(CreateOperation);
+            AvailableOperations = new NodifyObservableCollection<GeneratorPreviewNodeViewModel>(operations);
+            CreateOperationCommand = new DelegateCommand<GeneratorPreviewNodeViewModel>(CreateOperation);
         }
 
-        private void CreateOperation(NodeViewModelBase operationInfo)
+        private void CreateOperation(GeneratorPreviewNodeViewModel operationInfo)
         {
-            _calculator.PendingCreateNodeMenu.NodeViewModel = operationInfo;
+            _calculator.PendingCreateNodeMenu.Preview = operationInfo;
             _calculator.PendingCreateNodeMenu.Location = Location;
             _calculator.CreateNodeCommand.Execute(null);
             Close();

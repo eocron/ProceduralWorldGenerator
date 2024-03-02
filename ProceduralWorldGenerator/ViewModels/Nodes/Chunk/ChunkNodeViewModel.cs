@@ -50,10 +50,5 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
                 SetNestedProperty(nameof(Offset), Offset.Dimension, value, () => Offset.Dimension = value);
             }
         }
-
-        public ChunkNodeViewModel()
-        {
-            VariableName = "chunk";
-        }
     }
 }

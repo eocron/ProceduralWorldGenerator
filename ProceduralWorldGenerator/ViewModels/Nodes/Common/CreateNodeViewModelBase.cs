@@ -1,7 +1,6 @@
-﻿using System.Linq;
+﻿using System;
 using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.Helpers;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
@@ -21,13 +20,21 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _location, value);
         }
         
+        private object _model;
+        public object Model
+        {
+            get => _model;
+            set => SetProperty(ref _model, value);
+        }
+
+        public EventHandler OnCreateInvoked;
+        
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 
-        public virtual void OpenAt(Point targetLocation)
+        public virtual void Show()
         {
             Close();
-            Location = targetLocation;
             IsVisible = true;
         }
 
@@ -38,63 +45,30 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 
         protected CreateMenuViewModelBase()
         {
-            CreateOperation = new RequeryCommand(OnCreateOperation);
+            CreateOperation = new RequeryCommand(()=>
+            {
+                OnCreateOperation();
+                OnCreateInvoked?.Invoke(this, EventArgs.Empty);
+                Close();
+            });
             CancelOperation = new RequeryCommand(Close);
         }
-        protected abstract void OnCreateOperation();
 
-        /// <summary>
-        /// Will copy model and assign copy to NodeViewModel
-        /// </summary>
-        /// <param name="model"></param>
-        public abstract void SetModelTemplate(NodeViewModelBase model);
+        protected virtual void OnCreateOperation()
+        {
+        }
     }
     
     public abstract class CreateMenuViewModelBase<TNodeViewModel> : CreateMenuViewModelBase
         where TNodeViewModel : NodeViewModelBase
     {
-        protected readonly GeneratorViewModel Calculator;
-        private TNodeViewModel _nodeViewModel;
         public TNodeViewModel NodeViewModel
         {
-            get => _nodeViewModel;
-            private set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
-        }
-        
-        protected CreateMenuViewModelBase(GeneratorViewModel calculator) : base()
-        {
-            Calculator = calculator;
-        }
-
-        protected override void OnCreateOperation()
-        {
-            var op = NodeCollectionViewModel.CreateNodeViewModel(NodeViewModel, ConfigureNodeViewModel);
-            op.Location = Location;
-            Calculator.Operations.Add(op);
-            TryHandlePendingConnection(op);
-            Close();
-        }
-
-        protected virtual void ConfigureNodeViewModel(TNodeViewModel model)
-        {
-
-        }
-
-        public override void SetModelTemplate(NodeViewModelBase model)
-        {
-            NodeViewModel = (TNodeViewModel)model;
-        }
-
-        private void TryHandlePendingConnection(GeneratorNodeViewModel op)
-        {
-            var pending = Calculator.PendingConnection;
-            if (pending != null && pending.IsVisible)
+            get => (TNodeViewModel)Model;
+            set
             {
-                var connector = pending.Source.IsInput ? op.Output.FirstOrDefault() : op.Input.FirstOrDefault();
-                if (connector != null && Calculator.CanCreateConnection(pending.Source, connector))
-                {
-                    Calculator.CreateConnection(pending.Source, connector);
-                }
+                Model = value;
+                OnPropertyChanged(nameof(NodeViewModel));
             }
         }
     }

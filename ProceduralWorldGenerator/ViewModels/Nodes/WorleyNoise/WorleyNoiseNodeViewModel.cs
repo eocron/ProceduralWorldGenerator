@@ -25,10 +25,5 @@
             get => _combination;
             set => SetProperty(ref _combination, value);
         }
-
-        public WorleyNoiseNodeViewModel()
-        {
-            VariableName = "Worley noise";
-        }
     }
 }

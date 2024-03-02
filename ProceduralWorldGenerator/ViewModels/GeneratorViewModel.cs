@@ -56,7 +56,7 @@ namespace ProceduralWorldGenerator.ViewModels
             DeleteSelectionCommand = new DelegateCommand(DeleteSelection);
             GroupSelectionCommand = new DelegateCommand(GroupSelectedOperations, () => SelectedOperations.Count > 0);
             CreateNodeCommand = new DelegateCommand(() =>
-                OpenNodeCreationDialog(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.NodeViewModel));
+                OpenNodeCreationDialog(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.Preview));
 
             Connections.WhenAdded(c =>
             {
@@ -105,18 +105,45 @@ namespace ProceduralWorldGenerator.ViewModels
                 }
             });
 
-            NodeCollectionModel = new NodeCollectionViewModel(this);
-            OperationsMenu = new OperationsMenuViewModel(this);
+            NodeCollectionModel = new NodeCollectionViewModel();
+            OperationsMenu = new OperationsMenuViewModel(this, NodeCollectionModel);
             PendingCreateNodeMenu = new PendingCreateNodeViewModel();
-            CreateNodeMenu = NodeCollectionModel.CreateNodeViewModels.First().Value;
+            foreach (var createMenu in NodeCollectionModel.GetCreateMenus())
+            {
+                createMenu.OnCreateInvoked += (menu, _) => OnCreateOperation((CreateMenuViewModelBase)menu);
+            }
+            CreateNodeMenu = NodeCollectionModel.GetCreateMenus().First();
         }
         
-        private void OpenNodeCreationDialog(Point location, NodeViewModelBase obj)
+        private void OpenNodeCreationDialog(Point location, GeneratorPreviewNodeViewModel preview)
         {
-            var tmp = NodeCollectionModel.CreateNodeViewModels[obj.GetType()];
-            tmp.SetModelTemplate(obj);
-            CreateNodeMenu = tmp;
-            CreateNodeMenu.OpenAt(location);
+            var menu = NodeCollectionModel.GetCreateMenuViewModel(preview.NodeType);
+            menu.Model = NodeCollectionModel.CreateTemplateNodeViewModel(preview.NodeType);
+            menu.Location = location;
+            CreateNodeMenu = menu;
+            CreateNodeMenu.Show();
+        }
+        
+        private void OnCreateOperation(CreateMenuViewModelBase menu)
+        {
+            var op = NodeCollectionViewModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.Model);
+            op.Location = menu.Location;
+            this.Operations.Add(op);
+            TryHandlePendingConnection(op);
+            menu.Close();
+        }
+
+        private void TryHandlePendingConnection(GeneratorNodeViewModel op)
+        {
+            var pending = this.PendingConnection;
+            if (pending != null && pending.IsVisible)
+            {
+                var connector = pending.Source.IsInput ? op.Output.FirstOrDefault() : op.Input.FirstOrDefault();
+                if (connector != null && this.CanCreateConnection(pending.Source, connector))
+                {
+                    this.CreateConnection(pending.Source, connector);
+                }
+            }
         }
 
 
@@ -126,7 +153,7 @@ namespace ProceduralWorldGenerator.ViewModels
             connections.ForEach(c => Connections.Remove(c));
         }
 
-        internal bool CanCreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
+        private bool CanCreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
         {
             if (target == null)
             {
@@ -151,7 +178,7 @@ namespace ProceduralWorldGenerator.ViewModels
             return true;
         }
 
-        internal void CreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
+        private void CreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
         {
             if (target == null)
             {

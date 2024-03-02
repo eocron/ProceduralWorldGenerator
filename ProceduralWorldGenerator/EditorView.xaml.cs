@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Nodify;
 using ProceduralWorldGenerator.ViewModels;
-using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator
 {
@@ -41,12 +40,12 @@ namespace ProceduralWorldGenerator
         private void OnDropNode(object sender, DragEventArgs e)
         {
             if (e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
-                                                && e.Data.GetData(typeof(NodeViewModelBase)) is NodeViewModelBase
+                                                && e.Data.GetData(typeof(GeneratorPreviewNodeViewModel)) is GeneratorPreviewNodeViewModel
                                                     operation)
             {
                 var location = editor.GetLocationInsideEditor(e);
                 calculator.PendingCreateNodeMenu.Location = location;
-                calculator.PendingCreateNodeMenu.NodeViewModel = operation;
+                calculator.PendingCreateNodeMenu.Preview = operation;
                 calculator.CreateNodeCommand.Execute(null);
                 e.Handled = true;
             }
@@ -54,9 +53,9 @@ namespace ProceduralWorldGenerator
 
         private void OnNodeDrag(object sender, MouseEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed && ((FrameworkElement)sender).DataContext is NodeViewModelBase operation)
+            if(e.LeftButton == MouseButtonState.Pressed && ((FrameworkElement)sender).DataContext is GeneratorPreviewNodeViewModel operation)
             { 
-                var data = new DataObject(typeof(NodeViewModelBase), operation);
+                var data = new DataObject(typeof(GeneratorPreviewNodeViewModel), operation);
                 DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
             }
         }

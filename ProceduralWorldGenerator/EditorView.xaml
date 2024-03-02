@@ -199,43 +199,10 @@
                                  Input="{Binding Input}"
                                  Output="{Binding Output}"/>
                 </DataTemplate>
-
-                <DataTemplate DataType="{x:Type control:ExpandoNodeViewModel}">
-                    <nodify:Node Header="{Binding Title}"
-                                 Content="{Binding}"
-                                 Input="{Binding Input}"
-                                 Output="{Binding Output}">
-                        <nodify:Node.ContentTemplate>
-                            <DataTemplate DataType="{x:Type control:ExpandoNodeViewModel}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Grid ShowGridLines="False">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Grid.Row="0"
-                                                Style="{StaticResource IconButton}"
-                                                Content="{StaticResource PlusIcon}"
-                                                Command="{Binding AddInputCommand}" />
-                                        <Button Grid.Column="1" Grid.Row="0"
-                                                Style="{StaticResource IconButton}"
-                                                Content="{StaticResource RemoveKeyIcon}"
-                                                Command="{Binding RemoveInputCommand}" />
-                                        <Button Grid.Column="2" Grid.Row="0"
-                                                Style="{StaticResource IconButton}"
-                                                Content="{StaticResource PlusIcon}"
-                                                Command="{Binding AddOutputCommand}" />
-                                        <Button Grid.Column="3" Grid.Row="0"
-                                                Style="{StaticResource IconButton}"
-                                                Content="{StaticResource RemoveKeyIcon}"
-                                                Command="{Binding RemoveOutputCommand}" />
-                                    </Grid>
-                                </StackPanel>
-                            </DataTemplate>
-                        </nodify:Node.ContentTemplate>
-                    </nodify:Node>
+                
+                <DataTemplate DataType="{x:Type viewModels:GeneratorPreviewNodeViewModel}">
+                    <nodify:Node Content="{Binding Title}"
+                                 ToolTip="{Binding Description}"/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type control:OperationGroupViewModel}">
@@ -294,10 +261,8 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type viewModels:GeneratorNodeViewModel}">
+                        <DataTemplate DataType="{x:Type viewModels:GeneratorPreviewNodeViewModel}">
                             <nodify:Node Content="{Binding Title}"
-                                     Input="{Binding Input}"
-                                     Output="{Binding Output}"
                                      BorderBrush="{StaticResource AnimatedBrush}"
                                      BorderThickness="2"
                                      MouseMove="OnNodeDrag">

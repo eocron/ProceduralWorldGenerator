@@ -16,10 +16,10 @@
     </UserControl.Resources>
 
     <createNodes1:CreateMenuView Title="Create simplex noise" 
-                                     OkButtonCommand="{Binding CreateOperation}" 
-                                     CancelButtonCommand="{Binding CancelOperation}"
-                                     DataContext="{Binding}"
-                                     d:DataContext="{d:DesignInstance simplexNoise:CreateSimplexNoiseNodeViewModel}">
+                                 OkButtonCommand="{Binding CreateOperation}" 
+                                 CancelButtonCommand="{Binding CancelOperation}"
+                                 DataContext="{Binding}"
+                                 d:DataContext="{d:DesignInstance simplexNoise:CreateSimplexNoiseNodeViewModel}">
         <createNodes1:CreateMenuView.Content>
             <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"

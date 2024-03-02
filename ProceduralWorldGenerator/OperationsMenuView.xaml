@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
-             xmlns:nodes1="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
@@ -34,8 +33,9 @@
             <ItemsControl Grid.Row="1"
                           ItemsSource="{Binding AvailableOperations}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type nodes1:NodeViewModelBase}">
-                        <Button Content="{Binding Title}"
+                    <DataTemplate DataType="{x:Type viewModels:GeneratorPreviewNodeViewModel}">
+                        <Button Content="{Binding Title, Mode=OneWay}"
+                                ToolTip="{Binding Description, Mode=OneWay}"
                                 Command="{Binding DataContext.CreateOperationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"
                                 Background="Transparent"

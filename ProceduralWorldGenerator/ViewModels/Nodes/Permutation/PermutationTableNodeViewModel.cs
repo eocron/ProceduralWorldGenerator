@@ -12,10 +12,5 @@
             get => _permutation;
             set => SetProperty(ref _permutation, value);
         }
-
-        public PermutationTableNodeViewModel()
-        {
-            VariableName = "Permutation table";
-        }
     }
 }
