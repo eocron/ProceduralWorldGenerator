@@ -79,7 +79,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
         private void Bind<TModel, TCreateModel>(string title, string description)
             where TModel : NodeViewModelBase, new()
-            where TCreateModel : CreateMenuViewModelBase<TModel>, new()
+            where TCreateModel : CreateNodeMenuViewModelBase<TModel>, new()
         {
             _createNodeViewModels.Add(typeof(TModel), new TCreateModel());
             _previews.Add(GeneratorPreviewNodeViewModel.Create<TModel>(title, description));

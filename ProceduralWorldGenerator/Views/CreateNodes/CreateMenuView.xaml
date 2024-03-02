@@ -4,27 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:common="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             d:DataContext="{d:DesignInstance common:CreateMenuViewModelBase}">
     <ContentControl.Resources>
         <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
     </ContentControl.Resources>
     <ContentControl.Template>
-        <ControlTemplate TargetType="ContentControl">
+        <ControlTemplate TargetType="ContentControl" >
             <Border Style="{StaticResource BorderStyle}">
                 <StackPanel>
-                    <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=ContentControl}}" FontWeight="Bold"/>
                     <ContentPresenter/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding OkButtonCommand}" IsDefault="True" IsEnabled="{Binding Path=Content.(Validation.HasError), Converter={converters:InverseBooleanConverter}}">
+                        <Button Grid.Column="0" Grid.Row="0" 
+                                Command="{Binding OkButtonCommand, RelativeSource={RelativeSource AncestorType=ContentControl}}" 
+                                IsDefault="True" 
+                                IsEnabled="{Binding Path=Content.(Validation.HasError), Converter={converters:InverseBooleanConverter}, RelativeSource={RelativeSource AncestorType=ContentControl}}">
                             <TextBlock Text="Ok" />
                         </Button>
-                        <Button Grid.Column="1" Grid.Row="0" Command="{Binding CancelButtonCommand}" IsCancel="True">
+                        <Button Grid.Column="1" Grid.Row="0" 
+                                Command="{Binding CancelButtonCommand, RelativeSource={RelativeSource AncestorType=ContentControl}}" 
+                                IsCancel="True">
                             <TextBlock Text="Cancel" />
                         </Button>
                     </Grid>

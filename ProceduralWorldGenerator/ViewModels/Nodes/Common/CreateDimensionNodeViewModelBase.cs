@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
-    public abstract class CreateDimensionNodeViewModelBase<TNodeViewModel> : CreateMenuViewModelBase<TNodeViewModel>
+    public abstract class CreateDimensionNodeViewModelBase<TNodeViewModel> : CreateNodeMenuViewModelBase<TNodeViewModel>
         where TNodeViewModel : NodeViewModelBase, IDimensionModel
     {
     }
