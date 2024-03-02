@@ -19,13 +19,31 @@
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
-            <TextBox Text="{Binding NodeViewModel.VariableName}" validation:Masking.Mask="^[a-z][a-z0-9_]*$" ></TextBox>
-            <xctk:IntegerUpDown 
-                Height="20" 
+            <CheckBox Content="Is constant" IsChecked="{Binding NodeViewModel.IsConstant}"/>
+            <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
                 Maximum="{Binding NodeViewModel.MaxDimension}"
                 Minimum="{Binding NodeViewModel.MinDimension}"
                 Increment="1"/>
+            <TextBox 
+                Text="{Binding NodeViewModel.VariableName}" 
+                validation:Masking.Mask="^[a-z][a-z0-9_]*$" 
+                IsEnabled="{Binding Path=NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}}"
+                Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}}"/>
+            <ListBox ItemsSource="{Binding NodeViewModel.Values}"  
+                               IsEnabled="{Binding NodeViewModel.IsConstant}" 
+                               Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}"
+                               Style="{StaticResource ThirdPartyStyle}"
+                               HorizontalContentAlignment="Stretch"
+                               Margin="2 0 2 0">
+                <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <xctk:SingleUpDown
+                                Value="{Binding Mode=TwoWay, Path=Item, UpdateSourceTrigger=PropertyChanged}"
+                                Increment="1"/>
+                        </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
         </StackPanel>
     </Border>

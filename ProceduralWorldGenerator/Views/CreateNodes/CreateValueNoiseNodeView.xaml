@@ -18,8 +18,7 @@
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel>
             <TextBlock Text="{Binding Description}"/>
-            <xctk:IntegerUpDown 
-                Height="20" 
+            <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
                 Maximum="{Binding NodeViewModel.MaxDimension}"
                 Minimum="{Binding NodeViewModel.MinDimension}"

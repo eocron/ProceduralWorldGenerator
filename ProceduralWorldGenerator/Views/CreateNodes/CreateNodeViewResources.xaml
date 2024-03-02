@@ -8,6 +8,11 @@
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
     </Style>
     
+    <Style TargetType="{x:Type TextBox}"
+           BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Margin" Value="2 0 2 0" />
+    </Style>
+    
     <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Padding" Value="7" />
         <Setter Property="CornerRadius" Value="3" />
@@ -19,6 +24,13 @@
     <Style TargetType="xctk:IntegerUpDown"
            BasedOn="{StaticResource ThirdPartyStyle}">
         <Setter Property="Margin" Value="2 0 2 0"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    
+    <Style TargetType="xctk:SingleUpDown"
+           BasedOn="{StaticResource ThirdPartyStyle}">
+        <Setter Property="Margin" Value="2 0 2 0"/>
+        <Setter Property="FontWeight" Value="Bold"/>
     </Style>
     
     <Style TargetType="{x:Type Button}"
