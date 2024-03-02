@@ -16,6 +16,11 @@
         <Setter Property="BorderThickness" Value="2" />
     </Style>
     
+    <Style TargetType="xctk:IntegerUpDown"
+           BasedOn="{StaticResource ThirdPartyStyle}">
+        <Setter Property="Margin" Value="2 0 2 0"/>
+    </Style>
+    
     <Style TargetType="{x:Type Button}"
            BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
