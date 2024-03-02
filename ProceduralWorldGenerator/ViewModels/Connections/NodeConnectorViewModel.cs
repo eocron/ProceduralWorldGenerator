@@ -4,7 +4,7 @@ using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
-    public class ConnectorViewModel : ObservableObject
+    public class NodeConnectorViewModel : ObservableObject
     {
         private string? _variableTitle;
         public string? VariableTitle
@@ -45,10 +45,10 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
             set => SetProperty(ref _anchor, value);
         }
 
-        private OperationViewModel _operation = default!;
+        private GeneratorNodeViewModel _operation = default!;
         private ParameterViewModelBase _parameterViewModel;
 
-        public OperationViewModel Operation
+        public GeneratorNodeViewModel Operation
         {
             get => _operation;
             set => SetProperty(ref _operation, value);
@@ -60,12 +60,12 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
             set => SetProperty(ref _parameterViewModel, value);
         }
 
-        public void SetTitleFrom(ConnectorViewModel output)
+        public void SetTitleFrom(NodeConnectorViewModel output)
         {
             VariableTitle = output.Title;
         }
 
-        public bool CanConnect(ConnectorViewModel other)
+        public bool CanConnect(NodeConnectorViewModel other)
         {
             return ParameterViewModel.CanConnect(other.ParameterViewModel);
         }

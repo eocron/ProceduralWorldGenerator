@@ -3,11 +3,11 @@ using System.Windows.Input;
 
 namespace ProceduralWorldGenerator.Views.CreateNodes
 {
-    public partial class  CreateNodeBaseView
+    public partial class  CreateMenuView
     {
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(CreateNodeBaseView), new PropertyMetadata(null));
-        public static readonly DependencyProperty OkButtonCommandProperty = DependencyProperty.Register(nameof(OkButtonCommand), typeof(ICommand), typeof(CreateNodeBaseView), new PropertyMetadata(null));
-        public static readonly DependencyProperty CancelButtonCommandProperty = DependencyProperty.Register(nameof(CancelButtonCommand), typeof(ICommand), typeof(CreateNodeBaseView), new PropertyMetadata(null));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(CreateMenuView), new PropertyMetadata(null));
+        public static readonly DependencyProperty OkButtonCommandProperty = DependencyProperty.Register(nameof(OkButtonCommand), typeof(ICommand), typeof(CreateMenuView), new PropertyMetadata(null));
+        public static readonly DependencyProperty CancelButtonCommandProperty = DependencyProperty.Register(nameof(CancelButtonCommand), typeof(ICommand), typeof(CreateMenuView), new PropertyMetadata(null));
         
         public string Title        
         {

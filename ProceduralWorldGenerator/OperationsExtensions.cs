@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using ProceduralWorldGenerator.ViewModels;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator
 {
     public static class OperationsExtensions
     {
-        public static Rect GetBoundingBox(this IEnumerable<OperationViewModel> nodes, double padding = 0, int gridCellSize = 15)
+        public static Rect GetBoundingBox(this IEnumerable<GeneratorNodeViewModel> nodes, double padding = 0, int gridCellSize = 15)
         {
             var minX = double.MaxValue;
             var minY = double.MaxValue;

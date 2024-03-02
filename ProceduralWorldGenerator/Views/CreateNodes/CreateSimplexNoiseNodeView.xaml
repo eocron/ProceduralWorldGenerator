@@ -12,20 +12,20 @@
              d:DesignWidth="250"
              d:DataContext="{d:DesignInstance simplexNoise:CreateSimplexNoiseNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
     </UserControl.Resources>
 
-    <createNodes1:CreateNodeBaseView Title="Create simplex noise" 
+    <createNodes1:CreateMenuView Title="Create simplex noise" 
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
                                      d:DataContext="{d:DesignInstance simplexNoise:CreateSimplexNoiseNodeViewModel}">
-        <createNodes1:CreateNodeBaseView.Content>
+        <createNodes1:CreateMenuView.Content>
             <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
                 Maximum="3"
                 Minimum="1"
                 Increment="1"/>
-        </createNodes1:CreateNodeBaseView.Content>
-    </createNodes1:CreateNodeBaseView>
+        </createNodes1:CreateMenuView.Content>
+    </createNodes1:CreateMenuView>
 </UserControl>

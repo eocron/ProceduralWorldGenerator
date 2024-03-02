@@ -14,15 +14,15 @@
              d:DesignWidth="250"
              d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
     </UserControl.Resources>
     
-    <createNodes1:CreateNodeBaseView Title="Create vector"
+    <createNodes1:CreateMenuView Title="Create vector"
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
                                      d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
-        <createNodes1:CreateNodeBaseView.Content>
+        <createNodes1:CreateMenuView.Content>
             <StackPanel>
                 <CheckBox Content="Is constant" IsChecked="{Binding NodeViewModel.IsConstant}"
                           />
@@ -58,6 +58,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-        </createNodes1:CreateNodeBaseView.Content>
-    </createNodes1:CreateNodeBaseView>
+        </createNodes1:CreateMenuView.Content>
+    </createNodes1:CreateMenuView>
 </UserControl>

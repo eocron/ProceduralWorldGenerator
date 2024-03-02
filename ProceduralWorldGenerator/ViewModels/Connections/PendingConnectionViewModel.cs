@@ -3,17 +3,17 @@ using Nodify.Shared;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
-    public class PendingConnectionViewModel : ObservableObject
+    public class PendingNodeConnectionViewModel : ObservableObject
     {
-        private ConnectorViewModel _source = default!;
-        public ConnectorViewModel Source
+        private NodeConnectorViewModel _source = default!;
+        public NodeConnectorViewModel Source
         {
             get => _source;
             set => SetProperty(ref _source, value);
         }
 
-        private ConnectorViewModel? _target;
-        public ConnectorViewModel? Target
+        private NodeConnectorViewModel? _target;
+        public NodeConnectorViewModel? Target
         {
             get => _target;
             set => SetProperty(ref _target, value);

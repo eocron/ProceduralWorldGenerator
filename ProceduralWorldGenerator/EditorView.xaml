@@ -80,13 +80,13 @@
         </Storyboard>
 
         <DataTemplate x:Key="ConnectionTemplate"
-                      DataType="{x:Type connections:ConnectionViewModel}">
+                      DataType="{x:Type connections:NodeConnectionViewModel}">
             <nodify:CircuitConnection Source="{Binding Output.Anchor}"
                                       Target="{Binding Input.Anchor}" />
         </DataTemplate>
 
         <DataTemplate x:Key="PendingConnectionTemplate"
-                      DataType="{x:Type connections:PendingConnectionViewModel}">
+                      DataType="{x:Type connections:PendingNodeConnectionViewModel}">
             <nodify:PendingConnection IsVisible="{Binding IsVisible}"
                                       Source="{Binding Source, Mode=OneWayToSource}"
                                       Target="{Binding Target, Mode=OneWayToSource}"
@@ -165,7 +165,7 @@
                             Value="{Binding Value}" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
-                            <DataTemplate DataType="{x:Type connections:ConnectorViewModel}">
+                            <DataTemplate DataType="{x:Type connections:NodeConnectorViewModel}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Title}"
                                                Margin="0 0 5 0" />
@@ -187,26 +187,26 @@
                             Value="{Binding Anchor, Mode=OneWayToSource}" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
-                            <DataTemplate DataType="{x:Type connections:ConnectorViewModel}">
+                            <DataTemplate DataType="{x:Type connections:NodeConnectorViewModel}">
                                 <TextBlock Text="{Binding Title}"/>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
 
-                <DataTemplate DataType="{x:Type control:OperationViewModel}">
+                <DataTemplate DataType="{x:Type viewModels:GeneratorNodeViewModel}">
                     <nodify:Node Content="{Binding Title}"
                                  Input="{Binding Input}"
                                  Output="{Binding Output}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type control:ExpandoOperationViewModel}">
+                <DataTemplate DataType="{x:Type control:ExpandoNodeViewModel}">
                     <nodify:Node Header="{Binding Title}"
                                  Content="{Binding}"
                                  Input="{Binding Input}"
                                  Output="{Binding Output}">
                         <nodify:Node.ContentTemplate>
-                            <DataTemplate DataType="{x:Type control:ExpandoOperationViewModel}">
+                            <DataTemplate DataType="{x:Type control:ExpandoNodeViewModel}">
                                 <StackPanel Orientation="Horizontal">
                                     <Grid ShowGridLines="False">
                                         <Grid.ColumnDefinitions>
@@ -294,17 +294,13 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type control:OperationViewModel}">
+                        <DataTemplate DataType="{x:Type viewModels:GeneratorNodeViewModel}">
                             <nodify:Node Content="{Binding Title}"
                                      Input="{Binding Input}"
+                                     Output="{Binding Output}"
                                      BorderBrush="{StaticResource AnimatedBrush}"
                                      BorderThickness="2"
                                      MouseMove="OnNodeDrag">
-                                <nodify:Node.Output>
-                                    <CompositeCollection>
-                                        <sys:String>Output</sys:String>
-                                    </CompositeCollection>
-                                </nodify:Node.Output>
                             </nodify:Node>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

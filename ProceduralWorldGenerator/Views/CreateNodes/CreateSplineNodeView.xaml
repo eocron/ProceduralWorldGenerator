@@ -12,10 +12,10 @@
              d:DesignWidth="*"
              d:DataContext="{d:DesignInstance spline:CreateSplineNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
     </UserControl.Resources>
 
-    <createNodes1:CreateNodeBaseView Title="Create spline" 
+    <createNodes1:CreateMenuView Title="Create spline" 
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
@@ -33,7 +33,7 @@
                 TextForeground="{DynamicResource ForegroundBrush}" />
             <ListBox Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints, Mode=OneWay}" />
         </StackPanel>
-    </createNodes1:CreateNodeBaseView>
+    </createNodes1:CreateMenuView>
     
     
 </UserControl>

@@ -18,18 +18,18 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class NodeCollectionViewModel
     {
-        private readonly Dictionary<Type, CreateNodeViewModelBase> _createNodeViewModels;
+        private readonly Dictionary<Type, CreateMenuViewModelBase> _createNodeViewModels;
         private readonly List<NodeViewModelBase> _list;
         private readonly GeneratorViewModel _generatorModel;
 
         public GeneratorViewModel GeneratorModel => _generatorModel;
-        public IReadOnlyDictionary<Type, CreateNodeViewModelBase> CreateNodeViewModels => _createNodeViewModels;
+        public IReadOnlyDictionary<Type, CreateMenuViewModelBase> CreateNodeViewModels => _createNodeViewModels;
         public IReadOnlyList<NodeViewModelBase> List => _list;
 
         public NodeCollectionViewModel(GeneratorViewModel model)
         {
             _generatorModel = model;
-            _createNodeViewModels = new Dictionary<Type, CreateNodeViewModelBase>();
+            _createNodeViewModels = new Dictionary<Type, CreateMenuViewModelBase>();
             _list = new List<NodeViewModelBase>();
 
             Bind<PermutationTableNodeViewModel, CreatePermutationTableNodeViewModel>();
@@ -43,7 +43,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
         private void Bind<TModel, TCreateModel>(Action<TModel> configurePreview = null)
             where TModel : NodeViewModelBase
-            where TCreateModel : CreateNodeViewModelBase
+            where TCreateModel : CreateMenuViewModelBase
         {
             var instance = Activator.CreateInstance<TModel>();
             configurePreview?.Invoke(instance);
@@ -52,20 +52,20 @@ namespace ProceduralWorldGenerator.ViewModels
                 (TCreateModel)Activator.CreateInstance(typeof(TCreateModel), new object[] { GeneratorModel }));
         }
 
-        public static OperationViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
+        public static GeneratorNodeViewModel CreateNodeViewModel<T>(T preview, Action<T> configure = null)
             where T : NodeViewModelBase
         {
             return InternalCreateNodeViewModel(preview, configure);
         }
 
-        private static OperationViewModel InternalCreateNodeViewModel<T>(T preview, Action<T> configure)
+        private static GeneratorNodeViewModel InternalCreateNodeViewModel<T>(T preview, Action<T> configure)
             where T : NodeViewModelBase
         {
             var clone = ObjectHelper.DeepCopy(preview);
             configure(clone);
             var type = preview.GetType();
             
-            var op = new OperationViewModel();
+            var op = new GeneratorNodeViewModel();
             op.NodeModel = clone;
             op.Title = clone.Title;
             var allProps = type
@@ -92,9 +92,9 @@ namespace ProceduralWorldGenerator.ViewModels
             return op;
         }
 
-        private static ConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase model)
+        private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase model)
         {
-            return new ConnectorViewModel()
+            return new NodeConnectorViewModel()
             {
                 Title = model.Title ?? propertyInfo.Name,
                 ParameterViewModel = model,

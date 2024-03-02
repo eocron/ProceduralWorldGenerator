@@ -1,33 +1,24 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using Nodify.Shared;
 using ProceduralWorldGenerator.ViewModels.Connections;
+using ProceduralWorldGenerator.ViewModels.Nodes;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
+namespace ProceduralWorldGenerator.ViewModels
 {
-    public class OperationViewModel : ObservableObject
+    public class GeneratorNodeViewModel : ObservableObject
     {
-        public OperationViewModel()
+        public GeneratorNodeViewModel()
         {
             Input.WhenAdded(x =>
             {
                 x.Operation = this;
                 x.IsInput = true;
-                x.PropertyChanged += OnInputValueChanged;
-            })
-            .WhenRemoved(x =>
-            {
-                x.PropertyChanged -= OnInputValueChanged;
             });
             Output.WhenAdded(x =>
             {
                 x.Operation = this;
                 x.IsInput = false;
             });
-        }
-
-        private void OnInputValueChanged(object sender, PropertyChangedEventArgs e)
-        {
         }
 
         private Point _location;
@@ -66,8 +57,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _nodeModel, value);
         }
 
-        public NodifyObservableCollection<ConnectorViewModel> Input { get; } = new();
+        public NodifyObservableCollection<NodeConnectorViewModel> Input { get; } = new();
         
-        public NodifyObservableCollection<ConnectorViewModel> Output { get; } = new();
+        public NodifyObservableCollection<NodeConnectorViewModel> Output { get; } = new();
     }
 }

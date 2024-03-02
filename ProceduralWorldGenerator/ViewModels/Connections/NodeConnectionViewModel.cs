@@ -2,17 +2,17 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
-    public class ConnectionViewModel : ObservableObject
+    public class NodeConnectionViewModel : ObservableObject
     {
-        private ConnectorViewModel _input = default!;
-        public ConnectorViewModel Input
+        private NodeConnectorViewModel _input = default!;
+        public NodeConnectorViewModel Input
         {
             get => _input;
             set => SetProperty(ref _input, value);
         }
 
-        private ConnectorViewModel _output = default!;
-        public ConnectorViewModel Output
+        private NodeConnectorViewModel _output = default!;
+        public NodeConnectorViewModel Output
         {
             get => _output;
             set => SetProperty(ref _output, value);

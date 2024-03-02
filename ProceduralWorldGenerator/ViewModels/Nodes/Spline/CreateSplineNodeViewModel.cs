@@ -2,7 +2,7 @@
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
 {
-    public class CreateSplineNodeViewModel : CreateNodeViewModelBase<SplineNodeViewModel>
+    public class CreateSplineNodeViewModel : CreateMenuViewModelBase<SplineNodeViewModel>
     {
         public CreateSplineNodeViewModel(GeneratorViewModel calculator) : base(calculator)
         {

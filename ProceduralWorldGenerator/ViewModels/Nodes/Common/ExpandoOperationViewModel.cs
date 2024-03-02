@@ -3,12 +3,12 @@ using ProceduralWorldGenerator.ViewModels.Connections;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
-    public class ExpandoOperationViewModel : OperationViewModel
+    public class ExpandoNodeViewModel : GeneratorNodeViewModel
     {
-        public ExpandoOperationViewModel()
+        public ExpandoNodeViewModel()
         {
             AddInputCommand = new RequeryCommand(
-                () => Input.Add(new ConnectorViewModel()),
+                () => Input.Add(new NodeConnectorViewModel()),
                 () => Input.Count < MaxInput);
 
             RemoveInputCommand = new RequeryCommand(
@@ -16,7 +16,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
                 () => Input.Count > MinInput);
             
             AddOutputCommand = new RequeryCommand(
-                () => Output.Add(new ConnectorViewModel()),
+                () => Output.Add(new NodeConnectorViewModel()),
                 () => Output.Count < MaxInput);
 
             RemoveOutputCommand = new RequeryCommand(

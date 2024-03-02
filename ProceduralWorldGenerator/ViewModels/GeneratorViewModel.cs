@@ -9,13 +9,13 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class GeneratorViewModel : ObservableObject
     {
-        public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new();
-        public PendingConnectionViewModel PendingConnection { get; set; } = new();
+        public NodifyObservableCollection<NodeConnectionViewModel> Connections { get; } = new();
+        public PendingNodeConnectionViewModel PendingConnection { get; set; } = new();
         public OperationsMenuViewModel OperationsMenu { get; set; }
 
         public PendingCreateNodeViewModel PendingCreateNodeMenu { get; set; }
 
-        public CreateNodeViewModelBase CreateNodeMenu
+        public CreateMenuViewModelBase CreateNodeMenu
         {
             get => _createNodeMenu;
             set => SetProperty(ref _createNodeMenu, value);
@@ -28,17 +28,17 @@ namespace ProceduralWorldGenerator.ViewModels
         public INodifyCommand GroupSelectionCommand { get; }
         public INodifyCommand CreateNodeCommand { get; set; }
         
-        private NodifyObservableCollection<OperationViewModel> _operations = new();
-        public NodifyObservableCollection<OperationViewModel> Operations
+        private NodifyObservableCollection<GeneratorNodeViewModel> _operations = new();
+        public NodifyObservableCollection<GeneratorNodeViewModel> Operations
         {
             get => _operations;
             set => SetProperty(ref _operations, value);
         }
 
-        private NodifyObservableCollection<OperationViewModel> _selectedOperations = new();
-        private CreateNodeViewModelBase _createNodeMenu;
+        private NodifyObservableCollection<GeneratorNodeViewModel> _selectedOperations = new();
+        private CreateMenuViewModelBase _createNodeMenu;
 
-        public NodifyObservableCollection<OperationViewModel> SelectedOperations
+        public NodifyObservableCollection<GeneratorNodeViewModel> SelectedOperations
         {
             get => _selectedOperations;
             set => SetProperty(ref _selectedOperations, value);
@@ -48,11 +48,11 @@ namespace ProceduralWorldGenerator.ViewModels
 
         public GeneratorViewModel()
         {
-            CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
+            CreateConnectionCommand = new DelegateCommand<NodeConnectorViewModel>(
                 _ => CreateConnection(PendingConnection.Source, PendingConnection.Target),
                 _ => CanCreateConnection(PendingConnection.Source, PendingConnection.Target));
-            StartConnectionCommand = new DelegateCommand<ConnectorViewModel>(_ => PendingConnection.IsVisible = true, (c) => !(c.IsConnected && c.IsInput));
-            DisconnectConnectorCommand = new DelegateCommand<ConnectorViewModel>(DisconnectConnector);
+            StartConnectionCommand = new DelegateCommand<NodeConnectorViewModel>(_ => PendingConnection.IsVisible = true, (c) => !(c.IsConnected && c.IsInput));
+            DisconnectConnectorCommand = new DelegateCommand<NodeConnectorViewModel>(DisconnectConnector);
             DeleteSelectionCommand = new DelegateCommand(DeleteSelection);
             GroupSelectionCommand = new DelegateCommand(GroupSelectedOperations, () => SelectedOperations.Count > 0);
             CreateNodeCommand = new DelegateCommand(() =>
@@ -86,7 +86,7 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 x.Input.WhenRemoved(RemoveConnection);
 
-                void RemoveConnection(ConnectorViewModel i)
+                void RemoveConnection(NodeConnectorViewModel i)
                 {
                     var c = Connections.Where(con => con.Input == i || con.Output == i).ToArray();
                     c.ForEach(con => Connections.Remove(con));
@@ -120,13 +120,13 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
 
-        private void DisconnectConnector(ConnectorViewModel connector)
+        private void DisconnectConnector(NodeConnectorViewModel connector)
         {
             var connections = Connections.Where(c => c.Input == connector || c.Output == connector).ToList();
             connections.ForEach(c => Connections.Remove(c));
         }
 
-        internal bool CanCreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
+        internal bool CanCreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
         {
             if (target == null)
             {
@@ -151,7 +151,7 @@ namespace ProceduralWorldGenerator.ViewModels
             return true;
         }
 
-        internal void CreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
+        internal void CreateConnection(NodeConnectorViewModel source, NodeConnectorViewModel? target)
         {
             if (target == null)
             {
@@ -168,7 +168,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
             DisconnectConnector(input);
 
-            Connections.Add(new ConnectionViewModel
+            Connections.Add(new NodeConnectionViewModel
             {
                 Input = input,
                 Output = output,

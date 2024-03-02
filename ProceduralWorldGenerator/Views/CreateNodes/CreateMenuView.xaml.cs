@@ -2,9 +2,9 @@
 
 namespace ProceduralWorldGenerator.Views.CreateNodes
 {
-    public partial class CreateNodeBaseView : ContentControl
+    public partial class CreateMenuView : ContentControl
     {
-        public CreateNodeBaseView()
+        public CreateMenuView()
         {
             InitializeComponent();
         }

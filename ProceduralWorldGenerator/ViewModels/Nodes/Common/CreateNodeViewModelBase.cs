@@ -5,7 +5,7 @@ using ProceduralWorldGenerator.Helpers;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
-    public abstract class CreateNodeViewModelBase : ObservableObject
+    public abstract class CreateMenuViewModelBase : ObservableObject
     {
         private bool _isVisible;
         public bool IsVisible
@@ -36,7 +36,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             IsVisible = false;
         }
 
-        protected CreateNodeViewModelBase()
+        protected CreateMenuViewModelBase()
         {
             CreateOperation = new RequeryCommand(OnCreateOperation);
             CancelOperation = new RequeryCommand(Close);
@@ -50,7 +50,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         public abstract void SetModelTemplate(NodeViewModelBase model);
     }
     
-    public abstract class CreateNodeViewModelBase<TNodeViewModel> : CreateNodeViewModelBase
+    public abstract class CreateMenuViewModelBase<TNodeViewModel> : CreateMenuViewModelBase
         where TNodeViewModel : NodeViewModelBase
     {
         protected readonly GeneratorViewModel Calculator;
@@ -61,7 +61,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             private set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
         }
         
-        protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base()
+        protected CreateMenuViewModelBase(GeneratorViewModel calculator) : base()
         {
             Calculator = calculator;
         }
@@ -85,7 +85,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             NodeViewModel = (TNodeViewModel)model;
         }
 
-        private void TryHandlePendingConnection(OperationViewModel op)
+        private void TryHandlePendingConnection(GeneratorNodeViewModel op)
         {
             var pending = Calculator.PendingConnection;
             if (pending != null && pending.IsVisible)

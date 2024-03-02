@@ -39,7 +39,7 @@
         <Setter Property="Margin" Value="2"/>
     </Style>
     
-    <DataTemplate  x:Key="OkCancel" DataType="{x:Type createNodes:CreateNodeViewModelBase}">
+    <DataTemplate  x:Key="OkCancel" DataType="{x:Type createNodes:CreateMenuViewModelBase}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
