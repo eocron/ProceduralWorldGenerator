@@ -25,9 +25,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             VariableName = "vector";
         }
 
-        public int MinDimension => Value.MinDimension;
-        public int MaxDimension => Value.MaxDimension;
-
         public int Dimension
         {
             get => Value.Dimension;

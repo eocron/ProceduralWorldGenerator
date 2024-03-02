@@ -13,8 +13,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
 
         private VectorParameterViewModel _size = new()
         {
-            MinDimension = 1,
-            MaxDimension = 100,
             IsInput = true,
             Title = "size"
         };
@@ -41,9 +39,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _offset;
             set => SetProperty(ref _offset, value);
         }
-
-        public int MinDimension => Size.MinDimension;
-        public int MaxDimension => Size.MaxDimension;
 
         public int Dimension
         {

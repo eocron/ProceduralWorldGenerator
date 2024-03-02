@@ -6,6 +6,7 @@
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:views="clr-namespace:ProceduralWorldGenerator.Views"
              xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
+             xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
@@ -15,24 +16,26 @@
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource BorderStyle}">
-        <StackPanel>
-            <TextBlock Text="{Binding Description}"/>
-            <Grid>
-                <splines:SplineEditorView
-                    Width="1000" 
-                    Height="1000" 
-                    LineBrush="{DynamicResource CircuitConnection.StrokeBrush}" 
-                    GridBrush="{DynamicResource GridLinesBrush}"
-                    DataPoints="{Binding Spline.DataPoints}"
-                    RepeatClampCount="10"
-                    RightClamp="{Binding Spline.RightClamp}"
-                    LeftClamp="{Binding Spline.LeftClamp}"
-                    TextForeground="{DynamicResource ForegroundBrush}">
-                </splines:SplineEditorView>
-            </Grid>
-
-            <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
+    <createNodes1:CreateNodeBaseView Title="Create spline" 
+                                     OkButtonCommand="{Binding CreateOperation}" 
+                                     CancelButtonCommand="{Binding CancelOperation}"
+                                     DataContext="{Binding}"
+                                     d:DataContext="{d:DesignInstance createNodes:CreateSplineNodeViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <splines:SplineEditorView
+                Width="1000" 
+                Height="1000" 
+                LineBrush="{DynamicResource CircuitConnection.StrokeBrush}" 
+                GridBrush="{DynamicResource GridLinesBrush}"
+                DataPoints="{Binding NodeViewModel.Spline.DataPoints}"
+                RepeatClampCount="10"
+                RightClamp="{Binding NodeViewModel.Spline.RightClamp}"
+                LeftClamp="{Binding NodeViewModel.Spline.LeftClamp}"
+                TextForeground="{DynamicResource ForegroundBrush}">
+            </splines:SplineEditorView>
+            <ListBox Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints, Mode=OneWay}"></ListBox>
         </StackPanel>
-    </Border>
+    </createNodes1:CreateNodeBaseView>
+    
+    
 </UserControl>

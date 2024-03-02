@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Media;
 using OxyPlot;
@@ -127,9 +128,27 @@ namespace ProceduralWorldGenerator.Views.Splines
         public ObservableCollection<Point> DataPoints
         {
             get => (ObservableCollection<Point>)GetValue(DataPointsProperty);
-            set => SetValue(DataPointsProperty, value);
+            set
+            {
+                void OnDataPointsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+                {
+                    this.OnDataPointsChanged();
+                }
+                if (value != null)
+                {
+                    value.CollectionChanged += OnDataPointsCollectionChanged;
+                }
+
+                var prev = (ObservableCollection<Point>)GetValue(DataPointsProperty);
+                if (prev != null)
+                {
+                    prev.CollectionChanged -= OnDataPointsCollectionChanged;
+                }
+
+                SetValue(DataPointsProperty, value);
+            }
         }
-        
+
         private static void OnClampChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((SplineEditorView)d).OnClampChanged();

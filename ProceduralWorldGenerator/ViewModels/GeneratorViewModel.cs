@@ -57,7 +57,7 @@ namespace ProceduralWorldGenerator.ViewModels
             DeleteSelectionCommand = new DelegateCommand(DeleteSelection);
             GroupSelectionCommand = new DelegateCommand(GroupSelectedOperations, () => SelectedOperations.Count > 0);
             CreateNodeCommand = new DelegateCommand(() =>
-                CreateNode(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.NodeViewModel));
+                OpenNodeCreationDialog(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.NodeViewModel));
 
             Connections.WhenAdded(c =>
             {
@@ -112,10 +112,10 @@ namespace ProceduralWorldGenerator.ViewModels
             CreateNodeMenu = NodeCollectionModel.CreateNodeViewModels.First().Value;
         }
         
-        private void CreateNode(Point location, NodeViewModelBase obj)
+        private void OpenNodeCreationDialog(Point location, NodeViewModelBase obj)
         {
             var tmp = NodeCollectionModel.CreateNodeViewModels[obj.GetType()];
-            tmp.SetModel(obj);
+            tmp.SetModelTemplate(obj);
             CreateNodeMenu = tmp;
             CreateNodeMenu.OpenAt(location);
         }

@@ -29,8 +29,6 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
             get => _description;
             set => SetProperty(ref _description, value);
         }
-        
-        public NodifyObservableCollection<string> ValidationErrors = new();
 
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
@@ -58,7 +56,11 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         }
         protected abstract void OnCreateOperation();
 
-        public abstract void SetModel(NodeViewModelBase model);
+        /// <summary>
+        /// Will copy model and assign copy to NodeViewModel
+        /// </summary>
+        /// <param name="model"></param>
+        public abstract void SetModelTemplate(NodeViewModelBase model);
     }
     
     public abstract class CreateNodeViewModelBase<TNodeViewModel> : CreateNodeViewModelBase
@@ -68,7 +70,7 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
         public TNodeViewModel NodeViewModel
         {
             get => _nodeViewModel;
-            set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
+            private set => SetProperty(ref _nodeViewModel, ObjectHelper.DeepCopy(value));
         }
         
         protected CreateNodeViewModelBase(GeneratorViewModel calculator) : base(calculator)
@@ -89,7 +91,7 @@ namespace ProceduralWorldGenerator.ViewModels.CreateNodes
 
         }
 
-        public override void SetModel(NodeViewModelBase model)
+        public override void SetModelTemplate(NodeViewModelBase model)
         {
             NodeViewModel = (TNodeViewModel)model;
         }

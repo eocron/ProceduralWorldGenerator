@@ -14,16 +14,12 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
         private VectorParameterViewModel _input = new()
         {
             Title = "v",
-            MinDimension = 1, 
-            MaxDimension = 3, 
             IsInput = true
         };
 
         private VectorParameterViewModel _output = new()
         {
             Title = "v",
-            MinDimension = 1, 
-            MaxDimension = 1, 
             Dimension = 1
         };
 
@@ -44,16 +40,13 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _output;
             set => SetProperty(ref _output, value);
         }
-        
-        public int MinDimension => Input.MinDimension;
-        public int MaxDimension => Input.MaxDimension;
 
         public int Dimension
         {
             get => Input.Dimension;
             set
             {
-                SetNestedProperty(nameof(Input), Input.Dimension, value, () => Input.Dimension = value);
+                Input.Dimension = value;
             }
         }
 

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
@@ -14,15 +15,17 @@
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource BorderStyle}">
-        <StackPanel>
-            <TextBlock Text="{Binding Description}"/>
-            <xctk:IntegerUpDown 
+    <createNodes1:CreateNodeBaseView Title="Create simplex noise" 
+                                     OkButtonCommand="{Binding CreateOperation}" 
+                                     CancelButtonCommand="{Binding CancelOperation}"
+                                     DataContext="{Binding}"
+                                     d:DataContext="{d:DesignInstance createNodes:CreateSimplexNoiseNodeViewModel}">
+        <createNodes1:CreateNodeBaseView.Content>
+            <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
-                Maximum="{Binding NodeViewModel.MaxDimension}"
-                Minimum="{Binding NodeViewModel.MinDimension}"
+                Maximum="3"
+                Minimum="1"
                 Increment="1"/>
-            <ContentPresenter ContentTemplate="{StaticResource OkCancel}" Content="{Binding}"/>
-        </StackPanel>
-    </Border>
+        </createNodes1:CreateNodeBaseView.Content>
+    </createNodes1:CreateNodeBaseView>
 </UserControl>
