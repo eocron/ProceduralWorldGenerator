@@ -15,30 +15,22 @@ namespace ProceduralWorldGenerator.Views.Splines
         private float _initiationDistance;
 
         private Cursor? _previousCursor;
-        
-        public DataPoint CurrentDataPoint => _series.Points[SelectedDataPointIndex];
+
+        public EventHandler OnDataChanged;
 
         public int SelectedDataPointIndex
         {
             get => _selectedDataPointIndex;
-            set
-            {
-                var prev = _selectedDataPointIndex;
-                SetProperty(ref _selectedDataPointIndex, value);
-                if (prev != value)
-                {
-                    OnPropertyChanged(nameof(CurrentDataPoint));
-                }
-            }
+            set => SetProperty(ref _selectedDataPointIndex, value);
         }
 
-        public bool IsDragging
+        private bool IsDragging
         {
             get => _isDragging;
             set => SetProperty(ref _isDragging, value);
         }
 
-        public float InitiationDistance
+        private float InitiationDistance
         {
             get => _initiationDistance;
             set => SetProperty(ref _initiationDistance, value);
@@ -80,10 +72,7 @@ namespace ProceduralWorldGenerator.Views.Splines
                 var prev = _series.Points[SelectedDataPointIndex];
                 if (!targetDataPoint.Equals(prev))
                 {
-                    _series.Points.RemoveAt(SelectedDataPointIndex);
-                    _series.Points.Insert(SelectedDataPointIndex, targetDataPoint);
-                    OnPropertyChanged(nameof(CurrentDataPoint));
-                    _series.PlotModel.InvalidatePlot(true);
+                    MovePointTo(targetDataPoint);
                     e.Handled = true;
                 }
             }
@@ -101,25 +90,52 @@ namespace ProceduralWorldGenerator.Views.Splines
 
         private void OnMouseDown(object? sender, OxyMouseDownEventArgs e)
         {
+            var dp = Axis.InverseTransform(e.Position, _series.XAxis, _series.YAxis);
             if (e.HitTestResult?.Item != null && e.HitTestResult.Item is DataPoint)
             {
                 var dataPointOffset = e.HitTestResult.Index;
                 var dragAndDropIndex = (int)Math.Round(dataPointOffset);
                 var isWithinInitiationDistance = Math.Abs(dataPointOffset - dragAndDropIndex) <= InitiationDistance;
-                var isDragAndDropInitiated = isWithinInitiationDistance && e.ClickCount == 1;
+                var isDragAndDropInitiated = isWithinInitiationDistance && e.ClickCount == 1 && !e.IsAltDown;
                 var isCreateInitiated = e.ClickCount > 1;
+                var idDeletedInitiated = isWithinInitiationDistance && e.ClickCount == 1 && e.IsAltDown;
                 if (isDragAndDropInitiated)
                 {
                     StartDrag(dragAndDropIndex);
                     e.Handled = true;
                 }
-                else if (isCreateInitiated)
+                else if (isCreateInitiated && !e.IsAltDown)
                 {
                     var insertIndex = (int)Math.Ceiling(dataPointOffset);
                     CreatePoint(insertIndex, Axis.InverseTransform(e.Position, _series.XAxis, _series.YAxis));
                     e.Handled = true;
                 }
+                else if(idDeletedInitiated)
+                {
+                    DeletePoint(dragAndDropIndex);
+                    e.Handled = true;
+                }
             }
+        }
+        
+        private void MovePointTo(DataPoint targetDataPoint)
+        {
+            _series.Points.RemoveAt(SelectedDataPointIndex);
+            _series.Points.Insert(SelectedDataPointIndex, targetDataPoint);
+            _series.PlotModel.InvalidatePlot(true);
+            OnDataChanged?.Invoke(this, new EventArgs());
+        }
+
+        private void DeletePoint(int deleteIndex)
+        {
+            if(deleteIndex < 0 || deleteIndex > _series.Points.Count || _series.Points.Count == 0)
+                return;
+            
+            IsDragging = false;
+            SelectedDataPointIndex = deleteIndex;
+            _series.Points.RemoveAt(deleteIndex);
+            _series.PlotModel.InvalidatePlot(true);
+            OnDataChanged?.Invoke(this, new EventArgs());
         }
 
         private void CreatePoint(int insertIndex, DataPoint point)
@@ -128,6 +144,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             SelectedDataPointIndex = insertIndex;
             _series.Points.Insert(insertIndex, point);
             _series.PlotModel.InvalidatePlot(true);
+            OnDataChanged?.Invoke(this, new EventArgs());
         }
 
         private void EndDrag()
@@ -135,6 +152,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             Mouse.OverrideCursor = _previousCursor;
             _previousCursor = null;
             IsDragging = false;
+            OnDataChanged?.Invoke(this, new EventArgs());
         }
 
         private void StartDrag(int dataPointIndex)
@@ -143,6 +161,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             Mouse.OverrideCursor = Cursors.Hand;
             SelectedDataPointIndex = dataPointIndex;
             IsDragging = true;
+            OnDataChanged?.Invoke(this, new EventArgs());
         }
     }
 }

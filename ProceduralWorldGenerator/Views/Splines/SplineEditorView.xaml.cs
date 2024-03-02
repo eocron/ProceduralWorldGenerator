@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using Nodify.Shared;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -17,7 +19,8 @@ namespace ProceduralWorldGenerator.Views.Splines
             InitializeComponent();
             
             var plot = new PlotModel { Title = null };
-            _splineSeries = new LineSeries {  MarkerType = MarkerType.Circle};
+            IInterpolationAlgorithm interpolation = null;
+            _splineSeries = new LineSeries {  MarkerType = MarkerType.Circle, InterpolationAlgorithm = interpolation};
             _splineInputAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
@@ -33,8 +36,8 @@ namespace ProceduralWorldGenerator.Views.Splines
             };
             _splineSeries.LabelFormatString = "x {0:F2}\ny {1:F2}";
             
-            _leftClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2};
-            _rightClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2};
+            _leftClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2, InterpolationAlgorithm = interpolation};
+            _rightClampSeries = new LineSeries() { MarkerType = MarkerType.None, LineStyle = LineStyle.Dot, Color = _splineSeries.Color, StrokeThickness = 2, InterpolationAlgorithm = interpolation};
             
             plot.Axes.Add(_splineInputAxis);
             plot.Axes.Add(_splineOutputAxis);
@@ -47,15 +50,29 @@ namespace ProceduralWorldGenerator.Views.Splines
             ZoomToBest();
             RecalculateClamp();
             
-            _selectedDataPoint = new PlotMouseController(_splineSeries);
-            _selectedDataPoint.PropertyChanged += OnMouseControllerPropertyChanged;
+            _mouseController = new PlotMouseController(_splineSeries);
+            _mouseController.OnDataChanged += (s,e)=> OnDataPointsChangedFromMouse();
         }
-        private readonly PlotMouseController _selectedDataPoint;
+        private readonly PlotMouseController _mouseController;
         private readonly LinearAxis _splineInputAxis;
         private readonly LinearAxis _splineOutputAxis;
         private readonly LineSeries _splineSeries;
         private readonly LineSeries _rightClampSeries;
         private readonly LineSeries _leftClampSeries;
+        
+        private void OnDataPointsChangedFromMouse()
+        {
+            ChangeValue(v =>
+            {
+                if (DataPoints != null)
+                {
+                    DataPoints.Clear();
+                    DataPoints.AddRange(_splineSeries.Points.Select(x => new Point(x.X, x.Y)));
+                }
+                
+                RecalculateClamp();
+            });
+        }
 
         private void OnDataPointsChanged()
         {
@@ -107,14 +124,6 @@ namespace ProceduralWorldGenerator.Views.Splines
             action(Plot);
             Plot.InvalidatePlot(true);
             GetBindingExpression(PlotProperty)?.UpdateTarget();
-        }
-
-        private void OnMouseControllerPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            ChangeValue(_ =>
-            {
-                RecalculateClamp();
-            });
         }
         
         private void ZoomToBest()

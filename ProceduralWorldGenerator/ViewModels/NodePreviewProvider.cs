@@ -31,8 +31,8 @@ namespace ProceduralWorldGenerator.ViewModels
             Bind<VectorNodeViewModel, CreateVectorNodeViewModel>();
             Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>();
             Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>();
-            Bind<ValueNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>();
-            Bind<SimplexNoiseNodeViewModel, CreateValueNoiseNodeViewModel>();
+            Bind<ValueNoiseNodeViewModel, CreateValueNoiseNodeViewModel>();
+            Bind<SimplexNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>();
             Bind<SplineNodeViewModel, CreateSplineNodeViewModel>();
         }
 
