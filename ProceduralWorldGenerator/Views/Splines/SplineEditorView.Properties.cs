@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Media;
 using OxyPlot;
+using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
 
 namespace ProceduralWorldGenerator.Views.Splines
 {

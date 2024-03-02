@@ -18,14 +18,14 @@
                     <ContentPresenter/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Grid.Row="0" Command="{Binding OkButtonCommand}" IsDefault="True" IsEnabled="{Binding Path=Content.(Validation.HasError), Converter={converters:InverseBooleanConverter}}">
-                            <TextBlock Text="Ok"></TextBlock>
+                            <TextBlock Text="Ok" />
                         </Button>
                         <Button Grid.Column="1" Grid.Row="0" Command="{Binding CancelButtonCommand}" IsCancel="True">
-                            <TextBlock Text="Cancel"></TextBlock>
+                            <TextBlock Text="Cancel" />
                         </Button>
                     </Grid>
                 </StackPanel>

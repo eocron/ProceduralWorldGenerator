@@ -8,11 +8,16 @@
              xmlns:proceduralWorldGenerator="clr-namespace:ProceduralWorldGenerator"
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
              xmlns:connections="clr-namespace:ProceduralWorldGenerator.ViewModels.Connections"
-             xmlns:nodes="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes"
-             xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Grouping"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
-             xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:chunk="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Chunk"
+             xmlns:permutation="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Permutation"
+             xmlns:simplexNoise="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise"
+             xmlns:worleyNoise="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise"
+             xmlns:valueNoise="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.ValueNoise"
+             xmlns:vector="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Vector"
+             xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
+             xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -90,31 +95,31 @@
                                       CompletedCommand="{Binding DataContext.CreateConnectionCommand, RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}" />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type createNodes1:CreateChunkNodeViewModel}">
+        <DataTemplate DataType="{x:Type chunk:CreateChunkNodeViewModel}">
             <createNodes:CreateChunkNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreatePermutationTableNodeViewModel}">
+        <DataTemplate DataType="{x:Type permutation:CreatePermutationTableNodeViewModel}">
             <createNodes:CreatePermutationTableNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreateSimplexNoiseNodeViewModel}">
+        <DataTemplate DataType="{x:Type simplexNoise:CreateSimplexNoiseNodeViewModel}">
             <createNodes:CreateSimplexNoiseNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreateWorleyNoiseNodeViewModel}">
+        <DataTemplate DataType="{x:Type worleyNoise:CreateWorleyNoiseNodeViewModel}">
             <createNodes:CreateWorleyNoiseNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreateValueNoiseNodeViewModel}">
+        <DataTemplate DataType="{x:Type valueNoise:CreateValueNoiseNodeViewModel}">
             <createNodes:CreateValueNoiseNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreateVectorNodeViewModel}">
+        <DataTemplate DataType="{x:Type vector:CreateVectorNodeViewModel}">
             <createNodes:CreateVectorNodeView />
         </DataTemplate>
         
-        <DataTemplate DataType="{x:Type createNodes1:CreateSplineNodeViewModel}">
+        <DataTemplate DataType="{x:Type spline:CreateSplineNodeViewModel}">
             <createNodes:CreateSplineNodeView />
         </DataTemplate>
         
@@ -205,10 +210,10 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Grid ShowGridLines="False">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Column="0" Grid.Row="0"
                                                 Style="{StaticResource IconButton}"

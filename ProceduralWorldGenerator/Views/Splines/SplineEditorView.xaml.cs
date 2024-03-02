@@ -9,6 +9,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Wpf;
+using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
 
 namespace ProceduralWorldGenerator.Views.Splines
 {

@@ -1,5 +1,6 @@
 ﻿using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+using ProceduralWorldGenerator.ViewModels.Nodes.Permutation;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {

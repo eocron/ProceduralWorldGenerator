@@ -4,10 +4,15 @@ using System.Linq;
 using System.Reflection;
 using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
-using ProceduralWorldGenerator.ViewModels.CreateNodes;
 using ProceduralWorldGenerator.ViewModels.Nodes;
-using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
-using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+using ProceduralWorldGenerator.ViewModels.Nodes.Chunk;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+using ProceduralWorldGenerator.ViewModels.Nodes.Permutation;
+using ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise;
+using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
+using ProceduralWorldGenerator.ViewModels.Nodes.ValueNoise;
+using ProceduralWorldGenerator.ViewModels.Nodes.Vector;
+using ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

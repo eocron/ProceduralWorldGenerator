@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using Nodify.Shared;
-using ProceduralWorldGenerator.ViewModels.Nodes.Grouping;
-using ProceduralWorldGenerator.ViewModels.Nodes.Parameters;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {

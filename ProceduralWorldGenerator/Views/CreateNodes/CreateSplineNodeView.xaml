@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
-             xmlns:views="clr-namespace:ProceduralWorldGenerator.Views"
              xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
              d:DesignWidth="*"
-             d:DataContext="{d:DesignInstance createNodes:CreateSplineNodeViewModel}">
+             d:DataContext="{d:DesignInstance spline:CreateSplineNodeViewModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
@@ -20,7 +19,7 @@
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
-                                     d:DataContext="{d:DesignInstance createNodes:CreateSplineNodeViewModel}">
+                                     d:DataContext="{d:DesignInstance spline:CreateSplineNodeViewModel}">
         <StackPanel Orientation="Horizontal">
             <splines:SplineEditorView
                 Width="1000" 
@@ -31,9 +30,8 @@
                 RepeatClampCount="10"
                 RightClamp="{Binding NodeViewModel.Spline.RightClamp}"
                 LeftClamp="{Binding NodeViewModel.Spline.LeftClamp}"
-                TextForeground="{DynamicResource ForegroundBrush}">
-            </splines:SplineEditorView>
-            <ListBox Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints, Mode=OneWay}"></ListBox>
+                TextForeground="{DynamicResource ForegroundBrush}" />
+            <ListBox Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints, Mode=OneWay}" />
         </StackPanel>
     </createNodes1:CreateNodeBaseView>
     

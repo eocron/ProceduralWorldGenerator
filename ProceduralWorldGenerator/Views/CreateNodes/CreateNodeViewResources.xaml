@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
-                    xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
-                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common">
     <Style TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource {x:Type TextBlock}}">
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
@@ -43,17 +42,17 @@
     <DataTemplate  x:Key="OkCancel" DataType="{x:Type createNodes:CreateNodeViewModelBase}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Grid.Row="0" Command="{Binding CreateOperation}" IsDefault="True">
-                <TextBlock Text="Ok"></TextBlock>
+                <TextBlock Text="Ok" />
             </Button>
             <Button Grid.Column="1" Grid.Row="0" Command="{Binding CancelOperation}" IsCancel="True">
-                <TextBlock Text="Cancel"></TextBlock>
+                <TextBlock Text="Cancel" />
             </Button>
         </Grid>
     </DataTemplate>

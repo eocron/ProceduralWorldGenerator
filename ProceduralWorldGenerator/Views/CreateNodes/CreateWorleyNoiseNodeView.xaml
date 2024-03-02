@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:worleyNoise="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
              d:DesignWidth="250"
-             d:DataContext="{d:DesignInstance createNodes:CreateWorleyNoiseNodeViewModel}">
+             d:DataContext="{d:DesignInstance worleyNoise:CreateWorleyNoiseNodeViewModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
@@ -19,7 +19,7 @@
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
-                                     d:DataContext="{d:DesignInstance createNodes:CreateWorleyNoiseNodeViewModel}">
+                                     d:DataContext="{d:DesignInstance worleyNoise:CreateWorleyNoiseNodeViewModel}">
         <createNodes1:CreateNodeBaseView.Content>
             <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"

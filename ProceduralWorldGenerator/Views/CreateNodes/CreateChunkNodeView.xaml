@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.ViewModels.CreateNodes"
-             xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:chunk="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Chunk"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
              d:DesignWidth="250"
-             d:DataContext="{d:DesignInstance createNodes:CreateChunkNodeViewModel}">
+             d:DataContext="{d:DesignInstance chunk:CreateChunkNodeViewModel}">
     <UserControl.Resources>
         <ResourceDictionary Source="CreateNodeViewResources.xaml"/>
     </UserControl.Resources>
@@ -20,7 +19,7 @@
                                      OkButtonCommand="{Binding CreateOperation}" 
                                      CancelButtonCommand="{Binding CancelOperation}"
                                      DataContext="{Binding}"
-                                     d:DataContext="{d:DesignInstance createNodes:CreateChunkNodeViewModel}">
+                                     d:DataContext="{d:DesignInstance chunk:CreateChunkNodeViewModel}">
         <createNodes1:CreateNodeBaseView.Content>
             <xctk:IntegerUpDown
                 Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
