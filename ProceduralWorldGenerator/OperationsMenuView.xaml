@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:converters="clr-namespace:ProceduralWorldGenerator.Common.Converters;assembly=ProceduralWorldGenerator.Common"
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
              mc:Ignorable="d"
              MinWidth="250"

@@ -1,4 +1,4 @@
-﻿using Nodify.Shared;
+﻿using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {

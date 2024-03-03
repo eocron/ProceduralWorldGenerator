@@ -1,5 +1,5 @@
 ﻿using System;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 
 namespace ProceduralWorldGenerator.ViewModels

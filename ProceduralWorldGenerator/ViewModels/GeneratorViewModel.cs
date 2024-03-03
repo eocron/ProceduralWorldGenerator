@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;

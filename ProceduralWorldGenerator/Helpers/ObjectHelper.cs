@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Newtonsoft.Json;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.Helpers
 {

@@ -5,7 +5,7 @@ using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 
 namespace Debug
 {

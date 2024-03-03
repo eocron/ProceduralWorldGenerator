@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;

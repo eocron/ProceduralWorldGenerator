@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

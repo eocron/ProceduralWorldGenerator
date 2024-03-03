@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {

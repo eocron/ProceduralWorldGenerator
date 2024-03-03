@@ -5,7 +5,7 @@ using System.Windows.Media;
 using OxyPlot;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
-using static Nodify.Shared.DependencyPropertyRegistrar<ProceduralWorldGenerator.Views.Splines.SplineEditorView>;
+using static ProceduralWorldGenerator.Common.DependencyPropertyRegistrar<ProceduralWorldGenerator.Views.Splines.SplineEditorView>;
 
 namespace ProceduralWorldGenerator.Views.Splines
 {

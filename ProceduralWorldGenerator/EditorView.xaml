@@ -9,7 +9,7 @@
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
              xmlns:connections="clr-namespace:ProceduralWorldGenerator.ViewModels.Connections"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
-             xmlns:converters="clr-namespace:Nodify.Shared.Converters;assembly=Nodify.Shared"
+             xmlns:converters="clr-namespace:ProceduralWorldGenerator.Common.Converters;assembly=ProceduralWorldGenerator.Common"
              xmlns:chunk="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Chunk"
              xmlns:permutation="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Permutation"
              xmlns:simplexNoise="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise"

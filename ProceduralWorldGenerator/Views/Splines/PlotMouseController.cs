@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -123,7 +123,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             _series.Points.RemoveAt(SelectedDataPointIndex);
             _series.Points.Insert(SelectedDataPointIndex, targetDataPoint);
             _series.PlotModel.InvalidatePlot(true);
-            OnDataChanged?.Invoke(this, new EventArgs());
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void DeletePoint(int deleteIndex)
@@ -135,7 +135,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             SelectedDataPointIndex = deleteIndex;
             _series.Points.RemoveAt(deleteIndex);
             _series.PlotModel.InvalidatePlot(true);
-            OnDataChanged?.Invoke(this, new EventArgs());
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void CreatePoint(int insertIndex, DataPoint point)
@@ -144,7 +144,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             SelectedDataPointIndex = insertIndex;
             _series.Points.Insert(insertIndex, point);
             _series.PlotModel.InvalidatePlot(true);
-            OnDataChanged?.Invoke(this, new EventArgs());
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void EndDrag()
@@ -152,7 +152,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             Mouse.OverrideCursor = _previousCursor;
             _previousCursor = null;
             IsDragging = false;
-            OnDataChanged?.Invoke(this, new EventArgs());
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void StartDrag(int dataPointIndex)
@@ -161,7 +161,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             Mouse.OverrideCursor = Cursors.Hand;
             SelectedDataPointIndex = dataPointIndex;
             IsDragging = true;
-            OnDataChanged?.Invoke(this, new EventArgs());
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

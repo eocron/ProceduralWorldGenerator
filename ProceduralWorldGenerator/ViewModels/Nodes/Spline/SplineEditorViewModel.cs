@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Nodify.Shared;
+using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline

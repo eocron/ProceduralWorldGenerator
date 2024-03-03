@@ -18,7 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nodify.Shared\Nodify.Shared.csproj" />
+      <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj" />
+      <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
