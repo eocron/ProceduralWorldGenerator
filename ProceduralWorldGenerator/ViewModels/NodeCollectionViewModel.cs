@@ -107,6 +107,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Output.Title = "out";
                     x.Input.Title = "in";
                     x.Spline.DataPoints.AddRange(SplineNodeViewModelHelper.GetLinearDataPoints().Select(p=> new EditablePointViewModel(){X = p.X, Y = p.Y}));
+                    x.SupportEdit = true;
                 });
             Bind<ExpressionNodeViewModel, CreateExpressionNodeViewModel>(
                 "Expression", 

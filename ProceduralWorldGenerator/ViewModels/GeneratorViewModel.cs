@@ -30,6 +30,8 @@ namespace ProceduralWorldGenerator.ViewModels
         public INodifyCommand GroupSelectionCommand { get; }
         public INodifyCommand CreateNodeCommand { get; set; }
         
+        public INodifyCommand EditNodeCommand { get; set; }
+        
         private NodifyObservableCollection<GeneratorNodeViewModel> _operations = new();
         public NodifyObservableCollection<GeneratorNodeViewModel> Operations
         {
@@ -59,6 +61,8 @@ namespace ProceduralWorldGenerator.ViewModels
             GroupSelectionCommand = new DelegateCommand(GroupSelectedOperations, () => SelectedOperations.Count > 0);
             CreateNodeCommand = new DelegateCommand(() =>
                 OpenNodeCreationDialog(PendingCreateNodeMenu.Location, PendingCreateNodeMenu.Preview));
+            EditNodeCommand = new DelegateCommand(() =>
+                OpenNodeEditDialog(SelectedOperations.Single()), ()=> SelectedOperations.Count == 1 && SelectedOperations.Single().NodeModel.SupportEdit);
 
             Connections.WhenAdded(c =>
             {
@@ -111,23 +115,42 @@ namespace ProceduralWorldGenerator.ViewModels
             foreach (var createMenu in NodeCollectionModel.GetCreateMenus())
             {
                 createMenu.OnCreateInvoked += (menu, _) => OnCreateOperation((CreateMenuViewModelBase)menu);
+                createMenu.OnEditInvoked += (menu, _) => OnEditOperation((CreateMenuViewModelBase)menu);
                 createMenu.Syntax = Syntax;
             }
             CreateNodeMenu = NodeCollectionModel.GetCreateMenus().First();
         }
-        
+
+        private void OpenNodeEditDialog(GeneratorNodeViewModel model)
+        {
+            var menu = NodeCollectionModel.GetCreateMenuViewModel(model.NodeModel.GetType());
+            menu.PrevModel = model.NodeModel;
+            menu.NewModel = ObjectHelper.DeepClone<NodeViewModelBase>(model.NodeModel);
+            menu.Location = model.Location;
+            CreateNodeMenu = menu;
+            CreateNodeMenu.ShowEditDialog();
+        }
+
         private void OpenNodeCreationDialog(Point location, GeneratorPreviewNodeViewModel preview)
         {
             var menu = NodeCollectionModel.GetCreateMenuViewModel(preview.NodeType);
-            menu.Model = NodeCollectionModel.CreateTemplateNodeViewModel(preview.NodeType);
+            menu.PrevModel = null;
+            menu.NewModel = NodeCollectionModel.CreateTemplateNodeViewModel(preview.NodeType);
             menu.Location = location;
             CreateNodeMenu = menu;
-            CreateNodeMenu.Show();
+            CreateNodeMenu.ShowCreateDialog();
+        }
+
+        private void OnEditOperation(CreateMenuViewModelBase menu)
+        {
+            var generatorModel = Operations.Where(x => x.NodeModel == menu.PrevModel).Single();
+            generatorModel.NodeModel = (NodeViewModelBase)menu.NewModel;
+            menu.Close();
         }
         
         private void OnCreateOperation(CreateMenuViewModelBase menu)
         {
-            var op = NodeCollectionModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.Model);
+            var op = NodeCollectionModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.NewModel);
             op.Location = menu.Location;
             this.Operations.Add(op);
             Syntax.AddVariableName(op.NodeModel.VariableName);

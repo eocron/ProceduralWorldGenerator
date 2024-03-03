@@ -13,5 +13,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _variableName;
             set => SetProperty(ref _variableName, value);
         }
+
+        public bool SupportEdit { get; set; }
     }
 }

@@ -226,6 +226,8 @@
                             Command="{Binding DeleteSelectionCommand}" />
                 <KeyBinding Key="C"
                             Command="{Binding GroupSelectionCommand}" />
+                <KeyBinding Key="E"
+                            Command="{Binding EditNodeCommand}" />
             </nodify:NodifyEditor.InputBindings>
 
             <nodify:NodifyEditor.Triggers>

@@ -13,6 +13,12 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _isVisible, value);
         }
 
+        public bool IsEdit
+        {
+            get => _isEdit;
+            set => SetProperty(ref _isEdit, value);
+        }
+
         private Point _location;
         public Point Location
         {
@@ -20,11 +26,18 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _location, value);
         }
         
-        private object _model;
-        public object Model
+        private object _newModel;
+        public object NewModel
         {
-            get => _model;
-            set => SetProperty(ref _model, value);
+            get => _newModel;
+            set => SetProperty(ref _newModel, value);
+        }
+        
+        private object _prevModel;
+        public object PrevModel
+        {
+            get => _prevModel;
+            set => SetProperty(ref _prevModel, value);
         }
 
         public NodeSyntaxViewModel Syntax
@@ -34,14 +47,25 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         }
 
         public EventHandler OnCreateInvoked;
+        public EventHandler OnEditInvoked;
+        
         private NodeSyntaxViewModel _syntax;
+        private bool _isEdit;
 
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 
-        public virtual void Show()
+        public virtual void ShowCreateDialog()
         {
             Close();
+            IsEdit = false;
+            IsVisible = true;
+        }
+        
+        public virtual void ShowEditDialog()
+        {
+            Close();
+            IsEdit = true;
             IsVisible = true;
         }
 
@@ -54,15 +78,17 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         {
             CreateOperation = new RequeryCommand(()=>
             {
-                OnCreateOperation();
-                OnCreateInvoked?.Invoke(this, EventArgs.Empty);
+                if (IsEdit)
+                {
+                    OnEditInvoked?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    OnCreateInvoked?.Invoke(this, EventArgs.Empty);
+                }
                 Close();
             });
             CancelOperation = new RequeryCommand(Close);
-        }
-
-        protected virtual void OnCreateOperation()
-        {
         }
     }
 }
