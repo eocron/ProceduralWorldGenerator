@@ -8,6 +8,7 @@ using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Chunk;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Expression;
+using ProceduralWorldGenerator.ViewModels.Nodes.Output;
 using ProceduralWorldGenerator.ViewModels.Nodes.Permutation;
 using ProceduralWorldGenerator.ViewModels.Nodes.SimplexNoise;
 using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
@@ -38,8 +39,17 @@ namespace ProceduralWorldGenerator.ViewModels
                 "N-dimensional vector of float numbers.",
                 x =>
                 {
-                    x.VariableName = "newVariable";
+                    x.VariableName = "newInputVariable";
                     x.Value.Title = "out";
+                    x.Dimension = 1;
+                });
+            Bind<OutputVectorNodeViewModel, CreateOutputVectorNodeViewModel>(
+                "Output vector", 
+                "Output vector or vector array which will hold calculated results.",
+                x =>
+                {
+                    x.VariableName = "newOutputVariable";
+                    x.Input.Title = "in";
                     x.Dimension = 1;
                 });
             Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>(

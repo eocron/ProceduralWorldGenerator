@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="ProceduralWorldGenerator.Views.CreateNodes.CreateOutputVectorNodeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vector="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Vector"
+             xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:converters="clr-namespace:ProceduralWorldGenerator.Common.Converters;assembly=ProceduralWorldGenerator.Common"
+             xmlns:validators="clr-namespace:ProceduralWorldGenerator.Common.Validators;assembly=ProceduralWorldGenerator.Common"
+             xmlns:output="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Output"
+             mc:Ignorable="d"
+             MinWidth="250"
+             d:DesignHeight="400"
+             d:DesignWidth="250"
+             d:DataContext="{d:DesignInstance output:CreateOutputVectorNodeViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
+    </UserControl.Resources>
+    
+    <createNodes:CreateMenuView Title="Create output vector"
+                                     OkButtonCommand="{Binding CreateOperation}" 
+                                     CancelButtonCommand="{Binding CancelOperation}"
+                                     DataContext="{Binding}"
+                                     d:DataContext="{d:DesignInstance output:CreateOutputVectorNodeViewModel}">
+        <createNodes:CreateMenuView.Content>
+            <StackPanel>
+                <xctk:IntegerUpDown
+                    Value="{Binding NodeViewModel.Dimension}"
+                    Maximum="100"
+                    Minimum="1"
+                    Increment="1"/>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="NodeViewModel.VariableName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:VariableNameValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+        </createNodes:CreateMenuView.Content>
+    </createNodes:CreateMenuView>
+</UserControl>

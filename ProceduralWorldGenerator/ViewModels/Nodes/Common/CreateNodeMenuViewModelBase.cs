@@ -9,7 +9,7 @@
             set
             {
                 Model = value;
-                OnPropertyChanged(nameof(NodeViewModel));
+                OnPropertyChanged();
             }
         }
     }

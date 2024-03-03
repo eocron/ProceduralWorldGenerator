@@ -19,6 +19,7 @@
              xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
              xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common"
              xmlns:expression="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Expression"
+             xmlns:output="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Output"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -102,6 +103,10 @@
         
         <DataTemplate DataType="{x:Type permutation:CreatePermutationTableNodeViewModel}">
             <createNodes:CreatePermutationTableNodeView />
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type output:CreateOutputVectorNodeViewModel}">
+            <createNodes:CreateOutputVectorNodeView />
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type simplexNoise:CreateSimplexNoiseNodeViewModel}">

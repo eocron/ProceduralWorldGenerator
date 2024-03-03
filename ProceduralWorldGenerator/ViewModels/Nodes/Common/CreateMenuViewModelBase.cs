@@ -27,8 +27,15 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _model, value);
         }
 
+        public NodeSyntaxViewModel Syntax
+        {
+            get => _syntax;
+            set => SetProperty(ref _syntax, value);
+        }
+
         public EventHandler OnCreateInvoked;
-        
+        private NodeSyntaxViewModel _syntax;
+
         public INodifyCommand CreateOperation { get; }
         public INodifyCommand CancelOperation { get; }
 

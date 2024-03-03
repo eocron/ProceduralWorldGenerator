@@ -10,6 +10,7 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class GeneratorViewModel : ObservableObject
     {
+        public NodeSyntaxViewModel Syntax { get; }
         public NodifyObservableCollection<NodeConnectionViewModel> Connections { get; } = new();
         public PendingNodeConnectionViewModel PendingConnection { get; set; } = new();
         public OperationsMenuViewModel OperationsMenu { get; set; }
@@ -63,7 +64,6 @@ namespace ProceduralWorldGenerator.ViewModels
             {
                 c.Input.IsConnected = true;
                 c.Output.IsConnected = true;
-                c.Input.SetTitleFrom(c.Output);
             })
             .WhenRemoved(c =>
             {
@@ -79,8 +79,6 @@ namespace ProceduralWorldGenerator.ViewModels
                 {
                     c.Output.IsConnected = false;
                 }
-
-                c.Input.RestoreTitle();
             });
 
             Operations.WhenAdded(x =>
@@ -106,12 +104,14 @@ namespace ProceduralWorldGenerator.ViewModels
                 }
             });
 
+            Syntax = new NodeSyntaxViewModel();
             NodeCollectionModel = new NodeCollectionViewModel();
             OperationsMenu = new OperationsMenuViewModel(this, NodeCollectionModel);
             PendingCreateNodeMenu = new PendingCreateNodeViewModel();
             foreach (var createMenu in NodeCollectionModel.GetCreateMenus())
             {
                 createMenu.OnCreateInvoked += (menu, _) => OnCreateOperation((CreateMenuViewModelBase)menu);
+                createMenu.Syntax = Syntax;
             }
             CreateNodeMenu = NodeCollectionModel.GetCreateMenus().First();
         }
@@ -130,6 +130,7 @@ namespace ProceduralWorldGenerator.ViewModels
             var op = NodeCollectionModel.CreateGeneratorNodeViewModel((NodeViewModelBase)menu.Model);
             op.Location = menu.Location;
             this.Operations.Add(op);
+            Syntax.AddVariableName(op.NodeModel.VariableName);
             TryHandlePendingConnection(op);
             menu.Close();
         }
@@ -212,7 +213,11 @@ namespace ProceduralWorldGenerator.ViewModels
         private void DeleteSelection()
         {
             var selected = SelectedOperations.ToList();
-            selected.ForEach(o => Operations.Remove(o));
+            selected.ForEach(o =>
+            {
+                Operations.Remove(o);
+                Syntax.DeleteVariableName(o.NodeModel.VariableName);
+            });
         }
 
         private void GroupSelectedOperations()
