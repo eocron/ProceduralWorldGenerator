@@ -6,6 +6,7 @@
              xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
@@ -30,8 +31,17 @@
                 RepeatClampCount="5"
                 RightClamp="{Binding NodeViewModel.Spline.RightClamp}"
                 LeftClamp="{Binding NodeViewModel.Spline.LeftClamp}"
-                TextForeground="{DynamicResource ForegroundBrush}" />
-            <ListBox Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints, Mode=OneWay}" />
+                PlotForeground="{DynamicResource ForegroundBrush}" />
+            <ItemsControl Style="{StaticResource ThirdPartyStyle}" ItemsSource="{Binding NodeViewModel.Spline.DataPoints}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <xctk:SingleUpDown Value="{Binding X}" FormatString="F4" ShowButtonSpinner="False"/>
+                            <xctk:SingleUpDown Value="{Binding Y}" FormatString="F4" ShowButtonSpinner="False"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </createNodes1:CreateMenuView>
     

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using Nodify.Shared;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Wpf;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
 
 namespace ProceduralWorldGenerator.Views.Splines
@@ -67,7 +67,7 @@ namespace ProceduralWorldGenerator.Views.Splines
                 if (DataPoints != null)
                 {
                     DataPoints.Clear();
-                    DataPoints.AddRange(_splineSeries.Points.Select(x => new Point(x.X, x.Y)));
+                    DataPoints.AddRange(_splineSeries.Points.Select(x => new EditablePointViewModel(x.X, x.Y)));
                 }
                 
                 RecalculateClamp();
@@ -94,7 +94,7 @@ namespace ProceduralWorldGenerator.Views.Splines
             ChangeValue(v =>
             {
                 var lineColor = LineBrush.ToOxyColor();
-                var foregroundColor = TextForeground.ToOxyColor();
+                var foregroundColor = PlotForeground.ToOxyColor();
                 var textColor = foregroundColor;
                 var gridColor = GridBrush.ToOxyColor();
                 var axisColor = gridColor;

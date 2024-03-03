@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using Nodify.Shared;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
 {
@@ -8,6 +8,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
     {
         public SplineEditorClamp LeftClamp { get; set; }
         public SplineEditorClamp RightClamp { get; set; }
-        public ObservableCollection<Point> DataPoints { get; set; } = new ObservableCollection<Point>();
+        public ObservableCollection<EditablePointViewModel> DataPoints { get; set; } = new ObservableCollection<EditablePointViewModel>();
     }
 }

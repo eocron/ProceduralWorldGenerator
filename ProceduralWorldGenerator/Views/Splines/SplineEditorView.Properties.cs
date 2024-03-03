@@ -3,89 +3,55 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Media;
 using OxyPlot;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Spline;
+using static Nodify.Shared.DependencyPropertyRegistrar<ProceduralWorldGenerator.Views.Splines.SplineEditorView>;
 
 namespace ProceduralWorldGenerator.Views.Splines
 {
     public partial class SplineEditorView
     {
         public static readonly DependencyProperty LineBrushProperty =
-            DependencyProperty.Register(
-                name: nameof(LineBrush),
-                propertyType: typeof(Brush),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: null, 
-                    OnStyleChanged));
-        
+            RegisterProperty(x => x.LineBrush)
+                .OnChange(OnStyleChanged);
+
         public static readonly DependencyProperty GridBrushProperty =
-            DependencyProperty.Register(
-                name: nameof(GridBrush),
-                propertyType: typeof(Brush),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: null, 
-                    OnStyleChanged));
-        
+            RegisterProperty(x => x.GridBrush)
+                .OnChange(OnStyleChanged);
+
         public static readonly DependencyProperty DataPointsProperty =
-            DependencyProperty.Register(
-                name: nameof(DataPoints),
-                propertyType: typeof(ObservableCollection<Point>),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: null, 
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    OnDataPointsChanged));
-        
+            RegisterProperty(x => x.DataPoints)
+                .OnChange(OnDataPointsChanged)
+                .BindsTwoWayByDefault();
+
         public static readonly DependencyProperty PlotProperty =
-            DependencyProperty.Register(
-                name: nameof(Plot),
-                propertyType: typeof(PlotModel),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: null,
-                    OnPlotChanged));
-        
+            RegisterProperty(x => x.Plot)
+                .OnChange(OnPlotChanged);
+
         public static readonly DependencyProperty LeftClampProperty =
-            DependencyProperty.Register(
-                name: nameof(LeftClamp),
-                propertyType: typeof(SplineEditorClamp),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: SplineEditorClamp.LastValue,
-                    OnClampChanged));
-        
+            RegisterProperty(x => x.LeftClamp)
+                .Default(SplineEditorClamp.LastValue)
+                .OnChange(OnClampChanged);
+
         public static readonly DependencyProperty RightClampProperty =
-            DependencyProperty.Register(
-                name: nameof(RightClamp),
-                propertyType: typeof(SplineEditorClamp),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: SplineEditorClamp.LastValue,
-                    OnClampChanged));
+            RegisterProperty(x => x.RightClamp)
+                .Default(SplineEditorClamp.LastValue)
+                .OnChange(OnClampChanged);
         
         public static readonly DependencyProperty RepeatClampCountProperty =
-            DependencyProperty.Register(
-                name: nameof(RepeatClampCount),
-                propertyType: typeof(int),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: 0,
-                    OnClampChanged));
-        
-        public static readonly DependencyProperty TextForegroundProperty =
-            DependencyProperty.Register(
-                name: nameof(TextForeground),
-                propertyType: typeof(Brush),
-                ownerType: typeof(SplineEditorView),
-                typeMetadata: new FrameworkPropertyMetadata(
-                    defaultValue: Brushes.Black,
-                    OnStyleChanged));
+            RegisterProperty(x => x.RepeatClampCount)
+                .Default(0)
+                .OnChange(OnClampChanged);
 
-        public Brush TextForeground
+        public static readonly DependencyProperty PlotForegroundProperty =
+            RegisterProperty(x => x.PlotForeground)
+                .Default(Brushes.Black)
+                .OnChange(OnStyleChanged);
+
+        public Brush PlotForeground
         {
-            get => (Brush)GetValue(TextForegroundProperty);
-            set => SetValue(TextForegroundProperty, value);
+            get => (Brush)GetValue(PlotForegroundProperty);
+            set => SetValue(PlotForegroundProperty, value);
         }
 
         public SplineEditorClamp LeftClamp
@@ -126,9 +92,9 @@ namespace ProceduralWorldGenerator.Views.Splines
             set => SetValue(GridBrushProperty, value);
         }
 
-        public ObservableCollection<Point> DataPoints
+        public ObservableCollection<EditablePointViewModel> DataPoints
         {
-            get => (ObservableCollection<Point>)GetValue(DataPointsProperty);
+            get => (ObservableCollection<EditablePointViewModel>)GetValue(DataPointsProperty);
             set
             {
                 void OnDataPointsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -140,7 +106,7 @@ namespace ProceduralWorldGenerator.Views.Splines
                     value.CollectionChanged += OnDataPointsCollectionChanged;
                 }
 
-                var prev = (ObservableCollection<Point>)GetValue(DataPointsProperty);
+                var prev = (ObservableCollection<EditablePointViewModel>)GetValue(DataPointsProperty);
                 if (prev != null)
                 {
                     prev.CollectionChanged -= OnDataPointsCollectionChanged;
