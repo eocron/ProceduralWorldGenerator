@@ -1,14 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using ProceduralWorldGenerator.Common;
+using static ProceduralWorldGenerator.Common.DependencyPropertyRegistrar<ProceduralWorldGenerator.Views.CreateNodes.CreateMenuView>;
 
 namespace ProceduralWorldGenerator.Views.CreateNodes
 {
     public partial class  CreateMenuView
     {
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(CreateMenuView), new PropertyMetadata(null));
-        public static readonly DependencyProperty OkButtonCommandProperty = DependencyProperty.Register(nameof(OkButtonCommand), typeof(ICommand), typeof(CreateMenuView), new PropertyMetadata(null));
-        public static readonly DependencyProperty CancelButtonCommandProperty = DependencyProperty.Register(nameof(CancelButtonCommand), typeof(ICommand), typeof(CreateMenuView), new PropertyMetadata(null));
+        public static readonly DependencyProperty TitleProperty = RegisterProperty(x => x.Title);
+        public static readonly DependencyProperty OkButtonCommandProperty = RegisterProperty(x => x.OkButtonCommand);
+        public static readonly DependencyProperty CancelButtonCommandProperty = RegisterProperty(x => x.CancelButtonCommand);
         
         public string Title        
         {

@@ -1,8 +1,6 @@
-﻿using ProceduralWorldGenerator.Validation;
-
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
+﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
-    public class VectorParameterViewModel : ParameterViewModelBase<float[]>, IDimensionModel
+    public class VectorParameterViewModel : ParameterViewModelBase<float[]>
     {
         private int _dimension;
 

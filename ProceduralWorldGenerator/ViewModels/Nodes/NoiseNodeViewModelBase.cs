@@ -1,10 +1,9 @@
-﻿using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+﻿using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 using ProceduralWorldGenerator.ViewModels.Nodes.Permutation;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes
 {
-    public class NoiseNodeViewModelBase : NodeViewModelBase, IDimensionModel
+    public class NoiseNodeViewModelBase : NodeViewModelBase
     {
         private PermutationTableParameterViewModel _permutation = new()
         {

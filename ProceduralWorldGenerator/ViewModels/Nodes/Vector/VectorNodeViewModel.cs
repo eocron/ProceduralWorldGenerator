@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using ProceduralWorldGenerator.Common;
-using ProceduralWorldGenerator.Validation;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
 {
-    public class VectorNodeViewModel : NodeViewModelBase, IDimensionModel
+    public class VectorNodeViewModel : NodeViewModelBase
     {
         private VectorParameterViewModel _value = new()
         {

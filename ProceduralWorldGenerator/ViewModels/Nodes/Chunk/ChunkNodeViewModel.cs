@@ -1,9 +1,8 @@
-﻿using ProceduralWorldGenerator.Validation;
-using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+﻿using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
 {
-    public class ChunkNodeViewModel : NodeViewModelBase, IDimensionModel
+    public class ChunkNodeViewModel : NodeViewModelBase
     {
         private VectorParameterViewModel _offset = new()
         {

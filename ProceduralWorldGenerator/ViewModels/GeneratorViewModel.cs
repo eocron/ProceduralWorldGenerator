@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using ProceduralWorldGenerator.Common;
+using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
 using ProceduralWorldGenerator.ViewModels.Nodes.Common;

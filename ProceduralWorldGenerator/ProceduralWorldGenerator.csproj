@@ -9,8 +9,6 @@
 
     <ItemGroup>
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
-      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Nodify" Version="5.1.0" />
       <PackageReference Include="OxyPlot.Core" Version="2.1.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
@@ -19,13 +17,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj" />
-      <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="OxyPlot.Wpf">
-        <HintPath>C:\Users\eocron\.nuget\packages\oxyplot.wpf\2.1.2\lib\netcoreapp3.1\OxyPlot.Wpf.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

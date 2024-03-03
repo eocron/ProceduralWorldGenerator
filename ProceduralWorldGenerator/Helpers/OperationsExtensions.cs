@@ -2,7 +2,7 @@
 using System.Windows;
 using ProceduralWorldGenerator.ViewModels;
 
-namespace ProceduralWorldGenerator
+namespace ProceduralWorldGenerator.Helpers
 {
     public static class OperationsExtensions
     {
