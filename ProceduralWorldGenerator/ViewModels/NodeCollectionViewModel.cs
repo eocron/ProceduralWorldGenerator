@@ -40,6 +40,7 @@ namespace ProceduralWorldGenerator.ViewModels
                 {
                     x.VariableName = "newVariable";
                     x.Value.Title = "out";
+                    x.Dimension = 1;
                 });
             Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>(
                 "Chunk", 
@@ -50,6 +51,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Offset.Title = "offset";
                     x.Size.Title = "size";
                     x.Position.Title = "out";
+                    x.Dimension = 1;
                 });
             Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>(
                 "Worley noise", 
@@ -160,7 +162,7 @@ namespace ProceduralWorldGenerator.ViewModels
             return op;
         }
 
-        private void Bind<TModel, TCreateModel>(string title, string description, Action<TModel> configureInstance = null)
+        private void Bind<TModel, TCreateModel>(string title, string description, Action<TModel> configureInstance)
             where TModel : NodeViewModelBase, new()
             where TCreateModel : CreateNodeMenuViewModelBase<TModel>, new()
         {
@@ -170,7 +172,7 @@ namespace ProceduralWorldGenerator.ViewModels
             _templateFactories.Add(key, () =>
             {
                 var obj = new TModel();
-                configureInstance?.Invoke(obj);
+                configureInstance.Invoke(obj);
                 return obj;
             });
         }
