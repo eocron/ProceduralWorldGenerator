@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
+using ProceduralWorldGenerator.ViewModels.Nodes.Expression;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

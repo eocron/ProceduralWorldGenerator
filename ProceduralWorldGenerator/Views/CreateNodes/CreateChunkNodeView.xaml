@@ -21,11 +21,15 @@
                                      DataContext="{Binding}"
                                      d:DataContext="{d:DesignInstance chunk:CreateChunkNodeViewModel}">
         <createNodes1:CreateMenuView.Content>
-            <xctk:IntegerUpDown
-                Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
-                Maximum="3"
-                Minimum="1"
-                Increment="1"/>
+            <StackPanel>
+                <TextBlock Text="Input/output dimension"/>
+                <xctk:IntegerUpDown
+                    Value="{Binding NodeViewModel.Dimension, Mode=TwoWay}"
+                    ToolTip="Input/output and overall chunk dimensions"
+                    Maximum="3"
+                    Minimum="1"
+                    Increment="1"/>
+            </StackPanel>
         </createNodes1:CreateMenuView.Content>
     </createNodes1:CreateMenuView>
 </UserControl>

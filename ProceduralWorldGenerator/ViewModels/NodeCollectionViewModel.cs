@@ -117,7 +117,8 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.VariableName = "Expression";
                     x.InputDimension = 1;
                     x.OutputDimension = 1;
-                    x.TransformExpressions[0].Item = "x1";
+                    x.Input.Title = "in";
+                    x.Output.Title = "out";
                 });
         }
         
@@ -140,15 +141,16 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             return _templateFactories[nodeType]();
         }
-        
+
         public GeneratorNodeViewModel CreateGeneratorNodeViewModel(NodeViewModelBase template)
         {
             var type = template.GetType();
-            
+
             var op = new GeneratorNodeViewModel
             {
-                NodeModel = template
+                NodeModel = template,
             };
+            
             var allProps = type
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))

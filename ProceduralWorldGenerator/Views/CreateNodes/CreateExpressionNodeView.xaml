@@ -24,25 +24,30 @@
                                  d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
         <local:CreateMenuView.Content>
             <StackPanel>
+                <TextBlock Text="Input dimension"/>
                 <xctk:IntegerUpDown
                     Value="{Binding NodeViewModel.InputDimension}"
+                    ToolTip="Input vector dimension"
                     Maximum="100"
                     Minimum="1"
                     Increment="1"/>
+                <TextBlock Text="Output dimension"/>
                 <xctk:IntegerUpDown
                     Value="{Binding NodeViewModel.OutputDimension}"
+                    ToolTip="Output vector dimension"
                     Maximum="100"
                     Minimum="1"
                     Increment="1"/>
+                <TextBlock Text="Expressions"/>
                 <ItemsControl ItemsSource="{Binding NodeViewModel.TransformExpressions, Mode=OneWay}"
                          Style="{StaticResource ThirdPartyStyle}"
                          HorizontalContentAlignment="Stretch"
                          Margin="2 0 2 0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="f(x)="/>
-                                <TextBox>
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="f(x)=" DockPanel.Dock="Left"/>
+                                <TextBox Width="Auto">
                                     <TextBox.Text>
                                         <Binding Path="Item" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
@@ -51,7 +56,7 @@
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                            </StackPanel>
+                            </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

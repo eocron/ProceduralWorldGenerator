@@ -24,7 +24,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
             get => Value.Dimension;
             set
             {
-                Values.Resize(value, 0);
+                Values.Resize(value, _ => 0);
                 SetNestedProperty(nameof(Value), Value.Dimension, value, () => Value.Dimension = value);
             }
         }
