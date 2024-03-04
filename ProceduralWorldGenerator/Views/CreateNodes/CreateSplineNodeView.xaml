@@ -7,6 +7,7 @@
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:labeled="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled;assembly=ProceduralWorldGenerator.Common"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="*"
@@ -36,8 +37,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <xctk:SingleUpDown Value="{Binding X}" FormatString="F4" ShowButtonSpinner="False"/>
-                            <xctk:SingleUpDown Value="{Binding Y}" FormatString="F4" ShowButtonSpinner="False"/>
+                            <labeled:PointInput InputX="{Binding X}" InputY="{Binding Y}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

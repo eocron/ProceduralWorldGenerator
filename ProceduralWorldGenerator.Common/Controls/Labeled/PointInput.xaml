@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.PointInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d"
+             d:DesignHeight="40" 
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance local:PointInput}">
+    <Grid x:Name="Root">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition SharedSizeGroup="Single"/>
+            <ColumnDefinition SharedSizeGroup="Single"/>
+        </Grid.ColumnDefinitions>
+        <xctk:SingleUpDown Grid.Column="0" Value="{Binding InputX}" FormatString="F4" ShowButtonSpinner="False"/>
+        <xctk:SingleUpDown Grid.Column="1" Value="{Binding InputY}" FormatString="F4" ShowButtonSpinner="False"/>
+    </Grid>
+</UserControl>
