@@ -29,9 +29,7 @@
                 <labeled:LabeledIntegerInput 
                     LabelText="Vector dimension:"
                     Input="{Binding NodeViewModel.Dimension}"
-                    Maximum="100"
-                    Minimum="1"
-                    Increment="1"/>
+                    Minimum="1"/>
                 <labeled:LabeledStringInput 
                     LabelText="Variable name:" 
                     IsEnabled="{Binding Path=NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}, Mode=OneWay}"
@@ -45,7 +43,7 @@
                     </labeled:LabeledStringInput.InputText>
                 </labeled:LabeledStringInput>
                 <StackPanel Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}">
-                    <TextBlock Text="Constant values"/>
+                    <TextBlock Text="Constant values:"/>
                     <ItemsControl ItemsSource="{Binding NodeViewModel.Values}"  
                                   IsEnabled="{Binding NodeViewModel.IsConstant, Mode=OneWay}" 
                                   Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}"

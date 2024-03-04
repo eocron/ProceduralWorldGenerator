@@ -25,11 +25,8 @@
             <StackPanel>
                 <labeled:LabeledIntegerInput
                     Input="{Binding NodeViewModel.Dimension}"
-                    LabelText="Input/output dimension"
-                    ToolTip="Input/output and overall chunk dimensions"
-                    Maximum="3"
-                    Minimum="1"
-                    Increment="1"/>
+                    LabelText="In/out dimension"
+                    Minimum="1"/>
             </StackPanel>
         </createNodes1:CreateMenuView.Content>
     </createNodes1:CreateMenuView>

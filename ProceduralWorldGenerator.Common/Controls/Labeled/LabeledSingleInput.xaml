@@ -1,24 +1,25 @@
-﻿<local:LabeledUpDown x:TypeArguments="system:Single" x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.LabeledSingleInput"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:local="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled"
-                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-                     xmlns:system="clr-namespace:System;assembly=System.Runtime"
-                     mc:Ignorable="d"
-                     d:DesignHeight="40" 
-                     d:DesignWidth="300"
-                     d:DataContext="{d:DesignInstance local:LabeledSingleInput}">
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
-        <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
+﻿<UserControl x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.LabeledSingleInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:labeled="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled"
+             mc:Ignorable="d"
+             d:DesignHeight="40" 
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance labeled:LabeledSingleInput}">
+    <Grid x:Name="Root">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-    <TextBlock Grid.Column="0" Text="{Binding LabelText, Mode=OneWay}"/>
-    <xctk:SingleUpDown Grid.Column="1" 
-                        Value="{Binding Input}"
-                        Minimum="{Binding Minimum}"
-                        Maximum="{Binding Maximum}"
-                        Increment="{Binding Increment}"/>
-</local:LabeledUpDown>
+        <TextBlock Grid.Column="0" Text="{Binding LabelText}"/>
+        <xctk:SingleUpDown Grid.Column="1" 
+                            Value="{Binding Input}"
+                            Minimum="{Binding Minimum}"
+                            Maximum="{Binding Maximum}"
+                            Increment="{Binding Increment}"/>
+    </Grid>
+</UserControl>

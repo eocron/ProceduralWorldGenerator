@@ -24,10 +24,9 @@
         <createNodes1:CreateMenuView.Content>
             <labeled:LabeledIntegerInput
                 Input="{Binding NodeViewModel.Dimension}"
-                LabelText="Input dimension"
+                LabelText="In dimension:"
                 Maximum="3"
-                Minimum="1"
-                Increment="1"/>
+                Minimum="1"/>
         </createNodes1:CreateMenuView.Content>
     </createNodes1:CreateMenuView>
 </UserControl>
