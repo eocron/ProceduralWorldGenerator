@@ -8,6 +8,7 @@
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              xmlns:validators="clr-namespace:ProceduralWorldGenerator.Common.Validators;assembly=ProceduralWorldGenerator.Common"
              xmlns:vector="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Vector"
+             xmlns:labeled="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled;assembly=ProceduralWorldGenerator.Common"
              mc:Ignorable="d"
              MinWidth="250"
              d:DesignHeight="400"
@@ -25,37 +26,37 @@
         <createNodes1:CreateMenuView.Content>
             <StackPanel>
                 <CheckBox Content="Is constant" IsChecked="{Binding NodeViewModel.IsConstant}"/>
-                <TextBox Text="Vector dimension"/>
-                <xctk:IntegerUpDown
-                    Value="{Binding NodeViewModel.Dimension}"
+                <labeled:LabeledIntegerInput 
+                    LabelText="Vector dimension:"
+                    Input="{Binding NodeViewModel.Dimension}"
                     Maximum="100"
                     Minimum="1"
                     Increment="1"/>
-                <StackPanel Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}, Mode=OneWay}">
-                    <TextBlock Text="Variable name"/>
-                    <TextBox IsEnabled="{Binding Path=NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}, Mode=OneWay}">
-                        <TextBox.Text>
-                            <Binding Path="NodeViewModel.VariableName" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validators:VariableNameValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-                <StackPanel Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}, Mode=OneWay}">
+                <labeled:LabeledStringInput 
+                    LabelText="Variable name:" 
+                    IsEnabled="{Binding Path=NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}, Mode=OneWay}"
+                    Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}, Mode=OneWay}">
+                    <labeled:LabeledStringInput.InputText>
+                        <Binding Path="NodeViewModel.VariableName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:VariableNameValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </labeled:LabeledStringInput.InputText>
+                </labeled:LabeledStringInput>
+                <StackPanel Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}">
                     <TextBlock Text="Constant values"/>
-                    <ItemsControl ItemsSource="{Binding NodeViewModel.Values, Mode=OneWay}"  
+                    <ItemsControl ItemsSource="{Binding NodeViewModel.Values}"  
                                   IsEnabled="{Binding NodeViewModel.IsConstant, Mode=OneWay}" 
-                                  Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}, Mode=OneWay}"
+                                  Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}"
                                   Style="{StaticResource ThirdPartyStyle}"
                                   HorizontalContentAlignment="Stretch"
                                   Margin="2 0 2 0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <xctk:SingleUpDown
-                                    Value="{Binding Mode=OneWayToSource, Path=Item, UpdateSourceTrigger=PropertyChanged}"
-                                    DefaultValue="0"
+                                <labeled:LabeledSingleInput
+                                    Input="{Binding Path=Item, UpdateSourceTrigger=PropertyChanged}"
+                                    LabelText="x="
                                     Increment="1"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

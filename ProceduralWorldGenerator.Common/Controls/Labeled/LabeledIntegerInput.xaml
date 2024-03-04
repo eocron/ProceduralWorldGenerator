@@ -1,0 +1,24 @@
+﻿<local:LabeledUpDown x:TypeArguments="system:Int32" x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.LabeledIntegerInput"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:local="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled"
+                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                     xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                     mc:Ignorable="d"
+                     d:DesignHeight="40" 
+                     d:DesignWidth="300"
+                     d:DataContext="{d:DesignInstance local:LabeledIntegerInput}">
+    <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+          <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <TextBlock Grid.Column="0" Text="{Binding LabelText, Mode=OneWay}"/>
+    <xctk:IntegerUpDown Grid.Column="1" 
+                        Value="{Binding Input, Mode=TwoWay}"
+                        Minimum="{Binding Minimum, Mode=OneWay}"
+                        Maximum="{Binding Maximum, Mode=OneWay}"
+                        Increment="{Binding Increment, Mode=OneWay}"/>
+</local:LabeledUpDown>
