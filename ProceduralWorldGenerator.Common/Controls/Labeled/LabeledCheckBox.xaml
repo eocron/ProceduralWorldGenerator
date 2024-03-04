@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.LabeledStringInput"
+﻿<UserControl x:Class="ProceduralWorldGenerator.Common.Controls.Labeled.LabeledCheckBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,14 +7,13 @@
              mc:Ignorable="d"
              d:DesignHeight="40" 
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance labeled:LabeledStringInput}">
+             d:DataContext="{d:DesignInstance labeled:LabeledCheckBox}">
     <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Column="0" Text="{Binding LabelText}"/>
-        <TextBox Grid.Column="1" Text="{Binding InputText}"/>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{Binding LabelText}"/>
+        <CheckBox  Grid.Column="1" HorizontalAlignment="Right" IsChecked="{Binding IsChecked}"/>
     </Grid>
 </UserControl>

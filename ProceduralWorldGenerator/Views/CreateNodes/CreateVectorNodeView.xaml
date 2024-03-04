@@ -25,15 +25,15 @@
                                      d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
         <createNodes1:CreateMenuView.Content>
             <StackPanel>
-                <CheckBox Content="Is constant" IsChecked="{Binding NodeViewModel.IsConstant}"/>
+                <labeled:LabeledCheckBox  LabelText="Is constant:" IsChecked="{Binding NodeViewModel.IsConstant}"/>
                 <labeled:LabeledIntegerInput 
                     LabelText="Vector dimension:"
                     Input="{Binding NodeViewModel.Dimension}"
                     Minimum="1"/>
                 <labeled:LabeledStringInput 
                     LabelText="Variable name:" 
-                    IsEnabled="{Binding Path=NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}, Mode=OneWay}"
-                    Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}, Mode=OneWay}">
+                    IsEnabled="{Binding NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}}"
+                    Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}}">
                     <labeled:LabeledStringInput.InputText>
                         <Binding Path="NodeViewModel.VariableName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
