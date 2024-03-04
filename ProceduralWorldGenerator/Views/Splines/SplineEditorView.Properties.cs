@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using OxyPlot;
@@ -22,11 +21,13 @@ namespace ProceduralWorldGenerator.Views.Splines
         public static readonly DependencyProperty DataPointsProperty =
             RegisterProperty(x => x.DataPoints)
                 .OnChange(OnDataPointsChanged)
-                .BindsTwoWayByDefault();
+                .BindsTwoWayByDefault()
+                .Default(null);
 
         public static readonly DependencyProperty PlotProperty =
             RegisterProperty(x => x.Plot)
-                .OnChange(OnPlotChanged);
+                .OnChange(OnPlotChanged)
+                .BindsTwoWayByDefault();
 
         public static readonly DependencyProperty LeftClampProperty =
             RegisterProperty(x => x.LeftClamp)
@@ -92,30 +93,12 @@ namespace ProceduralWorldGenerator.Views.Splines
             set => SetValue(GridBrushProperty, value);
         }
 
-        public ObservableCollection<EditablePointViewModel> DataPoints
+        public BindingList<EditablePointViewModel> DataPoints
         {
-            get => (ObservableCollection<EditablePointViewModel>)GetValue(DataPointsProperty);
-            set
-            {
-                void OnDataPointsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-                {
-                    this.OnDataPointsChanged();
-                }
-                if (value != null)
-                {
-                    value.CollectionChanged += OnDataPointsCollectionChanged;
-                }
-
-                var prev = (ObservableCollection<EditablePointViewModel>)GetValue(DataPointsProperty);
-                if (prev != null)
-                {
-                    prev.CollectionChanged -= OnDataPointsCollectionChanged;
-                }
-
-                SetValue(DataPointsProperty, value);
-            }
+            get => (BindingList<EditablePointViewModel>)GetValue(DataPointsProperty);
+            set => SetValue(DataPointsProperty, value);
         }
-
+        
         private static void OnClampChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((SplineEditorView)d).OnClampChanged();
@@ -123,7 +106,9 @@ namespace ProceduralWorldGenerator.Views.Splines
         
         private static void OnDataPointsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((SplineEditorView)d).OnDataPointsChanged();
+            var prev = (BindingList<EditablePointViewModel>)e.OldValue;
+            var next = (BindingList<EditablePointViewModel>)e.NewValue;
+            ((SplineEditorView)d).OnDataPointsSet(prev, next);
         }
         
         private static void OnStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

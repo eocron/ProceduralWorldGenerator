@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls;
 using ProceduralWorldGenerator.Common;
 using OxyPlot;
@@ -17,6 +19,7 @@ namespace ProceduralWorldGenerator.Views.Splines
         public SplineEditorView()
         {
             InitializeComponent();
+            DataContext = this;
             
             var plot = new PlotModel { Title = null };
             IInterpolationAlgorithm interpolation = null;
@@ -66,27 +69,66 @@ namespace ProceduralWorldGenerator.Views.Splines
             {
                 if (DataPoints != null)
                 {
-                    DataPoints.Clear();
-                    DataPoints.AddRange(_splineSeries.Points.Select(x => new EditablePointViewModel(x.X, x.Y)));
+                    ChangeDataPoints(DataPoints, _splineSeries.Points.Select(x => new EditablePointViewModel(x.X, x.Y)));
                 }
                 
                 RecalculateClamp();
             });
         }
 
-        private void OnDataPointsChanged()
+        private void ChangeDataPoints(BindingList<EditablePointViewModel> target,
+            IEnumerable<EditablePointViewModel> source)
         {
-            ChangeValue(v =>
+            target.Clear();
+            target.AddRange(source);
+        }
+
+        private void OnDataPointsSet(BindingList<EditablePointViewModel> prev, BindingList<EditablePointViewModel> next)
+        {
+            ChangeValue(_ =>
             {
                 _splineSeries.Points.Clear();
-                if (DataPoints != null)
+                if (next != null)
                 {
-                    _splineSeries.Points.AddRange(DataPoints.Select(x => new DataPoint(x.X, x.Y)));
+                    _splineSeries.Points.AddRange(next.OrderBy(x => x.X).Select(x => new DataPoint(x.X, x.Y)));
                 }
 
                 ZoomToBest();
                 RecalculateClamp();
+
+                if (prev != next)
+                {
+                    if (prev != null)
+                    {
+                        prev.ListChanged -= OnDataPointsCollectionChanged;
+                    }
+
+                    if (next != null)
+                    {
+                        next.ListChanged += OnDataPointsCollectionChanged;
+                    }
+                }
             });
+        }
+
+        private void OnDataPointsCollectionChanged(object? sender, ListChangedEventArgs ee)
+        {
+            if (ee.ListChangedType == ListChangedType.ItemChanged)
+            {
+                ChangeValue(_ =>
+                {
+                    var collection = (BindingList<EditablePointViewModel>)sender;
+                    _splineSeries.Points.Clear();
+                    if (collection != null)
+                    {
+                        _splineSeries.Points.AddRange(collection.OrderBy(x => x.X)
+                            .Select(x => new DataPoint(x.X, x.Y)));
+                    }
+                    
+                    ZoomToBest();
+                    RecalculateClamp();
+                });
+            }
         }
 
         private void OnStyleChanged()
@@ -121,10 +163,22 @@ namespace ProceduralWorldGenerator.Views.Splines
 
         private void ChangeValue(Action<PlotModel> action)
         {
-            action(Plot);
-            Plot.InvalidatePlot(true);
+            if (Monitor.IsEntered(_sync))
+            {
+                throw new Exception("Recurrent change of plot.");
+            }
+
+            var plot = Plot;
+            lock (_sync)
+            {
+                action(plot);
+            }
+
+            plot?.InvalidatePlot(true);
             GetBindingExpression(PlotProperty)?.UpdateTarget();
         }
+
+        private readonly object _sync = new object();
         
         private void ZoomToBest()
         {

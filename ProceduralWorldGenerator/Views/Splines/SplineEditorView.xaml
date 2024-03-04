@@ -4,11 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:oxy="http://oxyplot.org/wpf"
-             xmlns:splines1="clr-namespace:ProceduralWorldGenerator.Views.Splines"
-             xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
+             xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
+             xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance Type=spline:SplineEditorViewModel}">
+             d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>
         <Style TargetType="{x:Type oxy:TrackerControl}">
@@ -20,13 +19,14 @@
     <oxy:PlotView 
         Model="{Binding Plot, 
               RelativeSource={RelativeSource Mode=FindAncestor, 
-                AncestorType={x:Type splines1:SplineEditorView}}}"
+                AncestorType={x:Type splines:SplineEditorView}}}"
         Background="{DynamicResource NodifyEditor.BackgroundBrush}"
-        FontFamily="Courier New">
+        FontFamily="{DynamicResource DefaultFont}">
         <oxy:PlotView.DefaultTrackerTemplate>
             <ControlTemplate>
                 <oxy:TrackerControl Position="{Binding Position}"  
-                                    BorderThickness="2">
+                                    BorderThickness="2"
+                                    d:DataContext="{d:DesignInstance Type=oxyPlot:TrackerHitResult}">
                     <oxy:TrackerControl.Content>
                         <StackPanel>
                             <DockPanel LastChildFill="False" MinWidth="50">
@@ -36,7 +36,7 @@
                                     Foreground="{DynamicResource ForegroundBrush}"  
                                     HorizontalAlignment="Right" 
                                     FontWeight="Bold"
-                                    FontFamily="Courier New"
+                                    FontFamily="{DynamicResource DefaultFont}"
                                     Margin="0 0 5 0" />
                             </DockPanel>
                             <DockPanel LastChildFill="False" MinWidth="50" >
@@ -45,7 +45,7 @@
                                     Text="{Binding DataPoint.Y, StringFormat=F3}" 
                                     Foreground="{DynamicResource ForegroundBrush}" 
                                     HorizontalAlignment="Right"
-                                    FontFamily="Courier New"
+                                    FontFamily="{DynamicResource DefaultFont}"
                                     Margin="0 0 5 0"  />
                             </DockPanel>
                         </StackPanel>
