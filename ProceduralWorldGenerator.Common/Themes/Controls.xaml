@@ -739,6 +739,25 @@
         <Setter Property="FontFamily" Value="Courier New"/>
     </Style>
     
+    <Style x:Key="ToolBar" TargetType="{x:Type StackPanel}">
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
+    </Style>
+    
+    <Style x:Key="ToolBarMenu" TargetType="{x:Type Control}">
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="3"></Setter>
+    </Style>
+    
+    <Style x:Key="ToolBarMenuItem" TargetType="{x:Type Control}">
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    
     <Style TargetType="{x:Type RepeatButton}"
            BasedOn="{StaticResource {x:Type RepeatButton}}">
         <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
+namespace ProceduralWorldGenerator.Helpers
 {
     public class SplineNodeViewModelHelper
     {

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ProceduralWorldGenerator.EditorView"
+﻿<UserControl x:Class="ProceduralWorldGenerator.Views.EditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,6 +20,7 @@
              xmlns:control="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Common"
              xmlns:expression="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Expression"
              xmlns:output="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Output"
+             xmlns:views="clr-namespace:ProceduralWorldGenerator.Views"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -239,7 +240,7 @@
             <CompositeCollection>
                 <nodify:DecoratorContainer DataContext="{Binding OperationsMenu}"
                                            Location="{Binding Location}">
-                    <proceduralWorldGenerator:OperationsMenuView />
+                    <views:OperationsMenuView />
                 </nodify:DecoratorContainer>
                 <nodify:DecoratorContainer  Content="{Binding CreateNodeMenu}"
                                             Location="{Binding CreateNodeMenu.Location}"

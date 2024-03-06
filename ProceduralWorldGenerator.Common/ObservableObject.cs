@@ -10,6 +10,7 @@ namespace ProceduralWorldGenerator.Common
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private bool _isDirty;
+        
         public bool IsDirty
         {
             get => _isDirty;

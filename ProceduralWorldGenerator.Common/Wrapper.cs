@@ -1,8 +1,14 @@
-﻿namespace ProceduralWorldGenerator.Common
+﻿using Newtonsoft.Json;
+
+namespace ProceduralWorldGenerator.Common
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Wrapper<T>
     {
+        [JsonProperty]
         public T Item { get; set; }
+        
+        public Wrapper(){}
 
         public Wrapper(T value = default(T))
         {

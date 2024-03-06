@@ -1,14 +1,24 @@
-﻿using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+﻿using Newtonsoft.Json;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Output
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class OutputVectorNodeViewModel : NodeViewModelBase
     {
-        public VectorParameterViewModel Input { get; set; } = new VectorParameterViewModel()
+        private VectorParameterViewModel _input = new VectorParameterViewModel()
         {
             IsInput = true
         };
-        
+
+        [JsonProperty]
+        public VectorParameterViewModel Input
+        {
+            get => _input;
+            set => SetProperty(ref _input, value);
+        }
+
+        [JsonProperty]
         public int Dimension
         {
             get => Input.Dimension;

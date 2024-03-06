@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.Helpers;
 using ProceduralWorldGenerator.ViewModels.Connections;
@@ -8,10 +9,20 @@ using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class GeneratorViewModel : ObservableObject
     {
-        public NodeSyntaxViewModel Syntax { get; }
-        public NodifyObservableCollection<NodeConnectionViewModel> Connections { get; } = new();
+        [JsonProperty]
+        public NodeSyntaxViewModel Syntax { get; set; }
+        [JsonProperty]
+        public NodifyObservableCollection<NodeConnectionViewModel> Connections { get; set; } = new();
+        private NodifyObservableCollection<GeneratorNodeViewModel> _operations = new();
+        [JsonProperty]
+        public NodifyObservableCollection<GeneratorNodeViewModel> Operations
+        {
+            get => _operations;
+            set => SetProperty(ref _operations, value);
+        }
         public PendingNodeConnectionViewModel PendingConnection { get; set; } = new();
         public OperationsMenuViewModel OperationsMenu { get; set; }
 
@@ -29,15 +40,7 @@ namespace ProceduralWorldGenerator.ViewModels
         public INodifyCommand DeleteSelectionCommand { get; }
         public INodifyCommand GroupSelectionCommand { get; }
         public INodifyCommand CreateNodeCommand { get; set; }
-        
         public INodifyCommand EditNodeCommand { get; set; }
-        
-        private NodifyObservableCollection<GeneratorNodeViewModel> _operations = new();
-        public NodifyObservableCollection<GeneratorNodeViewModel> Operations
-        {
-            get => _operations;
-            set => SetProperty(ref _operations, value);
-        }
 
         private NodifyObservableCollection<GeneratorNodeViewModel> _selectedOperations = new();
         private CreateMenuViewModelBase _createNodeMenu;

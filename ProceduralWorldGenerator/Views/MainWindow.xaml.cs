@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ProceduralWorldGenerator
+namespace ProceduralWorldGenerator.Views
 {
     public partial class MainWindow : Window
     {

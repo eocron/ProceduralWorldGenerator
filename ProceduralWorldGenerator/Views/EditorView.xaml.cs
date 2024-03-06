@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Nodify;
 using ProceduralWorldGenerator.ViewModels;
 
-namespace ProceduralWorldGenerator
+namespace ProceduralWorldGenerator.Views
 {
     public partial class EditorView : UserControl
     {

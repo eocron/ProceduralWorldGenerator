@@ -1,4 +1,6 @@
-﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
+﻿using Newtonsoft.Json;
+
+namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
 {
     public enum WorleyDistance
     {

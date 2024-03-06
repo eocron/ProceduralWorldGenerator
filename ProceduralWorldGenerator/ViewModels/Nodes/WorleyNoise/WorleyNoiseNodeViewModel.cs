@@ -1,5 +1,8 @@
-﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
+﻿using Newtonsoft.Json;
+
+namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class WorleyNoiseNodeViewModel : NoiseNodeViewModelBase
     {
         private WorleyCombinationParameterViewModel _distance = new()
@@ -14,12 +17,14 @@
             IsInput = true
         };
 
+        [JsonProperty]
         public WorleyCombinationParameterViewModel Distance
         {
             get => _distance;
             set => SetProperty(ref _distance, value);
         }
 
+        [JsonProperty]
         public WorleyDistanceParameterViewModel Combination
         {
             get => _combination;

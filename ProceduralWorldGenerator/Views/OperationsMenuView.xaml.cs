@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ProceduralWorldGenerator
+namespace ProceduralWorldGenerator.Views
 {
     public partial class OperationsMenuView : UserControl
     {

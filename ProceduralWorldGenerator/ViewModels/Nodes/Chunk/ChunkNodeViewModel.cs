@@ -1,7 +1,9 @@
-﻿using ProceduralWorldGenerator.ViewModels.Nodes.Common;
+﻿using Newtonsoft.Json;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class ChunkNodeViewModel : NodeViewModelBase
     {
         private VectorParameterViewModel _offset = new()
@@ -15,25 +17,25 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Chunk
         };
 
         private VectorParameterViewModel _position = new();
-
+        [JsonProperty]
         public VectorParameterViewModel Size
         {
             get => _size;
             set => SetProperty(ref _size, value);
         }
-
+        [JsonProperty]
         public VectorParameterViewModel Position
         {
             get => _position;
             set => SetProperty(ref _position, value);
         }
-
+        [JsonProperty]
         public VectorParameterViewModel Offset
         {
             get => _offset;
             set => SetProperty(ref _offset, value);
         }
-
+        [JsonProperty]
         public int Dimension
         {
             get => Size.Dimension;

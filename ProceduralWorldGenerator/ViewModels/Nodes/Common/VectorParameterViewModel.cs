@@ -1,9 +1,12 @@
-﻿namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
+﻿using Newtonsoft.Json;
+
+namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class VectorParameterViewModel : ParameterViewModelBase<float[]>
     {
         private int _dimension;
-
+        [JsonProperty]
         public int Dimension
         {
             get => _dimension;

@@ -1,28 +1,22 @@
 ﻿using System;
+using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
-    public class EditorViewModel : ObservableObject
+    [JsonObject(MemberSerialization.OptIn)]
+    public class EditorViewModel : ObservableObject, ISerializableViewModel
     {
-        public event Action<EditorViewModel, GeneratorViewModel>? OnOpenInnerCalculator;
-
-        public EditorViewModel? Parent { get; set; }
-
         public EditorViewModel()
         {
             Calculator = new GeneratorViewModel();
-            OpenCalculatorCommand = new DelegateCommand<GeneratorViewModel>(calculator =>
-            {
-                OnOpenInnerCalculator?.Invoke(this, calculator);
-            });
         }
 
-        public INodifyCommand OpenCalculatorCommand { get; }
-
-        public Guid Id { get; } = Guid.NewGuid();
+        [JsonProperty]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         private GeneratorViewModel _calculator = default!;
+        [JsonProperty]
         public GeneratorViewModel Calculator 
         {
             get => _calculator;
@@ -30,6 +24,7 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         private string? _name;
+        [JsonProperty]
         public string? Name
         {
             get => _name;

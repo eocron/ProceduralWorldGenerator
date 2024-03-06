@@ -1,10 +1,13 @@
-﻿using ProceduralWorldGenerator.Common;
+﻿using Newtonsoft.Json;
+using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Connections
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class NodeConnectionViewModel : ObservableObject
     {
         private NodeConnectorViewModel _input = default!;
+        [JsonProperty]
         public NodeConnectorViewModel Input
         {
             get => _input;
@@ -12,6 +15,7 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
         }
 
         private NodeConnectorViewModel _output = default!;
+        [JsonProperty]
         public NodeConnectorViewModel Output
         {
             get => _output;

@@ -80,7 +80,7 @@
 
     <Style TargetType="{x:Type controls:EditableTextBlock}"
            BasedOn="{StaticResource EditableTextBlockBaseStyle}" />
-
+    
     <Style TargetType="{x:Type controls:TabControlEx}">
         <Setter Property="Template">
             <Setter.Value>
