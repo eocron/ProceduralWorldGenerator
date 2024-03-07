@@ -8,15 +8,15 @@
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <Style TargetType="{x:Type oxy:TrackerControl}">
-            <Setter Property="Background" Value="{DynamicResource NodifyEditor.BackgroundBrush}"/>
-            <Setter Property="LineStroke" Value="{DynamicResource GridLinesBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource GridLinesBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource NodifyEditor.BackgroundBrush}" />
+            <Setter Property="LineStroke" Value="{DynamicResource GridLinesBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GridLinesBrush}" />
         </Style>
     </UserControl.Resources>
-    <oxy:PlotView 
+    <oxy:PlotView
         Model="{Binding Plot, 
               RelativeSource={RelativeSource Mode=FindAncestor, 
                 AncestorType={x:Type splines:SplineEditorView}}}"
@@ -24,29 +24,29 @@
         FontFamily="{DynamicResource DefaultFont}">
         <oxy:PlotView.DefaultTrackerTemplate>
             <ControlTemplate>
-                <oxy:TrackerControl Position="{Binding Position}"  
+                <oxy:TrackerControl Position="{Binding Position}"
                                     BorderThickness="2"
                                     d:DataContext="{d:DesignInstance Type=oxyPlot:TrackerHitResult}">
                     <oxy:TrackerControl.Content>
                         <StackPanel>
                             <DockPanel LastChildFill="False" MinWidth="50">
-                                <TextBlock 
-                                    DockPanel.Dock="Right" 
-                                    Text="{Binding DataPoint.X, StringFormat=F3}" 
-                                    Foreground="{DynamicResource ForegroundBrush}"  
-                                    HorizontalAlignment="Right" 
+                                <TextBlock
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding DataPoint.X, StringFormat=F3}"
+                                    Foreground="{DynamicResource ForegroundBrush}"
+                                    HorizontalAlignment="Right"
                                     FontWeight="Bold"
                                     FontFamily="{DynamicResource DefaultFont}"
                                     Margin="0 0 5 0" />
                             </DockPanel>
-                            <DockPanel LastChildFill="False" MinWidth="50" >
-                                <TextBlock 
-                                    DockPanel.Dock="Right" 
-                                    Text="{Binding DataPoint.Y, StringFormat=F3}" 
-                                    Foreground="{DynamicResource ForegroundBrush}" 
+                            <DockPanel LastChildFill="False" MinWidth="50">
+                                <TextBlock
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding DataPoint.Y, StringFormat=F3}"
+                                    Foreground="{DynamicResource ForegroundBrush}"
                                     HorizontalAlignment="Right"
                                     FontFamily="{DynamicResource DefaultFont}"
-                                    Margin="0 0 5 0"  />
+                                    Margin="0 0 5 0" />
                             </DockPanel>
                         </StackPanel>
                     </oxy:TrackerControl.Content>

@@ -6,10 +6,14 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Output
     [JsonObject(MemberSerialization.OptIn)]
     public class OutputVectorNodeViewModel : NodeViewModelBase
     {
-        private VectorParameterViewModel _input = new VectorParameterViewModel()
+        [JsonProperty]
+        public int Dimension
         {
-            IsInput = true
-        };
+            get => Input.Dimension;
+            set { SetNestedProperty(nameof(Input), Input.Dimension, value, () => Input.Dimension = value); }
+        }
+
+        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
 
         [JsonProperty]
         public VectorParameterViewModel Input
@@ -18,16 +22,9 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Output
             set => SetProperty(ref _input, value);
         }
 
-        [JsonProperty]
-        public int Dimension
+        private VectorParameterViewModel _input = new()
         {
-            get => Input.Dimension;
-            set
-            {
-                SetNestedProperty(nameof(Input), Input.Dimension, value, () => Input.Dimension = value);
-            }
-        }
-        
-        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
+            IsInput = true
+        };
     }
 }

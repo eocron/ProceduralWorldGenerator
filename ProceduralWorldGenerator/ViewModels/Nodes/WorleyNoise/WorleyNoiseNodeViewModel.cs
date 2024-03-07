@@ -5,18 +5,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
     [JsonObject(MemberSerialization.OptIn)]
     public class WorleyNoiseNodeViewModel : NoiseNodeViewModelBase
     {
-        private WorleyCombinationParameterViewModel _distance = new()
-        {
-            Title = "combination",
-            IsInput = true
-        };
-
-        private WorleyDistanceParameterViewModel _combination = new()
-        {
-            Title = "distance",
-            IsInput = true
-        };
-
         [JsonProperty]
         public WorleyCombinationParameterViewModel Distance
         {
@@ -30,5 +18,17 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
             get => _combination;
             set => SetProperty(ref _combination, value);
         }
+
+        private WorleyCombinationParameterViewModel _distance = new()
+        {
+            Title = "combination",
+            IsInput = true
+        };
+
+        private WorleyDistanceParameterViewModel _combination = new()
+        {
+            Title = "distance",
+            IsInput = true
+        };
     }
 }

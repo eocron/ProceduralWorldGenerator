@@ -6,17 +6,12 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
     [JsonObject(MemberSerialization.OptIn)]
     public class SplineNodeViewModel : NodeViewModelBase
     {
-        private VectorParameterViewModel _input = new VectorParameterViewModel()
+        [JsonProperty]
+        public SplineEditorViewModel Spline
         {
-            Dimension = 1,
-            IsInput = true,
-        };
-        private VectorParameterViewModel _output = new VectorParameterViewModel()
-        {
-            Dimension = 1,
-        };
-
-        private SplineEditorViewModel _spline = new SplineEditorViewModel();
+            get => _spline;
+            set => SetProperty(ref _spline, value);
+        }
 
         [JsonProperty]
         public VectorParameterViewModel Input
@@ -24,17 +19,25 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Spline
             get => _input;
             set => SetProperty(ref _input, value);
         }
+
         [JsonProperty]
         public VectorParameterViewModel Output
         {
             get => _output;
             set => SetProperty(ref _output, value);
         }
-        [JsonProperty]
-        public SplineEditorViewModel Spline
+
+        private SplineEditorViewModel _spline = new();
+
+        private VectorParameterViewModel _input = new()
         {
-            get => _spline;
-            set => SetProperty(ref _spline, value);
-        }
+            Dimension = 1,
+            IsInput = true
+        };
+
+        private VectorParameterViewModel _output = new()
+        {
+            Dimension = 1
+        };
     }
 }

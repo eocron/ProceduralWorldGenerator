@@ -7,8 +7,14 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
     [JsonObject(MemberSerialization.OptIn)]
     public class NodeViewModelBase : ObservableObject, IIdModel
     {
-        private string _variableName;
-        private string _id = Guid.NewGuid().ToString();
+        [JsonProperty] public bool SupportEdit { get; set; }
+
+        [JsonProperty]
+        public string Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
 
         public virtual string Title => _variableName;
 
@@ -19,14 +25,7 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             set => SetProperty(ref _variableName, value);
         }
 
-        [JsonProperty]
-        public bool SupportEdit { get; set; }
-
-        [JsonProperty]
-        public string Id
-        {
-            get => _id;
-            set => SetProperty(ref _id, value);
-        }
+        private string _id = Guid.NewGuid().ToString();
+        private string _variableName;
     }
 }

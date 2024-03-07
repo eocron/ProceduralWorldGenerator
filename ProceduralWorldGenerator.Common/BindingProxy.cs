@@ -4,8 +4,10 @@ namespace ProceduralWorldGenerator.Common
 {
     public class BindingProxy : Freezable
     {
-        public static readonly DependencyProperty DataContextProperty =
-            DependencyProperty.Register(nameof(DataContext), typeof(object), typeof(BindingProxy), new UIPropertyMetadata(default(object)));
+        protected override Freezable CreateInstanceCore()
+        {
+            return new BindingProxy();
+        }
 
         public object DataContext
         {
@@ -13,7 +15,8 @@ namespace ProceduralWorldGenerator.Common
             set => SetValue(DataContextProperty, value);
         }
 
-        protected override Freezable CreateInstanceCore()
-            => new BindingProxy();
+        public static readonly DependencyProperty DataContextProperty =
+            DependencyProperty.Register(nameof(DataContext), typeof(object), typeof(BindingProxy),
+                new UIPropertyMetadata(default(object)));
     }
 }

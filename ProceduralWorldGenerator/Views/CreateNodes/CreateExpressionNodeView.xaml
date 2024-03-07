@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:converters="clr-namespace:ProceduralWorldGenerator.Common.Converters;assembly=ProceduralWorldGenerator.Common"
              xmlns:validators="clr-namespace:ProceduralWorldGenerator.Common.Validators;assembly=ProceduralWorldGenerator.Common"
              xmlns:expression="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Expression"
              xmlns:labeled="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled;assembly=ProceduralWorldGenerator.Common"
@@ -15,38 +13,38 @@
              d:DesignWidth="250"
              d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml" />
     </UserControl.Resources>
 
-    <local:CreateMenuView Title="Create value noise" 
-                                 OkButtonCommand="{Binding CreateOperation}" 
-                                 CancelButtonCommand="{Binding CancelOperation}"
-                                 DataContext="{Binding}"
-                                 d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
+    <local:CreateMenuView Title="Create value noise"
+                          OkButtonCommand="{Binding CreateOperation}"
+                          CancelButtonCommand="{Binding CancelOperation}"
+                          DataContext="{Binding}"
+                          d:DataContext="{d:DesignInstance expression:CreateExpressionNodeViewModel}">
         <local:CreateMenuView.Content>
             <StackPanel>
                 <labeled:LabeledIntegerInput
                     Input="{Binding NodeViewModel.InputDimension}"
                     LabelText="In dimension:"
-                    Minimum="1"/>
+                    Minimum="1" />
                 <labeled:LabeledIntegerInput
                     Input="{Binding NodeViewModel.OutputDimension}"
                     LabelText="Out dimension:"
-                    Minimum="1"/>
-                <TextBlock Text="Expressions:"/>
+                    Minimum="1" />
+                <TextBlock Text="Expressions:" />
                 <ItemsControl ItemsSource="{Binding NodeViewModel.TransformExpressions, Mode=OneWay}"
-                         Style="{StaticResource ThirdPartyStyle}"
-                         HorizontalContentAlignment="Stretch"
-                         Margin="2 0 2 0">
+                              Style="{StaticResource ThirdPartyStyle}"
+                              HorizontalContentAlignment="Stretch"
+                              Margin="2 0 2 0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <DockPanel LastChildFill="True">
-                                <TextBlock Text="f(x)=" DockPanel.Dock="Left"/>
+                                <TextBlock Text="f(x)=" DockPanel.Dock="Left" />
                                 <TextBox Width="Auto">
                                     <TextBox.Text>
                                         <Binding Path="Item" UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
-                                                <validators:ExpressionValidator/>
+                                                <validators:ExpressionValidator />
                                             </Binding.ValidationRules>
                                         </Binding>
                                     </TextBox.Text>

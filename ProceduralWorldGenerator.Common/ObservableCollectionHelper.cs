@@ -9,38 +9,23 @@ namespace ProceduralWorldGenerator.Common
         {
             var diff = collection.Count - newSize;
             if (diff > 0)
-            {
-                for (int i = 0; i < diff; i++)
-                {
+                for (var i = 0; i < diff; i++)
                     collection.RemoveAt(collection.Count - 1);
-                }
-            }
             else
-            {
-                for (int i = 0; i < -diff; i++)
-                {
+                for (var i = 0; i < -diff; i++)
                     collection.Add(valueProvider(collection.Count));
-                }
-            }
         }
-        
-        public static void Resize<T>(this NodifyObservableCollection<T> collection, int newSize, Func<int, T> valueProvider)
+
+        public static void Resize<T>(this NodifyObservableCollection<T> collection, int newSize,
+            Func<int, T> valueProvider)
         {
             var diff = collection.Count - newSize;
             if (diff > 0)
-            {
-                for (int i = 0; i < diff; i++)
-                {
+                for (var i = 0; i < diff; i++)
                     collection.RemoveAt(collection.Count - 1);
-                }
-            }
             else
-            {
-                for (int i = 0; i < -diff; i++)
-                {
+                for (var i = 0; i < -diff; i++)
                     collection.Add(valueProvider(collection.Count));
-                }
-            }
         }
     }
 }

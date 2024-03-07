@@ -5,8 +5,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
     public sealed class NodeConnectionEqualityComparer : IEqualityComparer<ParameterViewModelBase>
     {
-        public static readonly IEqualityComparer<ParameterViewModelBase>
-            Instance = new NodeConnectionEqualityComparer();
         public bool Equals(ParameterViewModelBase x, ParameterViewModelBase y)
         {
             if (x.GetType() != y.GetType())
@@ -20,5 +18,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         {
             return HashCode.Combine(obj.GetType(), (obj as IDimensionParameter)?.Dimension);
         }
+
+        public static readonly IEqualityComparer<ParameterViewModelBase>
+            Instance = new NodeConnectionEqualityComparer();
     }
 }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:ProceduralWorldGenerator.Common.Converters;assembly=ProceduralWorldGenerator.Common"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              xmlns:validators="clr-namespace:ProceduralWorldGenerator.Common.Validators;assembly=ProceduralWorldGenerator.Common"
              xmlns:vector="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Vector"
@@ -15,37 +14,38 @@
              d:DesignWidth="250"
              d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml" />
     </UserControl.Resources>
-    
+
     <createNodes1:CreateMenuView Title="Create vector"
-                                     OkButtonCommand="{Binding CreateOperation}" 
-                                     CancelButtonCommand="{Binding CancelOperation}"
-                                     DataContext="{Binding}"
-                                     d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
+                                 OkButtonCommand="{Binding CreateOperation}"
+                                 CancelButtonCommand="{Binding CancelOperation}"
+                                 DataContext="{Binding}"
+                                 d:DataContext="{d:DesignInstance vector:CreateVectorNodeViewModel}">
         <createNodes1:CreateMenuView.Content>
             <StackPanel>
-                <labeled:LabeledCheckBox  LabelText="Is constant:" IsChecked="{Binding NodeViewModel.IsConstant}"/>
-                <labeled:LabeledIntegerInput 
+                <labeled:LabeledCheckBox LabelText="Is constant:" IsChecked="{Binding NodeViewModel.IsConstant}" />
+                <labeled:LabeledIntegerInput
                     LabelText="Vector dimension:"
                     Input="{Binding NodeViewModel.Dimension}"
-                    Minimum="1"/>
-                <labeled:LabeledStringInput 
-                    LabelText="Variable name:" 
+                    Minimum="1" />
+                <labeled:LabeledStringInput
+                    LabelText="Variable name:"
                     IsEnabled="{Binding NodeViewModel.IsConstant, Converter={converters:InverseBooleanConverter}}"
                     Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter Negate=True}}">
                     <labeled:LabeledStringInput.InputText>
                         <Binding Path="NodeViewModel.VariableName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validators:VariableNameValidator/>
+                                <validators:VariableNameValidator />
                             </Binding.ValidationRules>
                         </Binding>
                     </labeled:LabeledStringInput.InputText>
                 </labeled:LabeledStringInput>
-                <StackPanel Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}">
-                    <TextBlock Text="Constant values:"/>
-                    <ItemsControl ItemsSource="{Binding NodeViewModel.Values}"  
-                                  IsEnabled="{Binding NodeViewModel.IsConstant, Mode=OneWay}" 
+                <StackPanel
+                    Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Constant values:" />
+                    <ItemsControl ItemsSource="{Binding NodeViewModel.Values}"
+                                  IsEnabled="{Binding NodeViewModel.IsConstant, Mode=OneWay}"
                                   Visibility="{Binding NodeViewModel.IsConstant, Converter={converters:BooleanToVisibilityConverter}}"
                                   Style="{StaticResource ThirdPartyStyle}"
                                   HorizontalContentAlignment="Stretch"
@@ -55,11 +55,11 @@
                                 <labeled:LabeledSingleInput
                                     Input="{Binding Path=Item, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="x="
-                                    Increment="1"/>
+                                    Increment="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel >
+                </StackPanel>
             </StackPanel>
         </createNodes1:CreateMenuView.Content>
     </createNodes1:CreateMenuView>

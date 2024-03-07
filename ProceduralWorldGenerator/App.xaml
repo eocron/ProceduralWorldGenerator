@@ -6,8 +6,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Dark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/ProceduralWorldGenerator.Common;component/Themes/Icons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/ProceduralWorldGenerator.Common;component/Themes/Dark.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProceduralWorldGenerator.Common;component/Themes/Icons.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/ProceduralWorldGenerator.Common;component/Themes/Dark.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

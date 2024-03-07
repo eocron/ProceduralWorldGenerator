@@ -6,7 +6,6 @@
              xmlns:splines="clr-namespace:ProceduralWorldGenerator.Views.Splines"
              xmlns:createNodes1="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
              xmlns:spline="clr-namespace:ProceduralWorldGenerator.ViewModels.Nodes.Spline"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:labeled="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled;assembly=ProceduralWorldGenerator.Common"
              xmlns:common="clr-namespace:ProceduralWorldGenerator.Common;assembly=ProceduralWorldGenerator.Common"
              mc:Ignorable="d"
@@ -14,18 +13,18 @@
              d:DesignWidth="*"
              d:DataContext="{d:DesignInstance spline:CreateSplineNodeViewModel}">
     <UserControl.Resources>
-        <ResourceDictionary Source="CreateMenuViewResources.xaml"/>
+        <ResourceDictionary Source="CreateMenuViewResources.xaml" />
     </UserControl.Resources>
 
-    <createNodes1:CreateMenuView Title="Create spline" 
-                                     OkButtonCommand="{Binding CreateOperation}" 
-                                     CancelButtonCommand="{Binding CancelOperation}"
-                                     DataContext="{Binding}">
+    <createNodes1:CreateMenuView Title="Create spline"
+                                 OkButtonCommand="{Binding CreateOperation}"
+                                 CancelButtonCommand="{Binding CancelOperation}"
+                                 DataContext="{Binding}">
         <StackPanel Orientation="Horizontal">
             <splines:SplineEditorView
-                Width="500" 
-                Height="500" 
-                LineBrush="{DynamicResource CircuitConnection.StrokeBrush}" 
+                Width="500"
+                Height="500"
+                LineBrush="{DynamicResource CircuitConnection.StrokeBrush}"
                 GridBrush="{DynamicResource GridLinesBrush}"
                 DataContext="{Binding }"
                 DataPoints="{Binding DataContext.NodeViewModel.Spline.DataPoints, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}"
@@ -34,24 +33,23 @@
                 LeftClamp="{Binding DataContext.NodeViewModel.Spline.LeftClamp, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}"
                 PlotForeground="{DynamicResource ForegroundBrush}" />
             <StackPanel Orientation="Vertical">
-                <labeled:LabeledComboBoxInput 
-                    LabelText="Left  clamp:" 
-                    ItemSource="{Binding Source={common:Enumeration {x:Type spline:SplineEditorClamp}}, Mode=OneTime}" 
-                    SelectedValue="{Binding DataContext.NodeViewModel.Spline.LeftClamp, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}"/>
-                <labeled:LabeledComboBoxInput 
-                    LabelText="Right clamp:" 
+                <labeled:LabeledComboBoxInput
+                    LabelText="Left  clamp:"
                     ItemSource="{Binding Source={common:Enumeration {x:Type spline:SplineEditorClamp}}, Mode=OneTime}"
-                    SelectedValue="{Binding DataContext.NodeViewModel.Spline.RightClamp, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}"/>
-                <ItemsControl 
-                                                                   Style="{StaticResource ThirdPartyStyle}" 
-                                                                   ItemsSource="{Binding DataContext.NodeViewModel.Spline.DataPoints, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}">
+                    SelectedValue="{Binding DataContext.NodeViewModel.Spline.LeftClamp, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}" />
+                <labeled:LabeledComboBoxInput
+                    LabelText="Right clamp:"
+                    ItemSource="{Binding Source={common:Enumeration {x:Type spline:SplineEditorClamp}}, Mode=OneTime}"
+                    SelectedValue="{Binding DataContext.NodeViewModel.Spline.RightClamp, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}" />
+                <ItemsControl
+                    Style="{StaticResource ThirdPartyStyle}"
+                    ItemsSource="{Binding DataContext.NodeViewModel.Spline.DataPoints, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type createNodes1:CreateSplineNodeView}}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <labeled:PointInput 
-                                    InputX="{Binding X}" 
-                                    InputY="{Binding Y}">
-                                </labeled:PointInput>
+                                <labeled:PointInput
+                                    InputX="{Binding X}"
+                                    InputY="{Binding Y}" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -60,6 +58,6 @@
 
         </StackPanel>
     </createNodes1:CreateMenuView>
-    
-    
+
+
 </UserControl>

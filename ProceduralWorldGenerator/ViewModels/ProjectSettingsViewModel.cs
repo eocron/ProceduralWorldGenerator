@@ -6,9 +6,9 @@ namespace ProceduralWorldGenerator.ViewModels
     [JsonObject(MemberSerialization.OptIn)]
     public class ProjectSettingsViewModel
     {
-        [JsonProperty]
-        public string ProjectFilePath { get; init; }
+        [JsonProperty] public string ProjectFilePath { get; init; }
 
-        public string? ProjectFolderPath => string.IsNullOrWhiteSpace(ProjectFilePath) ? null : Path.GetDirectoryName(ProjectFilePath);
+        public string? ProjectFolderPath =>
+            string.IsNullOrWhiteSpace(ProjectFilePath) ? null : Path.GetDirectoryName(ProjectFilePath);
     }
 }

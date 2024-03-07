@@ -6,11 +6,36 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
     public abstract class CreateMenuViewModelBase : ObservableObject
     {
-        private bool _isVisible;
-        public bool IsVisible
+        protected CreateMenuViewModelBase()
         {
-            get => _isVisible;
-            set => SetProperty(ref _isVisible, value);
+            CreateOperation = new RequeryCommand(() =>
+            {
+                if (IsEdit)
+                    OnEditInvoked?.Invoke(this, EventArgs.Empty);
+                else
+                    OnCreateInvoked?.Invoke(this, EventArgs.Empty);
+                Close();
+            });
+            CancelOperation = new RequeryCommand(Close);
+        }
+
+        public void Close()
+        {
+            IsVisible = false;
+        }
+
+        public virtual void ShowCreateDialog()
+        {
+            Close();
+            IsEdit = false;
+            IsVisible = true;
+        }
+
+        public virtual void ShowEditDialog()
+        {
+            Close();
+            IsEdit = true;
+            IsVisible = true;
         }
 
         public bool IsEdit
@@ -19,26 +44,15 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _isEdit, value);
         }
 
-        private Point _location;
-        public Point Location
+        public bool IsVisible
         {
-            get => _location;
-            set => SetProperty(ref _location, value);
+            get => _isVisible;
+            set => SetProperty(ref _isVisible, value);
         }
-        
-        private object _newModel;
-        public object NewModel
-        {
-            get => _newModel;
-            set => SetProperty(ref _newModel, value);
-        }
-        
-        private object _prevModel;
-        public object PrevModel
-        {
-            get => _prevModel;
-            set => SetProperty(ref _prevModel, value);
-        }
+
+        public INodifyCommand CancelOperation { get; }
+
+        public INodifyCommand CreateOperation { get; }
 
         public NodeSyntaxViewModel Syntax
         {
@@ -46,49 +60,35 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _syntax, value);
         }
 
+        public object NewModel
+        {
+            get => _newModel;
+            set => SetProperty(ref _newModel, value);
+        }
+
+        public object PrevModel
+        {
+            get => _prevModel;
+            set => SetProperty(ref _prevModel, value);
+        }
+
+        public Point Location
+        {
+            get => _location;
+            set => SetProperty(ref _location, value);
+        }
+
         public EventHandler OnCreateInvoked;
         public EventHandler OnEditInvoked;
-        
-        private NodeSyntaxViewModel _syntax;
         private bool _isEdit;
+        private bool _isVisible;
 
-        public INodifyCommand CreateOperation { get; }
-        public INodifyCommand CancelOperation { get; }
+        private NodeSyntaxViewModel _syntax;
 
-        public virtual void ShowCreateDialog()
-        {
-            Close();
-            IsEdit = false;
-            IsVisible = true;
-        }
-        
-        public virtual void ShowEditDialog()
-        {
-            Close();
-            IsEdit = true;
-            IsVisible = true;
-        }
+        private object _newModel;
 
-        public void Close()
-        {
-            IsVisible = false;
-        }
+        private object _prevModel;
 
-        protected CreateMenuViewModelBase()
-        {
-            CreateOperation = new RequeryCommand(()=>
-            {
-                if (IsEdit)
-                {
-                    OnEditInvoked?.Invoke(this, EventArgs.Empty);
-                }
-                else
-                {
-                    OnCreateInvoked?.Invoke(this, EventArgs.Empty);
-                }
-                Close();
-            });
-            CancelOperation = new RequeryCommand(Close);
-        }
+        private Point _location;
     }
 }

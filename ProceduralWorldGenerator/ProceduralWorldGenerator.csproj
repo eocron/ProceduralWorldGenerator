@@ -8,15 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
-      <PackageReference Include="Nodify" Version="5.1.0" />
-      <PackageReference Include="OxyPlot.Core" Version="2.1.2" />
-      <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
-      <PackageReference Include="OxyPlot.Wpf.Shared" Version="2.1.2" />
+        <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0"/>
+        <PackageReference Include="Nodify" Version="5.1.0"/>
+        <PackageReference Include="OxyPlot.Core" Version="2.1.2"/>
+        <PackageReference Include="OxyPlot.Wpf" Version="2.1.2"/>
+        <PackageReference Include="OxyPlot.Wpf.Shared" Version="2.1.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj" />
+        <ProjectReference Include="..\ProceduralWorldGenerator.Common\ProceduralWorldGenerator.Common.csproj"/>
     </ItemGroup>
 
 </Project>

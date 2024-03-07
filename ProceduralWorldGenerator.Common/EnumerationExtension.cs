@@ -7,9 +7,6 @@ namespace ProceduralWorldGenerator.Common
 {
     public class EnumerationExtension : MarkupExtension
     {
-        private Type _enumType;
-
-
         public EnumerationExtension(Type enumType)
         {
             if (enumType == null)
@@ -18,9 +15,36 @@ namespace ProceduralWorldGenerator.Common
             EnumType = enumType;
         }
 
+        public override object
+            ProvideValue(IServiceProvider serviceProvider) // or IXamlServiceProvider for UWP and WinUI
+        {
+            var enumValues = Enum.GetValues(EnumType);
+
+            return (
+                from object enumValue in enumValues
+                select new EnumerationMember
+                {
+                    Value = enumValue,
+                    Description = GetDescription(enumValue)
+                }).ToArray();
+        }
+
+        private string GetDescription(object enumValue)
+        {
+            var descriptionAttribute = EnumType
+                .GetField(enumValue.ToString())
+                .GetCustomAttributes(typeof(DescriptionAttribute), false)
+                .FirstOrDefault() as DescriptionAttribute;
+
+
+            return descriptionAttribute != null
+                ? descriptionAttribute.Description
+                : enumValue.ToString();
+        }
+
         public Type EnumType
         {
-            get { return _enumType; }
+            get => _enumType;
             private set
             {
                 if (_enumType == value)
@@ -35,35 +59,12 @@ namespace ProceduralWorldGenerator.Common
             }
         }
 
-        public override object ProvideValue(IServiceProvider serviceProvider) // or IXamlServiceProvider for UWP and WinUI
-        {
-            var enumValues = Enum.GetValues(EnumType);
-
-            return (
-                from object enumValue in enumValues
-                select new EnumerationMember{
-                    Value = enumValue,
-                    Description = GetDescription(enumValue)
-                }).ToArray();
-        }
-
-        private string GetDescription(object enumValue)
-        {
-            var descriptionAttribute = EnumType
-                .GetField(enumValue.ToString())
-                .GetCustomAttributes(typeof (DescriptionAttribute), false)
-                .FirstOrDefault() as DescriptionAttribute;
-
-
-            return descriptionAttribute != null
-                ? descriptionAttribute.Description
-                : enumValue.ToString();
-        }
+        private Type _enumType;
 
         public class EnumerationMember
         {
-            public string Description { get; set; }
             public object Value { get; set; }
+            public string Description { get; set; }
         }
     }
 }

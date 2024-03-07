@@ -5,12 +5,11 @@ namespace ProceduralWorldGenerator.Common
     [JsonObject(MemberSerialization.OptIn)]
     public class Wrapper<T>
     {
-        [JsonProperty]
-        public T Item { get; set; }
-        
-        public Wrapper(){}
+        public Wrapper()
+        {
+        }
 
-        public Wrapper(T value = default(T))
+        public Wrapper(T value = default)
         {
             Item = value;
         }
@@ -25,7 +24,9 @@ namespace ProceduralWorldGenerator.Common
             if (null != item)
                 return item.Item;
 
-            return default(T);
+            return default;
         }
+
+        [JsonProperty] public T Item { get; set; }
     }
 }

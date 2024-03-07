@@ -5,8 +5,11 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class PendingCreateNodeViewModel : ObservableObject
     {
-        private Point _location;
-        private GeneratorPreviewNodeViewModel _preview;
+        public GeneratorPreviewNodeViewModel Preview
+        {
+            get => _preview;
+            set => SetProperty(ref _preview, value);
+        }
 
         public Point Location
         {
@@ -14,10 +17,7 @@ namespace ProceduralWorldGenerator.ViewModels
             set => SetProperty(ref _location, value);
         }
 
-        public GeneratorPreviewNodeViewModel Preview
-        {
-            get => _preview;
-            set => SetProperty(ref _preview, value);
-        }
+        private GeneratorPreviewNodeViewModel _preview;
+        private Point _location;
     }
 }

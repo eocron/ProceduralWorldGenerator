@@ -427,8 +427,6 @@
                 Value="Transparent" />
         <Setter Property="BorderBrush"
                 Value="{DynamicResource HighlightedBackgroundBrush}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -625,10 +623,11 @@
                                    x:Name="PART_Popup"
                                    Focusable="False"
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
-                                <Border Background="{Binding Path=Background, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
-                                        BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
-                                        BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
-                                        Margin="0 0 5 5">
+                                <Border
+                                    Background="{Binding Path=Background, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                    BorderBrush="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                    BorderThickness="{Binding Path=BorderThickness, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                    Margin="0 0 5 5">
                                     <Border.Effect>
                                         <DropShadowEffect BlurRadius="5"
                                                           Opacity="0.5" />
@@ -731,37 +730,37 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ThirdPartyStyle" TargetType="{x:Type Control}">
-        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource GridLinesBrush}"/>
-        <Setter Property="FontFamily" Value="Courier New"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GridLinesBrush}" />
+        <Setter Property="FontFamily" Value="Courier New" />
     </Style>
-    
+
     <Style x:Key="ToolBar" TargetType="{x:Type StackPanel}">
-        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}" />
     </Style>
-    
+
     <Style x:Key="ToolBarMenu" TargetType="{x:Type Control}">
-        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="3"></Setter>
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="3" />
     </Style>
-    
+
     <Style x:Key="ToolBarMenuItem" TargetType="{x:Type Control}">
-        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{DynamicResource Node.BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
-    
+
     <Style TargetType="{x:Type RepeatButton}"
            BasedOn="{StaticResource {x:Type RepeatButton}}">
-        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
     </Style>
 
     <Style TargetType="{x:Type Expander}"

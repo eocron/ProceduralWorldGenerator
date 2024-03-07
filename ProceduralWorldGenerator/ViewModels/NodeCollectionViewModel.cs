@@ -21,14 +21,10 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class NodeCollectionViewModel
     {
-        private readonly Dictionary<Type, Func<NodeViewModelBase>> _templateFactories = new();
-        private readonly Dictionary<Type, CreateMenuViewModelBase> _createNodeViewModels = new();
-        private readonly Dictionary<Type, GeneratorPreviewNodeViewModel> _previews = new();
-
         public NodeCollectionViewModel()
         {
             Bind<PermutationTableNodeViewModel, CreatePermutationTableNodeViewModel>(
-                "Permutation table", 
+                "Permutation table",
                 "Variable responsible for 'randomness' of noises. Noises use this as random seed.",
                 x =>
                 {
@@ -36,7 +32,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Permutation.Title = "rnd";
                 });
             Bind<VectorNodeViewModel, CreateVectorNodeViewModel>(
-                "Vector", 
+                "Vector",
                 "N-dimensional vector of float numbers.",
                 x =>
                 {
@@ -45,7 +41,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<OutputVectorNodeViewModel, CreateOutputVectorNodeViewModel>(
-                "Output vector", 
+                "Output vector",
                 "Output vector or vector array which will hold calculated results.",
                 x =>
                 {
@@ -54,7 +50,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<ChunkNodeViewModel, CreateChunkNodeViewModel>(
-                "Chunk", 
+                "Chunk",
                 "N-dimensional rectangle. Returns N-dimensional vector from its output starting from offset up to specified size.",
                 x =>
                 {
@@ -65,7 +61,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<WorleyNoiseNodeViewModel, CreateWorleyNoiseNodeViewModel>(
-                "Worley noise", 
+                "Worley noise",
                 "1/2/3-dimensional Worley noise. Receives vector and outputs noise as 1-dimensional vector.",
                 x =>
                 {
@@ -78,7 +74,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<ValueNoiseNodeViewModel, CreateValueNoiseNodeViewModel>(
-                "Value noise", 
+                "Value noise",
                 "1/2/3-dimensional Value noise. Receives vector and outputs noise as 1-dimensional vector.",
                 x =>
                 {
@@ -89,7 +85,7 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<SimplexNoiseNodeViewModel, CreateSimplexNoiseNodeViewModel>(
-                "Simplex noise", 
+                "Simplex noise",
                 "1/2/3-dimensional Simplex noise. Receives vector and outputs noise as 1-dimensional vector.",
                 x =>
                 {
@@ -100,18 +96,19 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Dimension = 1;
                 });
             Bind<SplineNodeViewModel, CreateSplineNodeViewModel>(
-                "Spline", 
+                "Spline",
                 "Function which can map 1-dimensional vector to another 1-dimensional vector.",
                 x =>
                 {
                     x.VariableName = "Spline";
                     x.Output.Title = "out";
                     x.Input.Title = "in";
-                    x.Spline.DataPoints.AddRange(SplineNodeViewModelHelper.GetLinearDataPoints().Select(p=> new EditablePointViewModel(){X = p.X, Y = p.Y}));
+                    x.Spline.DataPoints.AddRange(SplineNodeViewModelHelper.GetLinearDataPoints()
+                        .Select(p => new EditablePointViewModel { X = p.X, Y = p.Y }));
                     x.SupportEdit = true;
                 });
             Bind<ExpressionNodeViewModel, CreateExpressionNodeViewModel>(
-                "Expression", 
+                "Expression",
                 "Function which can map N-dimensional vector to another M-dimensional vector using math expressions.",
                 x =>
                 {
@@ -122,10 +119,39 @@ namespace ProceduralWorldGenerator.ViewModels
                     x.Output.Title = "out";
                 });
         }
-        
-        public IEnumerable<GeneratorPreviewNodeViewModel> GetNodePreviews()
+
+        public GeneratorNodeViewModel CreateGeneratorNodeViewModel(NodeViewModelBase template)
         {
-            return _previews.Values;
+            var type = template.GetType();
+
+            var op = new GeneratorNodeViewModel
+            {
+                NodeModel = template
+            };
+
+            var allProps = type
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
+                .Select(x => new
+                {
+                    prop = x,
+                    value = (ParameterViewModelBase)x.GetMethod.Invoke(template, null)
+                })
+                .OrderBy(x => x.value.Order)
+                .ToList();
+
+            foreach (var row in allProps.Where(x => x.value.IsInput))
+                op.Input.Add(Convert(row.prop, row.value, template));
+
+            foreach (var row in allProps.Where(x => !x.value.IsInput))
+                op.Output.Add(Convert(row.prop, row.value, template));
+
+            return op;
+        }
+
+        public NodeViewModelBase CreateTemplateNodeViewModel(Type nodeType)
+        {
+            return _templateFactories[nodeType]();
         }
 
         public IEnumerable<CreateMenuViewModelBase> GetCreateMenus()
@@ -137,43 +163,10 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             return _createNodeViewModels[type];
         }
-        
-        public NodeViewModelBase CreateTemplateNodeViewModel(Type nodeType)
+
+        public IEnumerable<GeneratorPreviewNodeViewModel> GetNodePreviews()
         {
-            return _templateFactories[nodeType]();
-        }
-
-        public GeneratorNodeViewModel CreateGeneratorNodeViewModel(NodeViewModelBase template)
-        {
-            var type = template.GetType();
-
-            var op = new GeneratorNodeViewModel
-            {
-                NodeModel = template,
-            };
-            
-            var allProps = type
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
-                .Select(x => new
-                {
-                    prop = x,
-                    value = (ParameterViewModelBase)x.GetMethod.Invoke(template, null)
-                })
-                .OrderBy(x => x.value.Order)
-                .ToList();
-            
-            foreach (var row in allProps.Where(x=> x.value.IsInput))
-            {
-                op.Input.Add(Convert(row.prop, row.value, template));
-            }
-                
-            foreach (var row in allProps.Where(x=> !x.value.IsInput))
-            {
-                op.Output.Add(Convert(row.prop, row.value, template));
-            }
-
-            return op;
+            return _previews.Values;
         }
 
         private void Bind<TModel, TCreateModel>(string title, string description, Action<TModel> configureInstance)
@@ -191,14 +184,19 @@ namespace ProceduralWorldGenerator.ViewModels
             });
         }
 
-        private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase paramModel, NodeViewModelBase nodeModel)
+        private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase paramModel,
+            NodeViewModelBase nodeModel)
         {
-            return new NodeConnectorViewModel()
+            return new NodeConnectorViewModel
             {
                 Title = paramModel.Title ?? propertyInfo.Name,
                 NodeId = nodeModel.Id,
-                NodeParameterId = paramModel.Id,
+                NodeParameterId = paramModel.Id
             };
         }
+
+        private readonly Dictionary<Type, CreateMenuViewModelBase> _createNodeViewModels = new();
+        private readonly Dictionary<Type, Func<NodeViewModelBase>> _templateFactories = new();
+        private readonly Dictionary<Type, GeneratorPreviewNodeViewModel> _previews = new();
     }
 }

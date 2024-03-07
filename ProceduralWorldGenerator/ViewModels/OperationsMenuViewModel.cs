@@ -7,25 +7,20 @@ namespace ProceduralWorldGenerator.ViewModels
 {
     public class OperationsMenuViewModel : ObservableObject
     {
-        private bool _isVisible;
-        public bool IsVisible
+        public OperationsMenuViewModel(GeneratorViewModel calculator, NodeCollectionViewModel collectionViewModel)
         {
-            get => _isVisible;
-            set
-            {
-                SetProperty(ref _isVisible, value);
-                if (!value)
-                {
-                    Closed?.Invoke();
-                }
-            }
+            _calculator = calculator;
+            var operations = new List<GeneratorPreviewNodeViewModel>();
+
+            operations.AddRange(collectionViewModel.GetNodePreviews());
+
+            AvailableOperations = new NodifyObservableCollection<GeneratorPreviewNodeViewModel>(operations);
+            CreateOperationCommand = new DelegateCommand<GeneratorPreviewNodeViewModel>(CreateOperation);
         }
 
-        private Point _location;
-        public Point Location
+        public void Close()
         {
-            get => _location;
-            set => SetProperty(ref _location, value);
+            IsVisible = false;
         }
 
         public event Action? Closed;
@@ -37,26 +32,6 @@ namespace ProceduralWorldGenerator.ViewModels
             IsVisible = true;
         }
 
-        public void Close()
-        {
-            IsVisible = false;
-        }
-
-        public NodifyObservableCollection<GeneratorPreviewNodeViewModel> AvailableOperations { get; }
-        public INodifyCommand CreateOperationCommand { get; }
-        private readonly GeneratorViewModel _calculator;
-
-        public OperationsMenuViewModel(GeneratorViewModel calculator, NodeCollectionViewModel collectionViewModel)
-        {
-            _calculator = calculator;
-            var operations = new List<GeneratorPreviewNodeViewModel>();
-            
-            operations.AddRange(collectionViewModel.GetNodePreviews());
-
-            AvailableOperations = new NodifyObservableCollection<GeneratorPreviewNodeViewModel>(operations);
-            CreateOperationCommand = new DelegateCommand<GeneratorPreviewNodeViewModel>(CreateOperation);
-        }
-
         private void CreateOperation(GeneratorPreviewNodeViewModel operationInfo)
         {
             _calculator.PendingCreateNodeMenu.Preview = operationInfo;
@@ -64,5 +39,30 @@ namespace ProceduralWorldGenerator.ViewModels
             _calculator.CreateNodeCommand.Execute(null);
             Close();
         }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                SetProperty(ref _isVisible, value);
+                if (!value) Closed?.Invoke();
+            }
+        }
+
+        public INodifyCommand CreateOperationCommand { get; }
+
+        public NodifyObservableCollection<GeneratorPreviewNodeViewModel> AvailableOperations { get; }
+
+        public Point Location
+        {
+            get => _location;
+            set => SetProperty(ref _location, value);
+        }
+
+        private readonly GeneratorViewModel _calculator;
+        private bool _isVisible;
+
+        private Point _location;
     }
 }

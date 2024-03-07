@@ -8,18 +8,11 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
     [JsonObject(MemberSerialization.OptIn)]
     public class VectorNodeViewModel : NodeViewModelBase
     {
-        private VectorParameterViewModel _value = new()
-        {
-            Dimension = 1,
-        };
-
-        private bool _isConstant;
-
         [JsonProperty]
-        public VectorParameterViewModel Value
+        public bool IsConstant
         {
-            get => _value;
-            set => SetProperty(ref _value, value);
+            get => _isConstant;
+            set => SetProperty(ref _isConstant, value);
         }
 
         [JsonProperty]
@@ -33,16 +26,22 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Vector
             }
         }
 
-        [JsonProperty]
-        public bool IsConstant
-        {
-            get => _isConstant;
-            set => SetProperty(ref _isConstant, value);
-        }
-
-        [JsonProperty]
-        public ObservableCollection<Wrapper<float>> Values { get; set; } = new ObservableCollection<Wrapper<float>>();
+        [JsonProperty] public ObservableCollection<Wrapper<float>> Values { get; set; } = new();
 
         public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
+
+        [JsonProperty]
+        public VectorParameterViewModel Value
+        {
+            get => _value;
+            set => SetProperty(ref _value, value);
+        }
+
+        private bool _isConstant;
+
+        private VectorParameterViewModel _value = new()
+        {
+            Dimension = 1
+        };
     }
 }

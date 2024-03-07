@@ -9,21 +9,6 @@ namespace ProceduralWorldGenerator.Common
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private bool _isDirty;
-        
-        public bool IsDirty
-        {
-            get => _isDirty;
-            protected set
-            {
-                if (_isDirty != value)
-                {
-                    _isDirty = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public bool SetProperty<T>(ref T reference, T value, [CallerMemberName] in string propertyName = default!)
         {
             if (!Equals(reference, value))
@@ -37,6 +22,11 @@ namespace ProceduralWorldGenerator.Common
             return false;
         }
 
+        protected void OnPropertyChanged([CallerMemberName] in string? propertyName = default)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         protected void SetNestedProperty<T>(string propertyName, T oldValue, T newValue, Action setter)
         {
             if (!Equals(oldValue, newValue))
@@ -47,7 +37,19 @@ namespace ProceduralWorldGenerator.Common
             }
         }
 
-        protected void OnPropertyChanged([CallerMemberName] in string? propertyName = default)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public bool IsDirty
+        {
+            get => _isDirty;
+            protected set
+            {
+                if (_isDirty != value)
+                {
+                    _isDirty = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isDirty;
     }
 }

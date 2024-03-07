@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ProceduralWorldGenerator.Common
+﻿namespace ProceduralWorldGenerator.Common
 {
-    public delegate Boolean ValidateValueCallback<in TValue>( TValue value );
+    public delegate bool ValidateValueCallback<in TValue>(TValue value);
 }

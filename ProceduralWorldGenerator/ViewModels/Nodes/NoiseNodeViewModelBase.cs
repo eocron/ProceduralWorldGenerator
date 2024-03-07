@@ -7,20 +7,12 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
     [JsonObject(MemberSerialization.OptIn)]
     public class NoiseNodeViewModelBase : NodeViewModelBase
     {
-        private PermutationTableParameterViewModel _permutation = new()
+        [JsonProperty]
+        public int Dimension
         {
-            IsInput = true
-        };
-
-        private VectorParameterViewModel _input = new()
-        {
-            IsInput = true
-        };
-
-        private VectorParameterViewModel _output = new()
-        {
-            Dimension = 1
-        };
+            get => Input.Dimension;
+            set => Input.Dimension = value;
+        }
 
         [JsonProperty]
         public PermutationTableParameterViewModel Permutation
@@ -28,6 +20,8 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             get => _permutation;
             set => SetProperty(ref _permutation, value);
         }
+
+        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
 
         [JsonProperty]
         public VectorParameterViewModel Input
@@ -43,16 +37,19 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes
             set => SetProperty(ref _output, value);
         }
 
-        [JsonProperty]
-        public int Dimension
+        private PermutationTableParameterViewModel _permutation = new()
         {
-            get => Input.Dimension;
-            set
-            {
-                Input.Dimension = value;
-            }
-        }
+            IsInput = true
+        };
 
-        public override string Title => Dimension != 0 ? $"{VariableName} {Dimension}D" : VariableName;
+        private VectorParameterViewModel _input = new()
+        {
+            IsInput = true
+        };
+
+        private VectorParameterViewModel _output = new()
+        {
+            Dimension = 1
+        };
     }
 }

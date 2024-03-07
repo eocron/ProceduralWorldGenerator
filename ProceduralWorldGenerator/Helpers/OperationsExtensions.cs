@@ -6,7 +6,8 @@ namespace ProceduralWorldGenerator.Helpers
 {
     public static class OperationsExtensions
     {
-        public static Rect GetBoundingBox(this IEnumerable<GeneratorNodeViewModel> nodes, double padding = 0, int gridCellSize = 15)
+        public static Rect GetBoundingBox(this IEnumerable<GeneratorNodeViewModel> nodes, double padding = 0,
+            int gridCellSize = 15)
         {
             var minX = double.MaxValue;
             var minY = double.MaxValue;
@@ -19,27 +20,15 @@ namespace ProceduralWorldGenerator.Helpers
 
             foreach (var node in nodes)
             {
-                if (node.Location.X < minX)
-                {
-                    minX = node.Location.X;
-                }
+                if (node.Location.X < minX) minX = node.Location.X;
 
-                if (node.Location.Y < minY)
-                {
-                    minY = node.Location.Y;
-                }
+                if (node.Location.Y < minY) minY = node.Location.Y;
 
                 var sizeX = node.Location.X + width;
-                if (sizeX > maxX)
-                {
-                    maxX = sizeX;
-                }
+                if (sizeX > maxX) maxX = sizeX;
 
                 var sizeY = node.Location.Y + height;
-                if (sizeY > maxY)
-                {
-                    maxY = sizeY;
-                }
+                if (sizeY > maxY) maxY = sizeY;
             }
 
             var result = new Rect(minX - padding, minY - padding, maxX - minX + padding * 2, maxY - minY + padding * 2);

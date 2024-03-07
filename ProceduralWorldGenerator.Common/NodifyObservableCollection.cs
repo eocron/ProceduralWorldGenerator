@@ -6,19 +6,9 @@ using System.ComponentModel;
 
 namespace ProceduralWorldGenerator.Common
 {
-    public class NodifyObservableCollection<T> : Collection<T>, INodifyObservableCollection<T>, INotifyPropertyChanged, INotifyCollectionChanged
+    public class NodifyObservableCollection<T> : Collection<T>, INodifyObservableCollection<T>, INotifyPropertyChanged,
+        INotifyCollectionChanged
     {
-        protected static readonly PropertyChangedEventArgs IndexerPropertyChanged = new("Item[]");
-        protected static readonly PropertyChangedEventArgs CountPropertyChanged = new("Count");
-        protected static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new(NotifyCollectionChangedAction.Reset);
-
-        private readonly List<Action<T>> _added = new();
-        private readonly List<Action<T>> _removed = new();
-        private readonly List<Action<IList<T>>> _cleared = new();
-
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public NodifyObservableCollection()
         {
         }
@@ -28,57 +18,52 @@ namespace ProceduralWorldGenerator.Common
         {
         }
 
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged =
+            new(NotifyCollectionChangedAction.Reset);
+
+        protected static readonly PropertyChangedEventArgs IndexerPropertyChanged = new("Item[]");
+        protected static readonly PropertyChangedEventArgs CountPropertyChanged = new("Count");
+        private readonly List<Action<IList<T>>> _cleared = new();
+
+        private readonly List<Action<T>> _added = new();
+        private readonly List<Action<T>> _removed = new();
+
         #region Collection Events
 
         public INodifyObservableCollection<T> WhenAdded(Action<T> added)
         {
-            if (added != null)
-            {
-                _added.Add(added);
-            }
+            if (added != null) _added.Add(added);
             return this;
         }
 
         public INodifyObservableCollection<T> WhenRemoved(Action<T> removed)
         {
-            if (removed != null)
-            {
-                _removed.Add(removed);
-            }
+            if (removed != null) _removed.Add(removed);
             return this;
         }
 
         public INodifyObservableCollection<T> WhenCleared(Action<IList<T>> cleared)
         {
-            if (cleared != null)
-            {
-                _cleared.Add(cleared);
-            }
+            if (cleared != null) _cleared.Add(cleared);
             return this;
         }
 
         protected virtual void NotifyOnItemAdded(T item)
         {
-            for (var i = 0; i < _added.Count; i++)
-            {
-                _added[i](item);
-            }
+            for (var i = 0; i < _added.Count; i++) _added[i](item);
         }
 
         protected virtual void NotifyOnItemRemoved(T item)
         {
-            for (var i = 0; i < _removed.Count; i++)
-            {
-                _removed[i](item);
-            }
+            for (var i = 0; i < _removed.Count; i++) _removed[i](item);
         }
 
         protected virtual void NotifyOnItemsCleared(IList<T> items)
         {
-            for (var i = 0; i < _cleared.Count; i++)
-            {
-                _cleared[i](items);
-            }
+            for (var i = 0; i < _cleared.Count; i++) _cleared[i](items);
         }
 
         #endregion
@@ -91,16 +76,10 @@ namespace ProceduralWorldGenerator.Common
             base.ClearItems();
 
             if (_cleared.Count > 0)
-            {
                 NotifyOnItemsCleared(items);
-            }
             else
-            {
                 for (var i = 0; i < items.Count; i++)
-                {
                     NotifyOnItemRemoved(items[i]);
-                }
-            }
 
             OnPropertyChanged(CountPropertyChanged);
             OnPropertyChanged(IndexerPropertyChanged);
@@ -148,19 +127,30 @@ namespace ProceduralWorldGenerator.Common
         }
 
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-            => CollectionChanged?.Invoke(this, e);
+        {
+            CollectionChanged?.Invoke(this, e);
+        }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
-            => PropertyChanged?.Invoke(this, args);
+        {
+            PropertyChanged?.Invoke(this, args);
+        }
 
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object? item, int index)
-            => OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
+        }
 
         private void OnCollectionChanged(NotifyCollectionChangedAction action, object? item, int index, int oldIndex)
-            => OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
+        }
 
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object? oldItem, object? newItem, int index)
-            => OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
+        private void OnCollectionChanged(NotifyCollectionChangedAction action, object? oldItem, object? newItem,
+            int index)
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
+        }
 
         #endregion
     }

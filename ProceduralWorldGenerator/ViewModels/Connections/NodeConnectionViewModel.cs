@@ -6,7 +6,6 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
     [JsonObject(MemberSerialization.OptIn)]
     public class NodeConnectionViewModel : ObservableObject
     {
-        private NodeConnectorViewModel _input = default!;
         [JsonProperty]
         public NodeConnectorViewModel Input
         {
@@ -14,12 +13,15 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
             set => SetProperty(ref _input, value);
         }
 
-        private NodeConnectorViewModel _output = default!;
         [JsonProperty]
         public NodeConnectorViewModel Output
         {
             get => _output;
             set => SetProperty(ref _output, value);
         }
+
+        private NodeConnectorViewModel _input = default!;
+
+        private NodeConnectorViewModel _output = default!;
     }
 }

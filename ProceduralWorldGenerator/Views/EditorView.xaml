@@ -1,11 +1,9 @@
 ﻿<UserControl x:Class="ProceduralWorldGenerator.Views.EditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:nodify="https://miroiu.github.io/nodify"
-             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-             xmlns:proceduralWorldGenerator="clr-namespace:ProceduralWorldGenerator"
              xmlns:viewModels="clr-namespace:ProceduralWorldGenerator.ViewModels"
              xmlns:connections="clr-namespace:ProceduralWorldGenerator.ViewModels.Connections"
              xmlns:createNodes="clr-namespace:ProceduralWorldGenerator.Views.CreateNodes"
@@ -57,29 +55,29 @@
 
         <Storyboard x:Key="AnimateBorder" RepeatBehavior="Forever">
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.StartPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
-                                    Duration="0:0:2" To="1 0" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="1 0" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.StartPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="1 1" BeginTime="0:0:2" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="1 1" BeginTime="0:0:2" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.StartPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="0 1" BeginTime="0:0:4" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="0 1" BeginTime="0:0:4" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.StartPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="0 0" BeginTime="0:0:6" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="0 0" BeginTime="0:0:6" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.EndPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="1 1" />
-            <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.EndPoint)" 
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
-                                    Duration="0:0:2" To="0 1" BeginTime="0:0:2" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="1 1" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.EndPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="0 0" BeginTime="0:0:4" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="0 1" BeginTime="0:0:2" />
             <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.EndPoint)"
-                                                    Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}" 
-                                    Duration="0:0:2" To="1 0" BeginTime="0:0:6" />
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="0 0" BeginTime="0:0:4" />
+            <PointAnimation Storyboard.TargetProperty="BorderBrush.(LinearGradientBrush.EndPoint)"
+                            Storyboard.Target="{StaticResource AnimatedBorderPlaceholder}"
+                            Duration="0:0:2" To="1 0" BeginTime="0:0:6" />
         </Storyboard>
 
         <DataTemplate x:Key="ConnectionTemplate"
@@ -101,39 +99,39 @@
         <DataTemplate DataType="{x:Type chunk:CreateChunkNodeViewModel}">
             <createNodes:CreateChunkNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type permutation:CreatePermutationTableNodeViewModel}">
             <createNodes:CreatePermutationTableNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type output:CreateOutputVectorNodeViewModel}">
             <createNodes:CreateOutputVectorNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type simplexNoise:CreateSimplexNoiseNodeViewModel}">
             <createNodes:CreateSimplexNoiseNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type worleyNoise:CreateWorleyNoiseNodeViewModel}">
             <createNodes:CreateWorleyNoiseNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type valueNoise:CreateValueNoiseNodeViewModel}">
             <createNodes:CreateValueNoiseNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type vector:CreateVectorNodeViewModel}">
             <createNodes:CreateVectorNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type expression:CreateExpressionNodeViewModel}">
             <createNodes:CreateExpressionNodeView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type spline:CreateSplineNodeViewModel}">
             <createNodes:CreateSplineNodeView />
         </DataTemplate>
-        
+
         <Style x:Key="ItemContainerStyle"
                TargetType="{x:Type nodify:ItemContainer}"
                BasedOn="{StaticResource {x:Type nodify:ItemContainer}}">
@@ -143,7 +141,8 @@
                     Value="{Binding IsSelected}" />
             <Setter Property="ActualSize"
                     Value="{Binding Size, Mode=OneWayToSource}" />
-            <Setter Property="BorderBrush" Value="{Binding BorderBrush, Source={StaticResource AnimatedBorderPlaceholder}}" />
+            <Setter Property="BorderBrush"
+                    Value="{Binding BorderBrush, Source={StaticResource AnimatedBorderPlaceholder}}" />
             <Setter Property="BorderThickness" Value="2" />
         </Style>
     </UserControl.Resources>
@@ -199,7 +198,7 @@
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type connections:NodeConnectorViewModel}">
-                                <TextBlock Text="{Binding Title}"/>
+                                <TextBlock Text="{Binding Title}" />
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
@@ -208,12 +207,12 @@
                 <DataTemplate DataType="{x:Type viewModels:GeneratorNodeViewModel}">
                     <nodify:Node Content="{Binding Title}"
                                  Input="{Binding Input}"
-                                 Output="{Binding Output}"/>
+                                 Output="{Binding Output}" />
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type viewModels:GeneratorPreviewNodeViewModel}">
                     <nodify:Node Content="{Binding Title}"
-                                 ToolTip="{Binding Description}"/>
+                                 ToolTip="{Binding Description}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type control:OperationGroupViewModel}">
@@ -242,9 +241,9 @@
                                            Location="{Binding Location}">
                     <views:OperationsMenuView />
                 </nodify:DecoratorContainer>
-                <nodify:DecoratorContainer  Content="{Binding CreateNodeMenu}"
-                                            Location="{Binding CreateNodeMenu.Location}"
-                                            Visibility="{Binding CreateNodeMenu.IsVisible, Converter={converters:BooleanToVisibilityConverter}}"/>
+                <nodify:DecoratorContainer Content="{Binding CreateNodeMenu}"
+                                           Location="{Binding CreateNodeMenu.Location}"
+                                           Visibility="{Binding CreateNodeMenu.IsVisible, Converter={converters:BooleanToVisibilityConverter}}" />
             </CompositeCollection>
 
         </nodify:NodifyEditor>
@@ -252,7 +251,7 @@
         <Grid Background="{StaticResource LargeGridLinesDrawingBrush}"
               Panel.ZIndex="-2" />
 
-        <Border HorizontalAlignment="Right" 
+        <Border HorizontalAlignment="Right"
                 MinWidth="200"
                 MaxWidth="300"
                 Padding="7"
@@ -267,19 +266,18 @@
                 <ItemsControl ItemsSource="{Binding Calculator.OperationsMenu.AvailableOperations}">
                     <ItemsControl.ItemContainerStyle>
                         <Style>
-                            <Setter Property="FrameworkElement.Margin" Value="5"/>
-                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-                            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
-                            <Setter Property="FrameworkElement.ToolTip" Value="Drag and drop into the editor"/>
+                            <Setter Property="FrameworkElement.Margin" Value="5" />
+                            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
+                            <Setter Property="FrameworkElement.Cursor" Value="Hand" />
+                            <Setter Property="FrameworkElement.ToolTip" Value="Drag and drop into the editor" />
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type viewModels:GeneratorPreviewNodeViewModel}">
                             <nodify:Node Content="{Binding Title}"
-                                     BorderBrush="{StaticResource AnimatedBrush}"
-                                     BorderThickness="2"
-                                     MouseMove="OnNodeDrag">
-                            </nodify:Node>
+                                         BorderBrush="{StaticResource AnimatedBrush}"
+                                         BorderThickness="2"
+                                         MouseMove="OnNodeDrag" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

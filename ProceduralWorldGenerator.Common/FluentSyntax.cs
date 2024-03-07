@@ -6,25 +6,15 @@ namespace ProceduralWorldGenerator.Common
 {
     public static class FluentSyntax
     {
-        public static void Then<T>(this T caller, Action<T> action)
-            => action?.Invoke(caller);
-
-        public static bool Then(this bool condition, Action action)
+        public static ICollection<T> AddRange<T>(this ICollection<T> collection, IEnumerable<T> values)
         {
-            if (condition)
-            {
-                action();
-            }
-
-            return condition;
+            values.ForEach(collection.Add);
+            return collection;
         }
 
         public static bool Else(this bool condition, Action action)
         {
-            if (!condition)
-            {
-                action();
-            }
+            if (!condition) action();
 
             return condition;
         }
@@ -32,26 +22,19 @@ namespace ProceduralWorldGenerator.Common
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
             if (collection is IList<T> list)
-            {
                 for (var i = 0; i < list.Count; i++)
-                {
                     action(list[i]);
-                }
-            }
             else
-            {
                 foreach (var item in collection)
-                {
                     action(item);
-                }
-            }
 
             return collection;
         }
 
-        public static ICollection<T> AddRange<T>(this ICollection<T> collection, IEnumerable<T> values)
+        public static ICollection<T> RemoveOne<T>(this ICollection<T> collection, Func<T, bool> search)
         {
-            values.ForEach(collection.Add);
+            if (collection.FirstOrDefault(search) is { } x) collection.Remove(x);
+
             return collection;
         }
 
@@ -61,14 +44,16 @@ namespace ProceduralWorldGenerator.Common
             return collection;
         }
 
-        public static ICollection<T> RemoveOne<T>(this ICollection<T> collection, Func<T, bool> search)
+        public static void Then<T>(this T caller, Action<T> action)
         {
-            if (collection.FirstOrDefault(search) is { } x)
-            {
-                collection.Remove(x);
-            }
+            action?.Invoke(caller);
+        }
 
-            return collection;
+        public static bool Then(this bool condition, Action action)
+        {
+            if (condition) action();
+
+            return condition;
         }
     }
 }

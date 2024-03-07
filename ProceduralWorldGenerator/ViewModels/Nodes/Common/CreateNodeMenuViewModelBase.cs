@@ -5,15 +5,18 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
     public abstract class CreateNodeMenuViewModelBase<TNodeViewModel> : CreateMenuViewModelBase
         where TNodeViewModel : NodeViewModelBase
     {
-        public TNodeViewModel PrevNodeViewModel
+        public CreateNodeMenuViewModelBase()
         {
-            get => (TNodeViewModel)PrevModel;
-            set
-            {
-                PrevModel = value;
-                OnPropertyChanged();
-            }
+            PropertyChanged += Changed;
         }
+
+        private void Changed(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(NewModel))
+                OnPropertyChanged(nameof(NodeViewModel));
+            else if (e.PropertyName == nameof(PrevModel)) OnPropertyChanged(nameof(PrevNodeViewModel));
+        }
+
         public TNodeViewModel NodeViewModel
         {
             get => (TNodeViewModel)NewModel;
@@ -24,20 +27,13 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             }
         }
 
-        public CreateNodeMenuViewModelBase()
+        public TNodeViewModel PrevNodeViewModel
         {
-            PropertyChanged += Changed;
-        }
-
-        private void Changed(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(NewModel))
+            get => (TNodeViewModel)PrevModel;
+            set
             {
-                OnPropertyChanged(nameof(NodeViewModel));
-            }
-            else if (e.PropertyName == nameof(PrevModel))
-            {
-                OnPropertyChanged(nameof(PrevNodeViewModel));
+                PrevModel = value;
+                OnPropertyChanged();
             }
         }
     }

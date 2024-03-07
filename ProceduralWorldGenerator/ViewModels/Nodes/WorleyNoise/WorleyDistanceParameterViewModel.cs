@@ -6,6 +6,5 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.WorleyNoise
     [JsonObject(MemberSerialization.OptIn)]
     public class WorleyDistanceParameterViewModel : ParameterViewModelBase<WorleyDistance>
     {
-        
     }
 }

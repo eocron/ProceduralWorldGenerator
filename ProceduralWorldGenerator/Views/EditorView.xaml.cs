@@ -12,18 +12,12 @@ namespace ProceduralWorldGenerator.Views
         {
             InitializeComponent();
 
-            EventManager.RegisterClassHandler(typeof(NodifyEditor), MouseLeftButtonDownEvent, new MouseButtonEventHandler(CloseOperationsMenu));
-            EventManager.RegisterClassHandler(typeof(ItemContainer), ItemContainer.DragStartedEvent, new RoutedEventHandler(CloseOperationsMenu));
-            EventManager.RegisterClassHandler(typeof(NodifyEditor), MouseRightButtonUpEvent, new MouseButtonEventHandler(OpenOperationsMenu));
-        }
-
-        private void OpenOperationsMenu(object sender, MouseButtonEventArgs e)
-        {
-            if (!e.Handled && e.OriginalSource is NodifyEditor editor && !editor.IsPanning && editor.DataContext is GeneratorViewModel calculator)
-            {
-                e.Handled = true;
-                calculator.OperationsMenu.OpenAt(editor.MouseLocation);
-            }
+            EventManager.RegisterClassHandler(typeof(NodifyEditor), MouseLeftButtonDownEvent,
+                new MouseButtonEventHandler(CloseOperationsMenu));
+            EventManager.RegisterClassHandler(typeof(ItemContainer), ItemContainer.DragStartedEvent,
+                new RoutedEventHandler(CloseOperationsMenu));
+            EventManager.RegisterClassHandler(typeof(NodifyEditor), MouseRightButtonUpEvent,
+                new MouseButtonEventHandler(OpenOperationsMenu));
         }
 
         private void CloseOperationsMenu(object sender, RoutedEventArgs e)
@@ -31,16 +25,14 @@ namespace ProceduralWorldGenerator.Views
             var itemContainer = sender as ItemContainer;
             var editor = sender as NodifyEditor ?? itemContainer?.Editor;
 
-            if (!e.Handled && editor?.DataContext is GeneratorViewModel calculator)
-            {
-                calculator.OperationsMenu.Close();
-            }
+            if (!e.Handled && editor?.DataContext is GeneratorViewModel calculator) calculator.OperationsMenu.Close();
         }
-        
+
         private void OnDropNode(object sender, DragEventArgs e)
         {
             if (e.Source is NodifyEditor editor && editor.DataContext is GeneratorViewModel calculator
-                                                && e.Data.GetData(typeof(GeneratorPreviewNodeViewModel)) is GeneratorPreviewNodeViewModel
+                                                && e.Data.GetData(typeof(GeneratorPreviewNodeViewModel)) is
+                                                    GeneratorPreviewNodeViewModel
                                                     operation)
             {
                 var location = editor.GetLocationInsideEditor(e);
@@ -53,10 +45,21 @@ namespace ProceduralWorldGenerator.Views
 
         private void OnNodeDrag(object sender, MouseEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed && ((FrameworkElement)sender).DataContext is GeneratorPreviewNodeViewModel operation)
-            { 
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                ((FrameworkElement)sender).DataContext is GeneratorPreviewNodeViewModel operation)
+            {
                 var data = new DataObject(typeof(GeneratorPreviewNodeViewModel), operation);
                 DragDrop.DoDragDrop(this, data, DragDropEffects.Copy);
+            }
+        }
+
+        private void OpenOperationsMenu(object sender, MouseButtonEventArgs e)
+        {
+            if (!e.Handled && e.OriginalSource is NodifyEditor editor && !editor.IsPanning &&
+                editor.DataContext is GeneratorViewModel calculator)
+            {
+                e.Handled = true;
+                calculator.OperationsMenu.OpenAt(editor.MouseLocation);
             }
         }
     }

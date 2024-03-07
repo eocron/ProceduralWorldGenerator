@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:ProceduralWorldGenerator.Common.Controls.Labeled"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
-             d:DesignHeight="40" 
+             d:DesignHeight="40"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance local:PointInput}">
     <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition SharedSizeGroup="Single"/>
-            <ColumnDefinition SharedSizeGroup="Single"/>
+            <ColumnDefinition SharedSizeGroup="Single" />
+            <ColumnDefinition SharedSizeGroup="Single" />
         </Grid.ColumnDefinitions>
-        <xctk:SingleUpDown Grid.Column="0" Value="{Binding InputX}" FormatString="F4" ShowButtonSpinner="False"/>
-        <xctk:SingleUpDown Grid.Column="1" Value="{Binding InputY}" FormatString="F4" ShowButtonSpinner="False"/>
+        <xctk:SingleUpDown Grid.Column="0" Value="{Binding InputX}" FormatString="F4" ShowButtonSpinner="False" />
+        <xctk:SingleUpDown Grid.Column="1" Value="{Binding InputY}" FormatString="F4" ShowButtonSpinner="False" />
     </Grid>
 </UserControl>
