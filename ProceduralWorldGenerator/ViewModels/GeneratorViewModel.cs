@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
@@ -12,11 +13,24 @@ namespace ProceduralWorldGenerator.ViewModels
     [JsonObject(MemberSerialization.OptIn)]
     public class GeneratorViewModel : ObservableObject
     {
-        [JsonProperty]
-        public NodeSyntaxViewModel Syntax { get; set; }
-        [JsonProperty]
-        public NodifyObservableCollection<NodeConnectionViewModel> Connections { get; set; } = new();
+        private NodifyObservableCollection<GeneratorNodeViewModel> _selectedOperations = new();
+        private NodifyObservableCollection<NodeConnectionViewModel> _connections = new();
         private NodifyObservableCollection<GeneratorNodeViewModel> _operations = new();
+        private CreateMenuViewModelBase _createNodeMenu;
+        private NodeSyntaxViewModel _syntax;
+
+        [JsonProperty]
+        public NodeSyntaxViewModel Syntax
+        {
+            get => _syntax;
+            set => SetProperty(ref _syntax, value);
+        }
+        [JsonProperty]
+        public NodifyObservableCollection<NodeConnectionViewModel> Connections
+        {
+            get => _connections;
+            set => SetProperty(ref _connections, value);
+        }
         [JsonProperty]
         public NodifyObservableCollection<GeneratorNodeViewModel> Operations
         {
@@ -41,9 +55,6 @@ namespace ProceduralWorldGenerator.ViewModels
         public INodifyCommand GroupSelectionCommand { get; }
         public INodifyCommand CreateNodeCommand { get; set; }
         public INodifyCommand EditNodeCommand { get; set; }
-
-        private NodifyObservableCollection<GeneratorNodeViewModel> _selectedOperations = new();
-        private CreateMenuViewModelBase _createNodeMenu;
 
         public NodifyObservableCollection<GeneratorNodeViewModel> SelectedOperations
         {
@@ -88,28 +99,29 @@ namespace ProceduralWorldGenerator.ViewModels
                 }
             });
 
-            Operations.WhenAdded(x =>
-            {
-                x.Input.WhenRemoved(RemoveConnection);
+            Operations
+                .WhenAdded(x =>
+                {
+                    x.Input.WhenRemoved(RemoveConnection);
 
-                void RemoveConnection(NodeConnectorViewModel i)
+                    void RemoveConnection(NodeConnectorViewModel i)
+                    {
+                        var c = Connections.Where(con => con.Input == i || con.Output == i).ToArray();
+                        c.ForEach(con => Connections.Remove(con));
+                    }
+                })
+                .WhenRemoved(x =>
                 {
-                    var c = Connections.Where(con => con.Input == i || con.Output == i).ToArray();
-                    c.ForEach(con => Connections.Remove(con));
-                }
-            })
-            .WhenRemoved(x =>
-            {
-                foreach (var input in x.Input)
-                {
-                    DisconnectConnector(input);
-                }
+                    foreach (var input in x.Input)
+                    {
+                        DisconnectConnector(input);
+                    }
 
-                foreach (var output in x.Output)
-                {
-                    DisconnectConnector(output);
-                }
-            });
+                    foreach (var output in x.Output)
+                    {
+                        DisconnectConnector(output);
+                    }
+                });
 
             Syntax = new NodeSyntaxViewModel();
             NodeCollectionModel = new NodeCollectionViewModel();
@@ -122,6 +134,23 @@ namespace ProceduralWorldGenerator.ViewModels
                 createMenu.Syntax = Syntax;
             }
             CreateNodeMenu = NodeCollectionModel.GetCreateMenus().First();
+        }
+
+        private NodeViewModelBase FindNodeById(string nodeId)
+        {
+            return Operations.Single(x => x.NodeModel.Id == nodeId).NodeModel;
+        }
+
+        private ParameterViewModelBase FindParameterById(string nodeId, string parameterId)
+        {
+            var node = FindNodeById(nodeId);
+            var parameter = node.GetType()
+                .GetProperties()
+                .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
+                .Select(x => x.GetMethod)
+                .Select(x => (ParameterViewModelBase)x.Invoke(node, null))
+                .Single(x => x.Id == parameterId);
+            return parameter;
         }
 
         private void OpenNodeEditDialog(GeneratorNodeViewModel model)
@@ -188,7 +217,7 @@ namespace ProceduralWorldGenerator.ViewModels
                 return true;//prompt for new operation
             }
 
-            if (source == target || source.Operation == target.Operation)
+            if (source == target || source.NodeId == target.NodeId)
             {
                 return false;//same operation
             }
@@ -198,7 +227,9 @@ namespace ProceduralWorldGenerator.ViewModels
                 return false;//input to input connection
             }
 
-            if (!source.CanConnect(target))
+            var src = FindParameterById(source.NodeId, source.NodeParameterId);
+            var tgt = FindParameterById(target.NodeId, target.NodeParameterId);
+            if (!NodeConnectionEqualityComparer.Instance.Equals(src,tgt))
             {
                 return false;
             }

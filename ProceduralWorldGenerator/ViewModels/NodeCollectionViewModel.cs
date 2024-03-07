@@ -165,12 +165,12 @@ namespace ProceduralWorldGenerator.ViewModels
             
             foreach (var row in allProps.Where(x=> x.value.IsInput))
             {
-                op.Input.Add(Convert(row.prop, row.value));
+                op.Input.Add(Convert(row.prop, row.value, template));
             }
                 
             foreach (var row in allProps.Where(x=> !x.value.IsInput))
             {
-                op.Output.Add(Convert(row.prop, row.value));
+                op.Output.Add(Convert(row.prop, row.value, template));
             }
 
             return op;
@@ -191,12 +191,13 @@ namespace ProceduralWorldGenerator.ViewModels
             });
         }
 
-        private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase model)
+        private static NodeConnectorViewModel Convert(PropertyInfo propertyInfo, ParameterViewModelBase paramModel, NodeViewModelBase nodeModel)
         {
             return new NodeConnectorViewModel()
             {
-                Title = model.Title ?? propertyInfo.Name,
-                ParameterViewModel = model,
+                Title = paramModel.Title ?? propertyInfo.Name,
+                NodeId = nodeModel.Id,
+                NodeParameterId = paramModel.Id,
             };
         }
     }

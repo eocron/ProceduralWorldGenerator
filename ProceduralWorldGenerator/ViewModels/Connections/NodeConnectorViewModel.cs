@@ -9,12 +9,13 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
     public class NodeConnectorViewModel : ObservableObject
     {
         private GeneratorNodeViewModel _operation = default!;
-        private ParameterViewModelBase _parameterViewModel;
         private string? _title;
         private bool _isConnected;
         private bool _isInput;
         private Point _anchor;
-        
+        private string _nodeId;
+        private string _nodeParameterId;
+
         [JsonProperty]
         public string? Title
         {
@@ -42,23 +43,19 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
             get => _anchor;
             set => SetProperty(ref _anchor, value);
         }
-        
-        public GeneratorNodeViewModel Operation
+
+        [JsonProperty]
+        public string NodeId
         {
-            get => _operation;
-            set => SetProperty(ref _operation, value);
+            get => _nodeId;
+            set => SetProperty(ref _nodeId, value);
         }
 
         [JsonProperty]
-        public ParameterViewModelBase ParameterViewModel
+        public string NodeParameterId
         {
-            get => _parameterViewModel;
-            set => SetProperty(ref _parameterViewModel, value);
-        }
-
-        public bool CanConnect(NodeConnectorViewModel other)
-        {
-            return ParameterViewModel.CanConnect(other.ParameterViewModel);
+            get => _nodeParameterId;
+            set => SetProperty(ref _nodeParameterId, value);
         }
     }
 }

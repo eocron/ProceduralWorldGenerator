@@ -15,12 +15,10 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             Input.WhenAdded(x =>
             {
-                x.Operation = this;
                 x.IsInput = true;
             });
             Output.WhenAdded(x =>
             {
-                x.Operation = this;
                 x.IsInput = false;
             });
         }

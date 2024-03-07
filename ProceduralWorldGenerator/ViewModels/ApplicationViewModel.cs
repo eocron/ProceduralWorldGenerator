@@ -5,7 +5,6 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
-using ProceduralWorldGenerator.Helpers;
 
 namespace ProceduralWorldGenerator.ViewModels
 {

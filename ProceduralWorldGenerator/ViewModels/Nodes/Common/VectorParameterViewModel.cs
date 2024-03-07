@@ -3,7 +3,7 @@
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class VectorParameterViewModel : ParameterViewModelBase<float[]>
+    public class VectorParameterViewModel : ParameterViewModelBase<float[]>, IDimensionParameter
     {
         private int _dimension;
         [JsonProperty]
@@ -11,15 +11,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         {
             get => _dimension;
             set => SetProperty(ref _dimension, value);
-        }
-
-        public override bool CanConnect(ParameterViewModelBase other)
-        {
-            var otherVector = other as VectorParameterViewModel;
-            if (otherVector == null)
-                return false;
-            
-            return Dimension == otherVector.Dimension;
         }
     }
 }

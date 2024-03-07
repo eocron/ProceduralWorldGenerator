@@ -5,7 +5,7 @@ using ProceduralWorldGenerator.Common;
 namespace ProceduralWorldGenerator.ViewModels
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class EditorViewModel : ObservableObject, ISerializableViewModel
+    public class EditorViewModel : ObservableObject, IIdModel
     {
         public EditorViewModel()
         {
@@ -13,7 +13,11 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         [JsonProperty]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
 
         private GeneratorViewModel _calculator = default!;
         [JsonProperty]
@@ -24,6 +28,8 @@ namespace ProceduralWorldGenerator.ViewModels
         }
 
         private string? _name;
+        private string _id = Guid.NewGuid().ToString();
+
         [JsonProperty]
         public string? Name
         {

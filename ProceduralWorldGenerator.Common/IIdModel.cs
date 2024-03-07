@@ -1,6 +1,6 @@
 ﻿namespace ProceduralWorldGenerator.Common
 {
-    public interface ISerializableViewModel
+    public interface IIdModel
     {
         public string Id { get; set; }
     }

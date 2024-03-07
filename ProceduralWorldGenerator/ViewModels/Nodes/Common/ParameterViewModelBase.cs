@@ -1,14 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
 
 namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ParameterViewModelBase : ObservableObject
+    public class ParameterViewModelBase : ObservableObject, IIdModel
     {
-        private string _title = "<none>";
+        private string _title;
         private bool _isInput;
         private int _order;
+        private string _id = Guid.NewGuid().ToString();
 
         [JsonProperty]
         public string Title
@@ -31,11 +33,11 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
             set => SetProperty(ref _order, value);
         }
 
-        public virtual bool CanConnect(ParameterViewModelBase other)
+        [JsonProperty]
+        public string Id
         {
-            if (other.GetType() != GetType())
-                return false;
-            return true;
+            get => _id;
+            set => SetProperty(ref _id, value);
         }
     }
     
