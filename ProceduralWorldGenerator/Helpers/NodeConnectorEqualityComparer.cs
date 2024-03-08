@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using ProceduralWorldGenerator.ViewModels.Connections;
 
-namespace ProceduralWorldGenerator.ViewModels
+namespace ProceduralWorldGenerator.Helpers
 {
-    public sealed class NodeConnectorEqualityComparer : IEqualityComparer<NodeConnectorViewModel>
+    /// <summary>
+    /// Checks if connector is same
+    /// </summary>
+    public sealed class NodeConnectorViewModelEqualityComparer : IEqualityComparer<NodeConnectorViewModel>
     {
-        public static readonly IEqualityComparer<NodeConnectorViewModel> Instance = new NodeConnectorEqualityComparer();
+        public static readonly IEqualityComparer<NodeConnectorViewModel> Instance = new NodeConnectorViewModelEqualityComparer();
         public bool Equals(NodeConnectorViewModel x, NodeConnectorViewModel y)
         {
             return x.NodeParameterId == y.NodeParameterId;

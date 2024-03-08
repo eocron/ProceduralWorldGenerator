@@ -61,7 +61,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
                     void RemoveConnection(NodeConnectorViewModel i)
                     {
-                        var c = FindRelatedConnections(i).ToArray();
+                        var c = FindRelatedConnections(i).ToList();
                         c.ForEach(con => Connections.Remove(con));
                     }
                 })
@@ -96,7 +96,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
             var src = FindParameterById(source.NodeParameterId);
             var tgt = FindParameterById(target.NodeParameterId);
-            if (!NodeConnectionEqualityComparer.Instance.Equals(src, tgt)) return false;
+            if (!ParameterTypeEqualityComparer.Instance.Equals(src, tgt)) return false;
 
             return true;
         }
@@ -145,15 +145,15 @@ namespace ProceduralWorldGenerator.ViewModels
         private IEnumerable<NodeConnectionViewModel> FindRelatedConnections(NodeConnectorViewModel connectorViewModel)
         {
             return Connections.Where(c =>
-                NodeConnectorEqualityComparer.Instance.Equals(c.Input, connectorViewModel) ||
-                NodeConnectorEqualityComparer.Instance.Equals(c.Output, connectorViewModel));
+                NodeConnectorViewModelEqualityComparer.Instance.Equals(c.Input, connectorViewModel) ||
+                NodeConnectorViewModelEqualityComparer.Instance.Equals(c.Output, connectorViewModel));
         }
         
         private NodeConnectorViewModel FindNodeConnector(NodeConnectorViewModel connectorViewModel)
         {
             return Operations.SelectMany(x => x.Input)
                 .Concat(Operations.SelectMany(x => x.Output))
-                .Single(c => NodeConnectorEqualityComparer.Instance.Equals(c, connectorViewModel));
+                .Single(c => NodeConnectorViewModelEqualityComparer.Instance.Equals(c, connectorViewModel));
         }
 
         private NodeViewModelBase FindNodeById(string nodeId)

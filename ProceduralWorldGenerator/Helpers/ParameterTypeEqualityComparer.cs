@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
-namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
+namespace ProceduralWorldGenerator.Helpers
 {
-    public sealed class NodeConnectionEqualityComparer : IEqualityComparer<ParameterViewModelBase>
+    /// <summary>
+    /// Checks if connection possible between two parameters
+    /// </summary>
+    public sealed class ParameterTypeEqualityComparer : IEqualityComparer<ParameterViewModelBase>
     {
         public bool Equals(ParameterViewModelBase x, ParameterViewModelBase y)
         {
@@ -20,6 +24,6 @@ namespace ProceduralWorldGenerator.ViewModels.Nodes.Common
         }
 
         public static readonly IEqualityComparer<ParameterViewModelBase>
-            Instance = new NodeConnectionEqualityComparer();
+            Instance = new ParameterTypeEqualityComparer();
     }
 }
