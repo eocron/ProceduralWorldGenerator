@@ -51,7 +51,6 @@ namespace ProceduralWorldGenerator.ViewModels.Connections
 
         private bool _isConnected;
         private bool _isInput;
-        private GeneratorNodeViewModel _operation = default!;
         private Point _anchor;
         private string _nodeId;
         private string _nodeParameterId;

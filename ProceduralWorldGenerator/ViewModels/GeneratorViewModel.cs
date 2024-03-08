@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
@@ -29,19 +30,28 @@ namespace ProceduralWorldGenerator.ViewModels
                     OpenNodeEditDialog(SelectedOperations.Single()),
                 () => SelectedOperations.Count == 1 && SelectedOperations.Single().NodeModel.SupportEdit);
 
-            Connections.WhenAdded(c =>
+            Connections
+                .WhenAdded(c =>
                 {
+                    c.Input = FindNodeConnector(c.Input);
+                    c.Output = FindNodeConnector(c.Output);
                     c.Input.IsConnected = true;
                     c.Output.IsConnected = true;
                 })
                 .WhenRemoved(c =>
                 {
-                    var ic = Connections.Count(con => con.Input == c.Input || con.Output == c.Input);
-                    var oc = Connections.Count(con => con.Input == c.Output || con.Output == c.Output);
+                    var ic = FindRelatedConnections(c.Input).Count();
+                    var oc = FindRelatedConnections(c.Output).Count();
 
-                    if (ic == 0) c.Input.IsConnected = false;
+                    if (ic == 0)
+                    {
+                        c.Input.IsConnected = false;
+                    }
 
-                    if (oc == 0) c.Output.IsConnected = false;
+                    if (oc == 0)
+                    {
+                        c.Output.IsConnected = false;
+                    }
                 });
 
             Operations
@@ -51,7 +61,7 @@ namespace ProceduralWorldGenerator.ViewModels
 
                     void RemoveConnection(NodeConnectorViewModel i)
                     {
-                        var c = Connections.Where(con => con.Input == i || con.Output == i).ToArray();
+                        var c = FindRelatedConnections(i).ToArray();
                         c.ForEach(con => Connections.Remove(con));
                     }
                 })
@@ -84,8 +94,8 @@ namespace ProceduralWorldGenerator.ViewModels
 
             if (source.IsInput == target.IsInput) return false; //input to input connection
 
-            var src = FindParameterById(source.NodeId, source.NodeParameterId);
-            var tgt = FindParameterById(target.NodeId, target.NodeParameterId);
+            var src = FindParameterById(source.NodeParameterId);
+            var tgt = FindParameterById(target.NodeParameterId);
             if (!NodeConnectionEqualityComparer.Instance.Equals(src, tgt)) return false;
 
             return true;
@@ -128,8 +138,22 @@ namespace ProceduralWorldGenerator.ViewModels
 
         private void DisconnectConnector(NodeConnectorViewModel connector)
         {
-            var connections = Connections.Where(c => c.Input == connector || c.Output == connector).ToList();
+            var connections = FindRelatedConnections(connector).ToList();
             connections.ForEach(c => Connections.Remove(c));
+        }
+
+        private IEnumerable<NodeConnectionViewModel> FindRelatedConnections(NodeConnectorViewModel connectorViewModel)
+        {
+            return Connections.Where(c =>
+                NodeConnectorEqualityComparer.Instance.Equals(c.Input, connectorViewModel) ||
+                NodeConnectorEqualityComparer.Instance.Equals(c.Output, connectorViewModel));
+        }
+        
+        private NodeConnectorViewModel FindNodeConnector(NodeConnectorViewModel connectorViewModel)
+        {
+            return Operations.SelectMany(x => x.Input)
+                .Concat(Operations.SelectMany(x => x.Output))
+                .Single(c => NodeConnectorEqualityComparer.Instance.Equals(c, connectorViewModel));
         }
 
         private NodeViewModelBase FindNodeById(string nodeId)
@@ -137,16 +161,9 @@ namespace ProceduralWorldGenerator.ViewModels
             return Operations.Single(x => x.NodeModel.Id == nodeId).NodeModel;
         }
 
-        private ParameterViewModelBase FindParameterById(string nodeId, string parameterId)
+        private ParameterViewModelBase FindParameterById(string parameterId)
         {
-            var node = FindNodeById(nodeId);
-            var parameter = node.GetType()
-                .GetProperties()
-                .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
-                .Select(x => x.GetMethod)
-                .Select(x => (ParameterViewModelBase)x.Invoke(node, null))
-                .Single(x => x.Id == parameterId);
-            return parameter;
+            return Operations.SelectMany(x => x.GetParameterModels()).Single(x => x.Id == parameterId);
         }
 
         private void GroupSelectedOperations()

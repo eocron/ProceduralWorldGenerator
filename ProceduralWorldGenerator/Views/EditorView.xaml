@@ -171,8 +171,6 @@
                             Value="{Binding IsConnected}" />
                     <Setter Property="Anchor"
                             Value="{Binding Anchor, Mode=OneWayToSource}" />
-                    <Setter Property="ToolTip"
-                            Value="{Binding Value}" />
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type connections:NodeConnectorViewModel}">

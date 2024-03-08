@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using Newtonsoft.Json;
 using ProceduralWorldGenerator.Common;
 using ProceduralWorldGenerator.ViewModels.Connections;
 using ProceduralWorldGenerator.ViewModels.Nodes;
+using ProceduralWorldGenerator.ViewModels.Nodes.Common;
 
 namespace ProceduralWorldGenerator.ViewModels
 {
@@ -27,6 +30,17 @@ namespace ProceduralWorldGenerator.ViewModels
         {
             get => _nodeModel;
             set => SetProperty(ref _nodeModel, value);
+        }
+
+        public IEnumerable<ParameterViewModelBase> GetParameterModels()
+        {
+            if (NodeModel == null)
+                return Enumerable.Empty<ParameterViewModelBase>();
+            return NodeModel.GetType()
+                .GetProperties()
+                .Where(x => x.PropertyType.IsAssignableTo(typeof(ParameterViewModelBase)))
+                .Select(x => x.GetMethod)
+                .Select(x => (ParameterViewModelBase)x.Invoke(NodeModel, null));
         }
 
         [JsonProperty] public NodifyObservableCollection<NodeConnectorViewModel> Input { get; } = new();

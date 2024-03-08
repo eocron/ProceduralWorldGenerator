@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -25,10 +26,18 @@ namespace ProceduralWorldGenerator.ViewModels
             SaveProjectCommand = new DelegateCommand(OnSaveProjectCommand);
             SaveAsProjectCommand = new DelegateCommand(OnSaveAsProjectCommand);
 
-            Editors.WhenAdded(editor =>
-            {
-                if (AutoSelectNewEditor || Editors.Count == 1) SelectedEditor = editor;
-            });
+            Editors
+                .WhenAdded(editor =>
+                {
+                    if (AutoSelectNewEditor || Editors.Count == 1) SelectedEditor = editor;
+                })
+                .WhenRemoved(editor =>
+                {
+                    if (SelectedEditor == editor)
+                    {
+                        SelectedEditor = Editors.LastOrDefault();
+                    }
+                });
             Editors.Add(new EditorViewModel
             {
                 Name = $"Editor {Editors.Count + 1}"
@@ -42,8 +51,9 @@ namespace ProceduralWorldGenerator.ViewModels
                 var serialized = File.ReadAllText(settings.ProjectFilePath);
                 var deserialized = CommonViewModelSerializer.Deserialize<ApplicationViewModel>(serialized);
 
-
-                //TODO
+                Editors.Clear();
+                Editors.AddRange(deserialized.Editors);
+                SelectedEditor = Editors.FirstOrDefault();
             }
             catch (Exception e)
             {
